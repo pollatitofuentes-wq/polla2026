@@ -1,0 +1,1926 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Polla Tito Fuentes · Mundial 2026</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow+Condensed:wght@400;600;700&family=Barlow:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --verde: #00a651;
+  --verde-dark: #007a3d;
+  --oro: #f5c518;
+  --oro-dark: #c9a000;
+  --rojo: #e63946;
+  --azul: #1d3557;
+  --azul-mid: #2d4a6e;
+  --gris: #8a99a8;
+  --bg: #0d1b2a;
+  --bg2: #142233;
+  --bg3: #1a2d42;
+  --text: #e8edf2;
+  --text-muted: #8a99a8;
+  --border: rgba(255,255,255,0.08);
+  --radius: 10px;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: 'Barlow', sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  min-height: 100vh;
+}
+
+/* ── HEADER ── */
+.header {
+  background: linear-gradient(135deg, var(--azul) 0%, #0a1628 100%);
+  border-bottom: 3px solid var(--verde);
+  padding: 0 24px;
+  position: sticky; top: 0; z-index: 100;
+  box-shadow: 0 4px 24px rgba(0,0,0,0.5);
+}
+.header-inner {
+  max-width: 1400px; margin: 0 auto;
+  display: flex; align-items: center; gap: 16px;
+  padding: 14px 0;
+}
+.logo { font-family: 'Bebas Neue', sans-serif; font-size: 28px; color: var(--oro); letter-spacing: 2px; line-height: 1; }
+.logo span { display: block; font-size: 13px; letter-spacing: 4px; color: var(--verde); font-family: 'Barlow Condensed', sans-serif; font-weight: 600; }
+.badge { background: var(--verde); color: #fff; font-size: 11px; font-weight: 700; padding: 3px 10px; border-radius: 20px; font-family: 'Barlow Condensed', sans-serif; letter-spacing: 1px; }
+.nav { margin-left: auto; display: flex; gap: 6px; }
+.nav-btn {
+  background: transparent; border: 1.5px solid var(--border); color: var(--text-muted);
+  padding: 8px 16px; border-radius: 8px; cursor: pointer;
+  font-family: 'Barlow Condensed', sans-serif; font-weight: 600; font-size: 14px; letter-spacing: 0.5px;
+  transition: all 0.2s;
+}
+.nav-btn:hover, .nav-btn.active {
+  border-color: var(--verde); color: var(--verde); background: rgba(0,166,81,0.1);
+}
+
+/* ── LAYOUT ── */
+.container { max-width: 1400px; margin: 0 auto; padding: 24px; }
+
+/* ── PANELS ── */
+.panel { display: none; }
+.panel.active { display: block; }
+
+/* ── CARDS ── */
+.card {
+  background: var(--bg2); border: 1px solid var(--border); border-radius: var(--radius);
+  padding: 24px; margin-bottom: 20px;
+}
+.card-title {
+  font-family: 'Bebas Neue', sans-serif; font-size: 22px; color: var(--oro); letter-spacing: 2px;
+  margin-bottom: 16px; display: flex; align-items: center; gap: 10px;
+}
+.card-title .icon { font-size: 20px; }
+
+/* ── FORMS ── */
+label { font-size: 13px; color: var(--text-muted); font-weight: 600; display: block; margin-bottom: 6px; letter-spacing: 0.5px; }
+input, select {
+  width: 100%; background: var(--bg3); border: 1.5px solid var(--border); color: var(--text);
+  padding: 10px 14px; border-radius: 8px; font-size: 14px; font-family: 'Barlow', sans-serif;
+  transition: border-color 0.2s;
+}
+input:focus, select:focus { outline: none; border-color: var(--verde); }
+input::placeholder { color: var(--text-muted); }
+.form-row { display: grid; gap: 16px; margin-bottom: 16px; }
+.form-row.cols2 { grid-template-columns: 1fr 1fr; }
+.form-row.cols3 { grid-template-columns: 1fr 1fr 1fr; }
+
+/* ── BUTTONS ── */
+.btn {
+  padding: 10px 22px; border-radius: 8px; border: none; cursor: pointer;
+  font-family: 'Barlow Condensed', sans-serif; font-weight: 700; font-size: 15px; letter-spacing: 0.5px;
+  transition: all 0.2s;
+}
+.btn-green { background: var(--verde); color: #fff; }
+.btn-green:hover { background: var(--verde-dark); }
+.btn-oro { background: var(--oro); color: var(--azul); }
+.btn-oro:hover { background: var(--oro-dark); }
+.btn-ghost { background: transparent; border: 1.5px solid var(--border); color: var(--text-muted); }
+.btn-ghost:hover { border-color: var(--gris); color: var(--text); }
+.btn-red { background: var(--rojo); color: #fff; }
+.btn-sm { padding: 6px 14px; font-size: 13px; }
+
+/* ── TABLA DE POSICIONES ── */
+.ranking-table {
+  width: 100%; border-collapse: collapse; font-size: 14px;
+}
+.ranking-table th {
+  background: var(--azul); color: var(--text-muted); font-family: 'Barlow Condensed', sans-serif;
+  font-weight: 600; letter-spacing: 1px; font-size: 12px; text-align: left;
+  padding: 10px 14px; border-bottom: 2px solid var(--verde);
+}
+.ranking-table td { padding: 10px 14px; border-bottom: 1px solid var(--border); }
+.ranking-table tr:hover td { background: rgba(255,255,255,0.03); }
+.rank-pos { font-family: 'Bebas Neue', sans-serif; font-size: 22px; color: var(--text-muted); width: 48px; }
+.rank-pos.gold { color: var(--oro); }
+.rank-pos.silver { color: #c0c0c0; }
+.rank-pos.bronze { color: #cd7f32; }
+.rank-name { font-weight: 600; }
+.rank-pts { font-family: 'Bebas Neue', sans-serif; font-size: 24px; color: var(--verde); }
+.rank-detail { font-size: 12px; color: var(--text-muted); }
+
+/* ── PARTIDOS ── */
+.match-card {
+  background: var(--bg3); border: 1px solid var(--border); border-radius: 8px;
+  padding: 14px 18px; margin-bottom: 10px; display: grid;
+  grid-template-columns: auto 1fr auto; gap: 16px; align-items: center;
+}
+.match-num { font-family: 'Bebas Neue', sans-serif; font-size: 20px; color: var(--text-muted); width: 32px; text-align: center; }
+.match-teams { }
+.match-fecha { font-size: 11px; color: var(--text-muted); margin-bottom: 4px; }
+.match-teams-row { display: flex; align-items: center; gap: 10px; font-weight: 600; font-size: 15px; }
+.match-vs { color: var(--text-muted); font-size: 12px; }
+.match-score { display: flex; align-items: center; gap: 8px; }
+.score-input {
+  width: 48px !important; text-align: center; font-family: 'Bebas Neue', sans-serif;
+  font-size: 22px; padding: 6px 4px !important; color: var(--oro);
+}
+.score-dash { color: var(--text-muted); font-family: 'Bebas Neue', sans-serif; font-size: 20px; }
+.pts-badge {
+  font-family: 'Bebas Neue', sans-serif; font-size: 16px; padding: 4px 12px;
+  border-radius: 20px; min-width: 40px; text-align: center;
+}
+.pts-3 { background: rgba(0,166,81,0.25); color: var(--verde); border: 1px solid var(--verde); }
+.pts-1 { background: rgba(245,197,24,0.2); color: var(--oro); border: 1px solid var(--oro); }
+.pts-0 { background: rgba(230,57,70,0.15); color: var(--rojo); border: 1px solid rgba(230,57,70,0.4); }
+.pts-pending { background: var(--bg); color: var(--text-muted); border: 1px solid var(--border); }
+
+/* ── STAGE TABS ── */
+.stage-tabs { display: flex; gap: 8px; margin-bottom: 20px; flex-wrap: wrap; }
+.stage-tabs { flex-wrap: wrap; }
+.stage-tab {
+  background: var(--bg2); border: 1.5px solid var(--border); color: var(--text-muted);
+  padding: 8px 18px; border-radius: 8px 8px 0 0; cursor: pointer;
+  font-family: 'Barlow Condensed', sans-serif; font-weight: 600; font-size: 14px;
+  transition: all 0.2s; border-bottom: none; margin-bottom: 0;
+}
+.stage-tab.active { border-color: var(--verde); color: var(--verde); background: rgba(0,166,81,0.1); }
+.stage-tabs + .card { border-top-left-radius: 0; }
+
+/* ── PARTICIPANTE GRID ── */
+.participants-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 14px; }
+.participant-card {
+  background: var(--bg3); border: 1px solid var(--border); border-radius: 8px;
+  padding: 16px; transition: border-color 0.2s;
+}
+.participant-card:hover { border-color: var(--azul-mid); }
+.p-name { font-weight: 600; font-size: 15px; margin-bottom: 4px; }
+.p-pts { font-family: 'Bebas Neue', sans-serif; font-size: 28px; color: var(--verde); }
+.p-pts span { font-family: 'Barlow', sans-serif; font-size: 12px; color: var(--text-muted); font-weight: 400; }
+.p-link { font-size: 12px; color: var(--text-muted); margin-top: 8px; display: flex; align-items: center; gap: 6px; }
+.link-code { background: var(--bg); border: 1px solid var(--border); border-radius: 4px; padding: 3px 8px; font-family: monospace; font-size: 11px; cursor: pointer; }
+.link-code:hover { border-color: var(--verde); color: var(--verde); }
+
+/* ── ALERT ── */
+.alert {
+  padding: 12px 18px; border-radius: 8px; margin-bottom: 16px; font-size: 14px; display: none;
+}
+.alert-success { background: rgba(0,166,81,0.15); border: 1px solid var(--verde); color: #6ee7a0; }
+.alert-error { background: rgba(230,57,70,0.15); border: 1px solid var(--rojo); color: #fca5a5; }
+.alert.show { display: block; }
+
+/* ── QUOTE ── */
+.quote-box {
+  background: linear-gradient(135deg, var(--azul) 0%, var(--bg2) 100%);
+  border-left: 4px solid var(--oro); border-radius: 0 8px 8px 0;
+  padding: 18px 22px; margin-bottom: 24px; font-style: italic;
+  font-size: 13px; color: var(--text-muted); line-height: 1.6;
+}
+.quote-box strong { color: var(--oro); font-style: normal; }
+
+/* ── STATS ROW ── */
+.stats-row { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; margin-bottom: 24px; }
+.stat-box {
+  background: var(--bg2); border: 1px solid var(--border); border-radius: 8px;
+  padding: 18px; text-align: center;
+}
+.stat-num { font-family: 'Bebas Neue', sans-serif; font-size: 40px; color: var(--verde); line-height: 1; }
+.stat-label { font-size: 12px; color: var(--text-muted); font-weight: 600; letter-spacing: 0.5px; margin-top: 4px; }
+
+/* ── PARTICIPANT VIEW ── */
+.pv-header {
+  background: linear-gradient(135deg, var(--azul) 0%, var(--bg2) 100%);
+  border-bottom: 3px solid var(--verde); padding: 24px;
+  text-align: center; margin-bottom: 24px; border-radius: 10px;
+}
+.pv-name { font-family: 'Bebas Neue', sans-serif; font-size: 36px; color: var(--oro); letter-spacing: 2px; }
+.pv-pts { font-family: 'Bebas Neue', sans-serif; font-size: 64px; color: var(--verde); line-height: 1; }
+.pv-pts-label { font-size: 13px; color: var(--text-muted); font-weight: 600; letter-spacing: 1px; }
+.pv-rank { font-size: 14px; color: var(--text-muted); margin-top: 6px; }
+
+/* ── MODAL ── */
+.modal-overlay {
+  position: fixed; inset: 0; background: rgba(0,0,0,0.7); z-index: 1000;
+  display: none; align-items: center; justify-content: center;
+}
+.modal-overlay.open { display: flex; }
+.modal {
+  background: var(--bg2); border: 1px solid var(--border); border-radius: 12px;
+  padding: 28px; max-width: 480px; width: 90%; max-height: 90vh; overflow-y: auto;
+}
+.modal-title { font-family: 'Bebas Neue', sans-serif; font-size: 24px; color: var(--oro); margin-bottom: 20px; letter-spacing: 2px; }
+.modal-footer { display: flex; gap: 10px; justify-content: flex-end; margin-top: 20px; }
+
+/* ── MATCH GRID FOR PARTICIPANT ── */
+.match-pronostico {
+  background: var(--bg3); border: 1px solid var(--border); border-radius: 8px;
+  padding: 14px 18px; margin-bottom: 8px;
+}
+.mp-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
+.mp-num { font-family: 'Bebas Neue', sans-serif; font-size: 16px; color: var(--text-muted); }
+.mp-teams { font-weight: 600; font-size: 15px; }
+.mp-date { font-size: 11px; color: var(--text-muted); }
+.mp-inputs { display: flex; align-items: center; gap: 10px; }
+.mp-lock { font-size: 13px; color: var(--text-muted); font-style: italic; }
+.mp-result { display: flex; align-items: center; gap: 8px; font-size: 13px; }
+.mp-real { color: var(--text-muted); font-size: 12px; }
+
+/* ── CHAMPION ── */
+.champion-box {
+  background: linear-gradient(135deg, rgba(245,197,24,0.15) 0%, var(--bg2) 100%);
+  border: 2px solid rgba(245,197,24,0.4); border-radius: 10px; padding: 24px;
+  text-align: center; margin-bottom: 20px;
+}
+.champion-box h3 { font-family: 'Bebas Neue', sans-serif; font-size: 28px; color: var(--oro); letter-spacing: 2px; margin-bottom: 16px; }
+
+/* ── PIN ACCESS ── */
+.pin-screen {
+  min-height: 100vh; display: flex; align-items: center; justify-content: center;
+  background: linear-gradient(135deg, var(--bg) 0%, var(--azul) 100%);
+}
+.pin-box {
+  background: var(--bg2); border: 1px solid var(--border); border-radius: 16px;
+  padding: 40px; text-align: center; max-width: 400px; width: 90%;
+}
+.pin-logo { font-family: 'Bebas Neue', sans-serif; font-size: 48px; color: var(--oro); letter-spacing: 3px; line-height: 1; }
+.pin-sub { font-size: 13px; color: var(--text-muted); margin: 8px 0 32px; letter-spacing: 2px; font-family: 'Barlow Condensed', sans-serif; }
+.pin-input {
+  width: 100%; background: var(--bg3); border: 2px solid var(--border); color: var(--text);
+  padding: 14px; border-radius: 8px; font-size: 24px; text-align: center;
+  font-family: 'Bebas Neue', sans-serif; letter-spacing: 6px; margin-bottom: 16px;
+}
+.pin-input:focus { outline: none; border-color: var(--verde); }
+
+/* ── SCROLLBAR ── */
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: var(--bg); }
+::-webkit-scrollbar-thumb { background: var(--azul-mid); border-radius: 3px; }
+
+/* ── UTIL ── */
+.flex { display: flex; }
+.gap-8 { gap: 8px; }
+.gap-12 { gap: 12px; }
+.align-center { align-items: center; }
+.justify-between { justify-content: space-between; }
+.mt-8 { margin-top: 8px; }
+.mt-16 { margin-top: 16px; }
+.mb-16 { margin-bottom: 16px; }
+.text-muted { color: var(--text-muted); font-size: 13px; }
+.locked-match { opacity: 0.6; }
+.section-title {
+  font-family: 'Bebas Neue', sans-serif; font-size: 18px; color: var(--text-muted);
+  letter-spacing: 2px; margin: 20px 0 12px; padding-bottom: 6px;
+  border-bottom: 1px solid var(--border);
+}
+
+@media (max-width: 768px) {
+  .stats-row { grid-template-columns: 1fr 1fr; }
+  .form-row.cols2, .form-row.cols3 { grid-template-columns: 1fr; }
+  .nav-btn { padding: 8px 10px; font-size: 12px; }
+  .logo { font-size: 22px; }
+  .participants-grid { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+<body>
+
+<!-- ══════════════════ APP SHELL ══════════════════ -->
+<div id="app">
+
+<!-- HEADER -->
+<header class="header" id="mainHeader">
+  <div class="header-inner">
+    <div class="logo">
+      Polla Tito Fuentes
+      <span>MUNDIAL 2026 · EDICIÓN HOMENAJE</span>
+    </div>
+    <span class="badge">⚽ DESDE 1966</span>
+    <div id="syncIndicator" style="font-size:12px;margin-right:8px;"></div>
+    <nav class="nav" id="mainNav" style="display:none;">
+      <button class="nav-btn active" onclick="showPanel('panel-posiciones')">🏆 Posiciones</button>
+      <button class="nav-btn" onclick="showPanel('panel-partidos')">📋 Partidos</button>
+      <button class="nav-btn" onclick="showPanel('panel-participantes')">👥 Participantes</button>
+      <button class="nav-btn" onclick="requestAdminAccess()">⚙️ Comité</button>
+    </nav>
+  </div>
+</header>
+
+<!-- ══ ACCESS SCREEN ══ -->
+<div id="accessScreen" style="min-height:100vh; display:flex; align-items:center; justify-content:center; background:linear-gradient(135deg,var(--bg) 0%, var(--azul) 100%);">
+  <div style="background:var(--bg2); border:1px solid var(--border); border-radius:16px; padding:40px; max-width:440px; width:90%; text-align:center;">
+    <div style="font-family:'Bebas Neue',sans-serif; font-size:52px; color:var(--oro); letter-spacing:3px; line-height:1;">POLLA</div>
+    <div style="font-family:'Bebas Neue',sans-serif; font-size:24px; color:var(--verde); letter-spacing:4px; margin-bottom:4px;">TITO FUENTES</div>
+    <div style="font-size:12px; color:var(--text-muted); margin-bottom:32px; letter-spacing:2px; font-family:'Barlow Condensed',sans-serif;">MUNDIAL 2026 · CANADÁ / MÉXICO / EE.UU.</div>
+    
+    <div style="margin-bottom:20px;">
+      <label style="text-align:left; display:block;">Tu nombre o código de acceso:</label>
+      <input type="text" id="accessInput" placeholder="Escribí tu nombre o código..." style="margin-bottom:12px; font-size:16px;">
+      <button class="btn btn-green" style="width:100%; font-size:16px;" onclick="handleAccess()">ENTRAR ⚽</button>
+    </div>
+    
+    <div style="border-top: 1px solid var(--border); padding-top:20px; margin-top:8px;">
+      <button class="btn btn-ghost btn-sm" style="width:100%;" onclick="toggleAdminLogin()">⚙️ Acceso Comité Organizador</button>
+      <div id="adminLoginBox" style="display:none; margin-top:12px;">
+        <input type="password" id="adminPwInput" placeholder="Contraseña del comité..." style="margin-bottom:10px; font-size:14px;" onkeydown="if(event.key==='Enter') handleAdminLogin()">
+        <button class="btn btn-green btn-sm" style="width:100%;" onclick="handleAdminLogin()">INGRESAR</button>
+      </div>
+    </div>
+    
+    <div class="alert alert-error" id="accessError" style="margin-top:16px;"></div>
+    
+    <div style="margin-top:28px; font-size:11px; color:var(--text-muted); line-height:1.7; font-style:italic; border-top:1px solid var(--border); padding-top:20px;">
+      "NUESTRA PRIMERA POLLA SE REALIZÓ PARA EL MUNDIAL DE 1966…<br>y el evento POLLA pasó a ser más importante que el mundial mismo"<br>
+      <strong style="color:var(--oro);">— Tito Fuentes, Abril 2018</strong>
+    </div>
+  </div>
+</div>
+
+<!-- ══ MAIN APP ══ -->
+<div id="mainApp" style="display:none;">
+<div class="container">
+
+<!-- ALERT GLOBAL -->
+<div class="alert" id="globalAlert"></div>
+
+<!-- ══ PANEL: POSICIONES ══ -->
+<div class="panel active" id="panel-posiciones">
+  <div class="quote-box">
+    "Ya estamos revisando los arcos y preparando la pelota… y el POLLA HERALD está en los talleres de impresión. NUESTRA PRIMERA POLLA SE REALIZÓ PARA EL MUNDIAL DE 1966… y el evento POLLA pasó a ser más importante que el mundial mismo, pero una vez más usaremos el mundial FIFA como base para este juego internacional" <strong>— Tito Fuentes, Abril 2018</strong>
+  </div>
+  
+  <div class="stats-row" id="statsRow"></div>
+  
+  <div id="revealedStageButtons" style="margin-bottom:16px;"></div>
+
+  <div class="card">
+    <div class="card-title"><span class="icon">🏆</span> TABLA GENERAL DE POSICIONES</div>
+    <div id="rankingTableContainer"></div>
+  </div>
+</div>
+
+<!-- ══ PANEL: PARTIDOS ══ -->
+<div class="panel" id="panel-partidos">
+  <div class="stage-tabs" id="stageTabs"></div>
+  <div id="matchesContainer"></div>
+</div>
+
+<!-- ══ PANEL: PARTICIPANTES ══ -->
+<div class="panel" id="panel-participantes">
+  <div class="card">
+    <div class="card-title"><span class="icon">👥</span> PARTICIPANTES</div>
+    <div class="participants-grid" id="participantsGrid"></div>
+  </div>
+</div>
+
+<!-- ══ PANEL: PARTICIPANTE VIEW ══ -->
+<div class="panel" id="panel-participante">
+  <div id="participantViewContent"></div>
+</div>
+
+<!-- ══ PANEL: ADMIN ══ -->
+<div class="panel" id="panel-admin">
+  <div class="card">
+    <div class="card-title"><span class="icon">⚙️</span> PANEL DEL COMITÉ ORGANIZADOR</div>
+    
+    <!-- Cargar resultado real -->
+    <div style="margin-bottom:24px;">
+      <div class="section-title">CARGAR RESULTADOS</div>
+      <div class="stage-tabs" id="adminStageTabs"></div>
+      <div id="adminResultsTable"></div>
+    </div>
+
+
+
+    <!-- Control de revelación por etapa -->
+    <div style="margin-bottom:24px;">
+      <div class="section-title">🔓 CONTROL DE VISIBILIDAD POR ETAPA</div>
+      <div style="font-size:13px;color:var(--text-muted);margin-bottom:14px;">
+        Cuando el comité activa "Revelar", todos los participantes pueden ver la planilla completa de esa etapa (pronósticos de todos + puntos). Mientras está cerrada, cada uno solo ve los suyos.
+      </div>
+      <div id="stageRevealControls"></div>
+    </div>
+
+    <!-- Ver resumen -->
+    <div style="margin-bottom:24px;">
+      <div class="section-title">RESUMEN DE PARTICIPACIONES</div>
+      <div id="adminSummary"></div>
+    </div>
+
+    <!-- Gestión de participantes -->
+    <div>
+      <div class="section-title">GESTIÓN DE PARTICIPANTES</div>
+      <div style="background:var(--bg3);border:1px solid var(--border);border-radius:8px;padding:16px;margin-bottom:16px;">
+        <div class="form-row cols3" style="margin-bottom:10px;">
+          <div>
+            <label>Nombre del nuevo participante</label>
+            <input type="text" id="newPartName" placeholder="Ej: Juan Pérez">
+          </div>
+          <div>
+            <label>Email (para enviar link)</label>
+            <input type="email" id="newPartEmail" placeholder="juan@email.com">
+          </div>
+          <div style="display:flex;align-items:flex-end;">
+            <button class="btn btn-green" style="width:100%;" onclick="addParticipant()">➕ AGREGAR</button>
+          </div>
+        </div>
+      </div>
+      <div id="adminParticipantsList"></div>
+    </div>
+  </div>
+</div>
+
+</div><!-- /container -->
+</div><!-- /mainApp -->
+
+</div><!-- /app -->
+
+<!-- ── MODAL ADMIN PASSWORD ── -->
+<div class="modal-overlay" id="modalAdminPw">
+  <div class="modal" style="max-width:360px;">
+    <div class="modal-title">⚙️ ACCESO COMITÉ</div>
+    <p style="font-size:14px;color:var(--text-muted);margin-bottom:16px;">Ingresá la contraseña del comité organizador:</p>
+    <input type="password" id="modalAdminPwInput" placeholder="Contraseña..." 
+      style="font-size:16px;margin-bottom:16px;"
+      onkeydown="if(event.key==='Enter') confirmAdminAccess()">
+    <div class="alert alert-error" id="modalAdminPwError" style="margin-bottom:12px;"></div>
+    <div class="modal-footer">
+      <button class="btn btn-ghost" onclick="closeModal('modalAdminPw'); document.getElementById('modalAdminPwInput').value='';">Cancelar</button>
+      <button class="btn btn-green" onclick="confirmAdminAccess()">INGRESAR</button>
+    </div>
+  </div>
+</div>
+
+<!-- ── MODAL PARTICIPANTE LINK ── -->
+<div class="modal-overlay" id="modalLink">
+  <div class="modal">
+    <div class="modal-title">🔗 ACCESO DIRECTO</div>
+    <p style="font-size:14px; color:var(--text-muted); margin-bottom:16px;">Compartí este link con el participante:</p>
+    <div style="background:var(--bg3); border:1px solid var(--border); border-radius:8px; padding:14px; font-family:monospace; font-size:13px; word-break:break-all;" id="modalLinkUrl"></div>
+    <p style="font-size:12px; color:var(--text-muted); margin-top:10px;">O simplemente que escriba su nombre al entrar.</p>
+    <div class="modal-footer">
+      <button class="btn btn-ghost" onclick="closeModal('modalLink')">Cerrar</button>
+      <button class="btn btn-green" onclick="copyLink()">📋 Copiar link</button>
+    </div>
+  </div>
+</div>
+
+<!-- ── MODAL EMAIL ── -->
+<div class="modal-overlay" id="modalEmail">
+  <div class="modal">
+    <div class="modal-title">✉️ ENVIAR INVITACIÓN</div>
+    <div id="modalEmailContent"></div>
+    <div class="modal-footer">
+      <button class="btn btn-ghost" onclick="closeModal('modalEmail')">Cerrar</button>
+      <button class="btn btn-green" id="modalEmailBtn" onclick="sendEmail()">📧 Abrir correo</button>
+    </div>
+  </div>
+</div>
+
+<script>
+// ══════════════════════════════════════════════════
+// DATA: PARTICIPANTES & PARTIDOS
+// ══════════════════════════════════════════════════
+
+// Lista base
+const BASE_PARTICIPANTS = [
+  {name:"Nilda Fuentes",email:"nildafuentes@fibertel.com.ar"},
+  {name:"Arleen y Gus Salles",email:"arleensalles@gmail.com"},
+  {name:"Emma Salles Y Fede",email:"emmalinesalles@gmail.com"},
+  {name:"Bertie Fuentes",email:"bfuentes@metalart.com.ar"},
+  {name:"Fran y Cami",email:"f.fuentes619@gmail.com"},
+  {name:"Berni y Yami",email:"bernardo.fuentes@metalart.com.ar"},
+  {name:"Gabriela Fuentes y Juanita Patané",email:"gfuentes@metalart.com.ar"},
+  {name:"Fillipo y Pablo Patané",email:"pablopatane@hotmail.com.ar"},
+  {name:"Juanchi y Agos Patané",email:"juanchipatane@hotmail.com"},
+  {name:"Bau y Giyo",email:"bautista.patane@metalart.com.ar"},
+  {name:"Giselle Fuentes",email:"giselle.fuentes@metalart.com.ar"},
+  {name:"Patricio Hartridge",email:"phartridge@aarchitects.com.ar"},
+  {name:"Carol y Eneas",email:"carolhartridge@gmail.com"},
+  {name:"Gera Yacante y Mariela",email:"gyacante@parker.com"},
+  {name:"Zequi Yacante",email:"ezequielyacante@hotmail.com"},
+  {name:"Tomy Yacante",email:"tomas.yacante@gmail.com"},
+  {name:"Ivan Yacante",email:"ivanyacante1998@gmail.com"},
+  {name:"Darío y Mariana Yacante",email:"darioyacante@hotmail.com"},
+  {name:"Gasti, Facu y Joaqui Yacante",email:""},
+  {name:"Mario Yacante",email:"yacmario@yahoo.com.ar"},
+  {name:"Pablo Calabrese y Sol",email:"pablocalabrese2020@hotmail.com"},
+  {name:"Chacho Calabrese",email:"daniel.calabrese@hasar.com"},
+  {name:"Daniel Calabrese",email:"danielhugo.calabrese@hasar.com"},
+  {name:"Guillermo Groppo",email:"guillermo.groppo@hasar.com"},
+  {name:"Gonzalo Groppo",email:"gonzalogroppo@gmail.com"},
+  {name:"Rosa Ana Calabrese",email:"rosa.ana.calabrese@hasar.com"},
+  {name:"Aurora y Mariana Amenedo",email:"auro_fuentes@yahoo.com.ar"},
+  {name:"Fernando Amenedo",email:"Ferhame@gmail.com"},
+  {name:"Gustavo Amenedo",email:"gamenedo@gmail.com"},
+  {name:"Flavia Nardelli y Martín Chinchurreta",email:"flaviainesnardelli@gmail.com"},
+  {name:"Sergio Nardelli",email:""},
+  {name:"Edgardo Yubero y Juan Sapir Yubero",email:"edyubero@hotmail.com"},
+  {name:"Leandro Yubero",email:"leandroyubero@gmail.com"},
+  {name:"Los Calderones",email:"matias.calderon.ok@gmail.com"},
+  {name:"Laura Yubero y Guillermo Diorio",email:"guillermodiorio@hotmail.com"},
+  {name:"Maria Florencia Yubero y Pablo Sapir",email:"pablosapir165@gmail.com"},
+  {name:"Raul Diorio",email:"rauldiorio@hotmail.com"},
+  {name:"Gustavo Messina",email:"gamessina7@gmail.com"},
+  {name:"Pablo Morales",email:"pmorales@tlminternacional.com.ar"},
+  {name:"Christian Vaicius",email:"vaiciusc@yahoo.com"},
+  {name:"Eduardo Toribio",email:"toriedu@gmail.com"},
+  {name:"Jorge Balbo",email:"jorge@balboseguros.com.ar"},
+  {name:"Sebastian Balbo",email:"balbo.sebas@gmail.com"},
+  {name:"Laly y Marce Romano",email:"marceacade@gmail.com"},
+  {name:"Ezequiel García",email:"eche1979@hotmail.com"},
+  {name:"Gustavo Pundyk",email:"gpundyk@metalart.com.ar"},
+  {name:"Horacio Giura",email:"hgiura@hotmail.com"},
+  {name:"Daniel Pazos",email:"daniel_o_pazos@hotmail.com"},
+  {name:"Marco, Luca y Sergio Spadone",email:"sspadone@gmail.com"},
+  {name:"Alejandro Flores Trespalacios",email:"aflorest@synergysupplyinc.com"},
+  {name:"Alejandro Flores Vega",email:"alejandro@floresvega.com"},
+  {name:"Enrique Perez Hilero",email:"miel.lamielisima@gmail.com"},
+  {name:"Exequiel Ezallag",email:"fliaessayag@gmail.com"},
+  {name:"Felipe Saul",email:"msaul@fibertel.com.ar"},
+  {name:"Marcelo Ceva",email:"ceva@mceva.com"},
+];
+// Acceso rápido a la lista viva (desde state)
+function PARTICIPANTS() { return state.participants || []; }
+
+const MATCHES = [
+  // 1ª RUEDA (1-72)
+  {id:1,fecha:"11/06/2026",hora:"12:00",estadio:"Mexico City Stadium",grupo:"A",local:"Mexico",visita:"South Africa",etapa:"1RUEDA"},
+  {id:2,fecha:"11/06/2026",hora:"15:00",estadio:"Guadalajara Stadium",grupo:"B",local:"Canada",visita:"Bosnia and Herzegovina",etapa:"1RUEDA"},
+  {id:3,fecha:"11/06/2026",hora:"18:00",estadio:"Toronto Stadium",grupo:"C",local:"Brazil",visita:"Morocco",etapa:"1RUEDA"},
+  {id:4,fecha:"11/06/2026",hora:"21:00",estadio:"New York New Jersey Stadium",grupo:"D",local:"USA",visita:"Paraguay",etapa:"1RUEDA"},
+  {id:5,fecha:"11/06/2026",hora:"22:00",estadio:"Los Angeles Stadium",grupo:"E",local:"Germany",visita:"Curaçao",etapa:"1RUEDA"},
+  {id:6,fecha:"12/06/2026",hora:"12:00",estadio:"Houston Stadium",grupo:"F",local:"Netherlands",visita:"Japan",etapa:"1RUEDA"},
+  {id:7,fecha:"12/06/2026",hora:"15:00",estadio:"Dallas Stadium",grupo:"G",local:"Belgium",visita:"Egypt",etapa:"1RUEDA"},
+  {id:8,fecha:"12/06/2026",hora:"18:00",estadio:"Seattle Stadium",grupo:"H",local:"Spain",visita:"Cabo Verde",etapa:"1RUEDA"},
+  {id:9,fecha:"12/06/2026",hora:"21:00",estadio:"Atlanta Stadium",grupo:"I",local:"France",visita:"Senegal",etapa:"1RUEDA"},
+  {id:10,fecha:"12/06/2026",hora:"22:00",estadio:"Miami Stadium",grupo:"J",local:"Argentina",visita:"Algeria",etapa:"1RUEDA"},
+  {id:11,fecha:"13/06/2026",hora:"12:00",estadio:"Boston Stadium",grupo:"K",local:"Portugal",visita:"DR Congo",etapa:"1RUEDA"},
+  {id:12,fecha:"13/06/2026",hora:"15:00",estadio:"Philadelphia Stadium",grupo:"L",local:"England",visita:"Croatia",etapa:"1RUEDA"},
+  {id:13,fecha:"13/06/2026",hora:"18:00",estadio:"Vancouver Stadium",grupo:"A",local:"Czech Republic",visita:"Korea Republic",etapa:"1RUEDA"},
+  {id:14,fecha:"13/06/2026",hora:"21:00",estadio:"San Francisco Bay Area Stadium",grupo:"B",local:"Qatar",visita:"Switzerland",etapa:"1RUEDA"},
+  {id:15,fecha:"13/06/2026",hora:"22:00",estadio:"Kansas City Stadium",grupo:"C",local:"Haiti",visita:"Scotland",etapa:"1RUEDA"},
+  {id:16,fecha:"14/06/2026",hora:"12:00",estadio:"Monterrey Stadium",grupo:"D",local:"Australia",visita:"Turkey",etapa:"1RUEDA"},
+  {id:17,fecha:"14/06/2026",hora:"15:00",estadio:"Mexico City Stadium",grupo:"E",local:"Côte d'Ivoire",visita:"Ecuador",etapa:"1RUEDA"},
+  {id:18,fecha:"14/06/2026",hora:"18:00",estadio:"Guadalajara Stadium",grupo:"F",local:"Sweden",visita:"Tunisia",etapa:"1RUEDA"},
+  {id:19,fecha:"14/06/2026",hora:"21:00",estadio:"Toronto Stadium",grupo:"G",local:"New Zealand",visita:"IR Iran",etapa:"1RUEDA"},
+  {id:20,fecha:"14/06/2026",hora:"22:00",estadio:"New York New Jersey Stadium",grupo:"H",local:"Saudi Arabia",visita:"Uruguay",etapa:"1RUEDA"},
+  {id:21,fecha:"15/06/2026",hora:"12:00",estadio:"Los Angeles Stadium",grupo:"I",local:"Iraq",visita:"Norway",etapa:"1RUEDA"},
+  {id:22,fecha:"15/06/2026",hora:"15:00",estadio:"Houston Stadium",grupo:"J",local:"Jordan",visita:"Austria",etapa:"1RUEDA"},
+  {id:23,fecha:"15/06/2026",hora:"18:00",estadio:"Dallas Stadium",grupo:"K",local:"Uzbekistan",visita:"Colombia",etapa:"1RUEDA"},
+  {id:24,fecha:"15/06/2026",hora:"21:00",estadio:"Seattle Stadium",grupo:"L",local:"Ghana",visita:"Panama",etapa:"1RUEDA"},
+  {id:25,fecha:"16/06/2026",hora:"12:00",estadio:"Atlanta Stadium",grupo:"A",local:"Mexico",visita:"Czech Republic",etapa:"1RUEDA"},
+  {id:26,fecha:"16/06/2026",hora:"15:00",estadio:"Miami Stadium",grupo:"B",local:"Canada",visita:"Qatar",etapa:"1RUEDA"},
+  {id:27,fecha:"16/06/2026",hora:"18:00",estadio:"Boston Stadium",grupo:"C",local:"Brazil",visita:"Haiti",etapa:"1RUEDA"},
+  {id:28,fecha:"16/06/2026",hora:"21:00",estadio:"Philadelphia Stadium",grupo:"D",local:"USA",visita:"Australia",etapa:"1RUEDA"},
+  {id:29,fecha:"17/06/2026",hora:"12:00",estadio:"Vancouver Stadium",grupo:"E",local:"Germany",visita:"Côte d'Ivoire",etapa:"1RUEDA"},
+  {id:30,fecha:"17/06/2026",hora:"15:00",estadio:"San Francisco Bay Area Stadium",grupo:"F",local:"Netherlands",visita:"Sweden",etapa:"1RUEDA"},
+  {id:31,fecha:"17/06/2026",hora:"18:00",estadio:"Kansas City Stadium",grupo:"G",local:"Belgium",visita:"New Zealand",etapa:"1RUEDA"},
+  {id:32,fecha:"17/06/2026",hora:"21:00",estadio:"Monterrey Stadium",grupo:"H",local:"Spain",visita:"Saudi Arabia",etapa:"1RUEDA"},
+  {id:33,fecha:"18/06/2026",hora:"12:00",estadio:"Mexico City Stadium",grupo:"I",local:"France",visita:"Iraq",etapa:"1RUEDA"},
+  {id:34,fecha:"18/06/2026",hora:"15:00",estadio:"Guadalajara Stadium",grupo:"J",local:"Argentina",visita:"Jordan",etapa:"1RUEDA"},
+  {id:35,fecha:"18/06/2026",hora:"18:00",estadio:"Toronto Stadium",grupo:"K",local:"Portugal",visita:"Uzbekistan",etapa:"1RUEDA"},
+  {id:36,fecha:"18/06/2026",hora:"21:00",estadio:"New York New Jersey Stadium",grupo:"L",local:"England",visita:"Ghana",etapa:"1RUEDA"},
+  {id:37,fecha:"19/06/2026",hora:"12:00",estadio:"Los Angeles Stadium",grupo:"A",local:"South Africa",visita:"Korea Republic",etapa:"1RUEDA"},
+  {id:38,fecha:"19/06/2026",hora:"15:00",estadio:"Houston Stadium",grupo:"B",local:"Bosnia and Herzegovina",visita:"Switzerland",etapa:"1RUEDA"},
+  {id:39,fecha:"19/06/2026",hora:"18:00",estadio:"Dallas Stadium",grupo:"C",local:"Morocco",visita:"Scotland",etapa:"1RUEDA"},
+  {id:40,fecha:"19/06/2026",hora:"21:00",estadio:"Seattle Stadium",grupo:"D",local:"Paraguay",visita:"Turkey",etapa:"1RUEDA"},
+  {id:41,fecha:"20/06/2026",hora:"12:00",estadio:"Atlanta Stadium",grupo:"E",local:"Curaçao",visita:"Ecuador",etapa:"1RUEDA"},
+  {id:42,fecha:"20/06/2026",hora:"15:00",estadio:"Miami Stadium",grupo:"F",local:"Japan",visita:"Tunisia",etapa:"1RUEDA"},
+  {id:43,fecha:"20/06/2026",hora:"18:00",estadio:"Boston Stadium",grupo:"G",local:"Egypt",visita:"IR Iran",etapa:"1RUEDA"},
+  {id:44,fecha:"20/06/2026",hora:"21:00",estadio:"Philadelphia Stadium",grupo:"H",local:"Cabo Verde",visita:"Uruguay",etapa:"1RUEDA"},
+  {id:45,fecha:"21/06/2026",hora:"12:00",estadio:"Vancouver Stadium",grupo:"I",local:"Senegal",visita:"Norway",etapa:"1RUEDA"},
+  {id:46,fecha:"21/06/2026",hora:"15:00",estadio:"San Francisco Bay Area Stadium",grupo:"J",local:"Algeria",visita:"Austria",etapa:"1RUEDA"},
+  {id:47,fecha:"21/06/2026",hora:"18:00",estadio:"Kansas City Stadium",grupo:"K",local:"DR Congo",visita:"Colombia",etapa:"1RUEDA"},
+  {id:48,fecha:"21/06/2026",hora:"21:00",estadio:"Monterrey Stadium",grupo:"L",local:"Croatia",visita:"Panama",etapa:"1RUEDA"},
+  {id:49,fecha:"22/06/2026",hora:"12:00",estadio:"Mexico City Stadium",grupo:"A",local:"Mexico",visita:"Korea Republic",etapa:"1RUEDA"},
+  {id:50,fecha:"22/06/2026",hora:"15:00",estadio:"Guadalajara Stadium",grupo:"B",local:"Canada",visita:"Switzerland",etapa:"1RUEDA"},
+  {id:51,fecha:"22/06/2026",hora:"18:00",estadio:"Toronto Stadium",grupo:"C",local:"Brazil",visita:"Scotland",etapa:"1RUEDA"},
+  {id:52,fecha:"22/06/2026",hora:"21:00",estadio:"New York New Jersey Stadium",grupo:"D",local:"USA",visita:"Turkey",etapa:"1RUEDA"},
+  {id:53,fecha:"23/06/2026",hora:"12:00",estadio:"Los Angeles Stadium",grupo:"E",local:"Germany",visita:"Ecuador",etapa:"1RUEDA"},
+  {id:54,fecha:"23/06/2026",hora:"15:00",estadio:"Houston Stadium",grupo:"F",local:"Netherlands",visita:"Tunisia",etapa:"1RUEDA"},
+  {id:55,fecha:"23/06/2026",hora:"18:00",estadio:"Dallas Stadium",grupo:"G",local:"Belgium",visita:"IR Iran",etapa:"1RUEDA"},
+  {id:56,fecha:"23/06/2026",hora:"21:00",estadio:"Seattle Stadium",grupo:"H",local:"Spain",visita:"Uruguay",etapa:"1RUEDA"},
+  {id:57,fecha:"24/06/2026",hora:"12:00",estadio:"Atlanta Stadium",grupo:"I",local:"France",visita:"Norway",etapa:"1RUEDA"},
+  {id:58,fecha:"24/06/2026",hora:"15:00",estadio:"Miami Stadium",grupo:"J",local:"Argentina",visita:"Austria",etapa:"1RUEDA"},
+  {id:59,fecha:"24/06/2026",hora:"18:00",estadio:"Boston Stadium",grupo:"K",local:"Portugal",visita:"Colombia",etapa:"1RUEDA"},
+  {id:60,fecha:"24/06/2026",hora:"21:00",estadio:"Philadelphia Stadium",grupo:"L",local:"England",visita:"Panama",etapa:"1RUEDA"},
+  {id:61,fecha:"25/06/2026",hora:"12:00",estadio:"Vancouver Stadium",grupo:"A",local:"South Africa",visita:"Czech Republic",etapa:"1RUEDA"},
+  {id:62,fecha:"25/06/2026",hora:"15:00",estadio:"San Francisco Bay Area Stadium",grupo:"B",local:"Bosnia and Herzegovina",visita:"Qatar",etapa:"1RUEDA"},
+  {id:63,fecha:"25/06/2026",hora:"18:00",estadio:"Kansas City Stadium",grupo:"C",local:"Morocco",visita:"Haiti",etapa:"1RUEDA"},
+  {id:64,fecha:"25/06/2026",hora:"21:00",estadio:"Monterrey Stadium",grupo:"D",local:"Paraguay",visita:"Australia",etapa:"1RUEDA"},
+  {id:65,fecha:"26/06/2026",hora:"12:00",estadio:"Mexico City Stadium",grupo:"E",local:"Curaçao",visita:"Côte d'Ivoire",etapa:"1RUEDA"},
+  {id:66,fecha:"26/06/2026",hora:"15:00",estadio:"Guadalajara Stadium",grupo:"F",local:"Japan",visita:"Sweden",etapa:"1RUEDA"},
+  {id:67,fecha:"26/06/2026",hora:"18:00",estadio:"Toronto Stadium",grupo:"G",local:"Egypt",visita:"New Zealand",etapa:"1RUEDA"},
+  {id:68,fecha:"26/06/2026",hora:"21:00",estadio:"New York New Jersey Stadium",grupo:"H",local:"Cabo Verde",visita:"Saudi Arabia",etapa:"1RUEDA"},
+  {id:69,fecha:"27/06/2026",hora:"12:00",estadio:"Los Angeles Stadium",grupo:"I",local:"Senegal",visita:"Iraq",etapa:"1RUEDA"},
+  {id:70,fecha:"27/06/2026",hora:"15:00",estadio:"Houston Stadium",grupo:"J",local:"Algeria",visita:"Jordan",etapa:"1RUEDA"},
+  {id:71,fecha:"27/06/2026",hora:"18:00",estadio:"Dallas Stadium",grupo:"K",local:"DR Congo",visita:"Uzbekistan",etapa:"1RUEDA"},
+  {id:72,fecha:"27/06/2026",hora:"21:00",estadio:"Seattle Stadium",grupo:"L",local:"Croatia",visita:"Ghana",etapa:"1RUEDA"},
+  // 16AVOS (73-88)
+  {id:73,fecha:"28/06/2026",hora:"13:00",estadio:"Los Angeles Stadium",grupo:"2A vs 2B",local:"2A",visita:"2B",etapa:"16AVOS"},
+  {id:74,fecha:"28/06/2026",hora:"16:00",estadio:"Philadelphia Stadium",grupo:"1E vs 3ABCDF",local:"1E",visita:"3ABCDF",etapa:"16AVOS"},
+  {id:75,fecha:"28/06/2026",hora:"20:00",estadio:"Houston Stadium",grupo:"1F vs 2C",local:"1F",visita:"2C",etapa:"16AVOS"},
+  {id:76,fecha:"29/06/2026",hora:"13:00",estadio:"Dallas Stadium",grupo:"1C vs 2F",local:"1C",visita:"2F",etapa:"16AVOS"},
+  {id:77,fecha:"29/06/2026",hora:"16:00",estadio:"Seattle Stadium",grupo:"1I vs 3CDFGH",local:"1I",visita:"3CDFGH",etapa:"16AVOS"},
+  {id:78,fecha:"29/06/2026",hora:"20:00",estadio:"Atlanta Stadium",grupo:"2E vs 2I",local:"2E",visita:"2I",etapa:"16AVOS"},
+  {id:79,fecha:"30/06/2026",hora:"13:00",estadio:"Mexico City Stadium",grupo:"1A vs 3CEFHI",local:"1A",visita:"3CEFHI",etapa:"16AVOS"},
+  {id:80,fecha:"30/06/2026",hora:"16:00",estadio:"Monterrey Stadium",grupo:"1L vs 3EHIJK",local:"1L",visita:"3EHIJK",etapa:"16AVOS"},
+  {id:81,fecha:"01/07/2026",hora:"20:00",estadio:"Toronto Stadium",grupo:"1D vs 3BEFIJ",local:"1D",visita:"3BEFIJ",etapa:"16AVOS"},
+  {id:82,fecha:"01/07/2026",hora:"13:00",estadio:"Miami Stadium",grupo:"1G vs 3AEHIJ",local:"1G",visita:"3AEHIJ",etapa:"16AVOS"},
+  {id:83,fecha:"01/07/2026",hora:"16:00",estadio:"New York New Jersey Stadium",grupo:"2K vs 2L",local:"2K",visita:"2L",etapa:"16AVOS"},
+  {id:84,fecha:"02/07/2026",hora:"20:00",estadio:"Boston Stadium",grupo:"1H vs 2J",local:"1H",visita:"2J",etapa:"16AVOS"},
+  {id:85,fecha:"02/07/2026",hora:"13:00",estadio:"Vancouver Stadium",grupo:"1B vs 3EFGIJ",local:"1B",visita:"3EFGIJ",etapa:"16AVOS"},
+  {id:86,fecha:"02/07/2026",hora:"16:00",estadio:"Kansas City Stadium",grupo:"1J vs 2H",local:"1J",visita:"2H",etapa:"16AVOS"},
+  {id:87,fecha:"03/07/2026",hora:"20:00",estadio:"San Francisco Bay Area Stadium",grupo:"1K vs 3DEIJL",local:"1K",visita:"3DEIJL",etapa:"16AVOS"},
+  {id:88,fecha:"03/07/2026",hora:"13:00",estadio:"Guadalajara Stadium",grupo:"2D vs 2G",local:"2D",visita:"2G",etapa:"16AVOS"},
+  // 8VOS (89-96)
+  {id:89,fecha:"04/07/2026",hora:"14:00",estadio:"Philadelphia Stadium",grupo:"W74 vs W77",local:"W74",visita:"W77",etapa:"8VOS"},
+  {id:90,fecha:"04/07/2026",hora:"20:00",estadio:"Los Angeles Stadium",grupo:"W73 vs W75",local:"W73",visita:"W75",etapa:"8VOS"},
+  {id:91,fecha:"05/07/2026",hora:"14:00",estadio:"New York New Jersey Stadium",grupo:"W76 vs W78",local:"W76",visita:"W78",etapa:"8VOS"},
+  {id:92,fecha:"05/07/2026",hora:"20:00",estadio:"Miami Stadium",grupo:"W79 vs W80",local:"W79",visita:"W80",etapa:"8VOS"},
+  {id:93,fecha:"06/07/2026",hora:"14:00",estadio:"Boston Stadium",grupo:"W83 vs W84",local:"W83",visita:"W84",etapa:"8VOS"},
+  {id:94,fecha:"06/07/2026",hora:"20:00",estadio:"Dallas Stadium",grupo:"W81 vs W82",local:"W81",visita:"W82",etapa:"8VOS"},
+  {id:95,fecha:"07/07/2026",hora:"14:00",estadio:"Atlanta Stadium",grupo:"W86 vs W88",local:"W86",visita:"W88",etapa:"8VOS"},
+  {id:96,fecha:"07/07/2026",hora:"20:00",estadio:"Seattle Stadium",grupo:"W85 vs W87",local:"W85",visita:"W87",etapa:"8VOS"},
+  // 4TOS (97-100)
+  {id:97,fecha:"09/07/2026",hora:"16:00",estadio:"Dallas Stadium",grupo:"W89 vs W90",local:"W89",visita:"W90",etapa:"4TOS"},
+  {id:98,fecha:"09/07/2026",hora:"21:00",estadio:"Atlanta Stadium",grupo:"W91 vs W92",local:"W91",visita:"W92",etapa:"4TOS"},
+  {id:99,fecha:"10/07/2026",hora:"16:00",estadio:"Miami Stadium",grupo:"W93 vs W94",local:"W93",visita:"W94",etapa:"4TOS"},
+  {id:100,fecha:"10/07/2026",hora:"21:00",estadio:"New York New Jersey Stadium",grupo:"W95 vs W96",local:"W95",visita:"W96",etapa:"4TOS"},
+  // SEMIS (101-102)
+  {id:101,fecha:"14/07/2026",hora:"20:00",estadio:"Dallas Stadium",grupo:"SF1",local:"W97",visita:"W98",etapa:"SEMIS"},
+  {id:102,fecha:"15/07/2026",hora:"20:00",estadio:"Atlanta Stadium",grupo:"SF2",local:"W99",visita:"W100",etapa:"SEMIS"},
+  // FINALES (103-104)
+  {id:103,fecha:"18/07/2026",hora:"18:00",estadio:"Miami Stadium",grupo:"3er puesto",local:"Perdedor SF1",visita:"Perdedor SF2",etapa:"FINAL"},
+  {id:104,fecha:"19/07/2026",hora:"19:00",estadio:"New York New Jersey Stadium",grupo:"FINAL",local:"Ganador SF1",visita:"Ganador SF2",etapa:"FINAL"},
+];
+
+const STAGES = [
+  {key:"1RUEDA", label:"1ª Rueda", pts:1},
+  {key:"16AVOS", label:"16avos", pts:2},
+  {key:"8VOS", label:"8vos", pts:3},
+  {key:"4TOS", label:"4tos", pts:4},
+  {key:"SEMIS", label:"Semis", pts:5},
+  {key:"FINAL", label:"Final", pts:6},
+];
+// Helper: ¿está revelada esta etapa para todos?
+function isStageRevealed(stageKey) {
+  return !!(state.revealedStages && state.revealedStages[stageKey]);
+}
+
+
+
+const ADMIN_PWD = "tito1966";
+
+// ══════════════════════════════════════════════════
+// STATE
+// ══════════════════════════════════════════════════
+let state = {
+  participants: [],  // [{name, email}] - managed by admin
+  results: {},
+  forecasts: {},
+  champion: {},
+  realChampion: "",
+  revealedStages: {}, // {stageKey: true} - comité habilita ver planilla completa
+  confirmed: {},     // {participantIdx: {stageKey: true}}
+  currentUser: null,
+  isAdmin: false,
+};
+
+// ── GOOGLE SHEETS URL (reemplazar con la URL de tu Web App) ──
+const GS_URL = "https://script.google.com/macros/s/AKfycbxI_TCAXHPgdC2Hqf01ZrHivdFxLEP2pte28-NrzYNATZ9vj0XkRrn-Y6nE0WrRHdAO/exec";
+const USE_SHEETS = GS_URL !== "PEGAR_AQUI_LA_URL_DE_TU_WEB_APP";
+
+// ── Guardar en localStorage (siempre, como cache) ──
+function saveLocal() {
+  const toSave = {
+    participants: state.participants,
+    results: state.results,
+    forecasts: state.forecasts,
+    champion: state.champion,
+    realChampion: state.realChampion,
+    revealedStages: state.revealedStages,
+    confirmed: state.confirmed || {},
+  };
+  localStorage.setItem('pollaTitoFuentes2026', JSON.stringify(toSave));
+}
+
+// ── Sincronizar con Google Sheets ──
+async function gsGet(key) {
+  try {
+    const r = await fetch(GS_URL + '?action=get&key=' + encodeURIComponent(key));
+    const d = await r.json();
+    return d.ok ? d.value : null;
+  } catch(e) { return null; }
+}
+
+async function gsSet(key, value) {
+  try {
+    const url = GS_URL + '?action=set&key=' + encodeURIComponent(key) + '&value=' + encodeURIComponent(JSON.stringify(value));
+    const r = await fetch(url);
+    return (await r.json()).ok;
+  } catch(e) { return false; }
+}
+
+async function gsGetAll() {
+  try {
+    const r = await fetch(GS_URL + '?action=getAll');
+    const d = await r.json();
+    return d.ok ? d.data : null;
+  } catch(e) { return null; }
+}
+
+// ── loadState: primero local (rápido), luego sincroniza con Sheets ──
+function loadState() {
+  // 1. Cargar desde localStorage (respuesta instantánea)
+  const s = localStorage.getItem('pollaTitoFuentes2026');
+  if (s) {
+    const loaded = JSON.parse(s);
+    state = {...state, ...loaded};
+  }
+  if (!state.participants || state.participants.length === 0) {
+    state.participants = BASE_PARTICIPANTS.map(p => ({...p}));
+  }
+  // 2. Si hay Sheets configurado, sincronizar en background
+  if (USE_SHEETS) syncFromSheets();
+}
+
+async function syncFromSheets() {
+  showSyncIndicator('syncing');
+  const data = await gsGetAll();
+  if (!data) { showSyncIndicator('error'); return; }
+
+  // Merge remote data into state (remote wins for shared data)
+  // Use single blob appState if exists
+  const blob = data.appState;
+  if (blob) {
+    if (blob.results) state.results = blob.results;
+    if (blob.revealedStages) state.revealedStages = blob.revealedStages;
+    if (blob.realChampion !== undefined) state.realChampion = blob.realChampion;
+    if (blob.participants && blob.participants.length > 0) state.participants = blob.participants;
+    if (blob.forecasts) {
+      Object.entries(blob.forecasts).forEach(([idx, fc]) => { state.forecasts[idx] = fc; });
+    }
+    if (blob.confirmed) {
+      if (!state.confirmed) state.confirmed = {};
+      Object.entries(blob.confirmed).forEach(([idx, conf]) => { state.confirmed[idx] = conf; });
+    }
+  }
+
+  saveLocal();
+  showSyncIndicator('ok');
+
+  // Rebuild UI if already in app
+  if (document.getElementById('mainApp').style.display !== 'none') {
+    buildAll();
+    if (state.currentUser !== null && state.currentUser !== 'admin') {
+      showParticipantView(state.currentUser, state._pvStage);
+    }
+  }
+}
+
+// ── saveState: guarda local + sube a Sheets en background ──
+function saveState() {
+  saveLocal();
+  if (USE_SHEETS) pushToSheets();
+}
+
+async function pushToSheets() {
+  showSyncIndicator('syncing');
+  const toSave = {
+    participants: state.participants,
+    results: state.results,
+    forecasts: state.forecasts,
+    realChampion: state.realChampion,
+    revealedStages: state.revealedStages,
+    confirmed: state.confirmed || {},
+  };
+  // Save as one blob
+  const ok = await gsSet('appState', toSave);
+  showSyncIndicator(ok ? 'ok' : 'error');
+}
+
+function showSyncIndicator(status) {
+  let el = document.getElementById('syncIndicator');
+  if (!el) return;
+  const icons = { syncing: '⟳', ok: '☁️', error: '⚠️' };
+  const colors = { syncing: 'var(--text-muted)', ok: 'var(--verde)', error: 'var(--rojo)' };
+  const labels = { syncing: 'Sincronizando...', ok: 'Guardado', error: 'Error de conexión' };
+  el.innerHTML = '<span style="color:' + colors[status] + '">' + icons[status] + ' ' + labels[status] + '</span>';
+  if (status === 'ok') setTimeout(() => { if(el) el.innerHTML = ''; }, 3000);
+}
+
+// ══════════════════════════════════════════════════
+// AUTH
+// ══════════════════════════════════════════════════
+function handleAccess() {
+  const val = document.getElementById('accessInput').value.trim();
+  if (!val) { showAccessError("Ingresá tu nombre o código."); return; }
+  
+  // URL param check
+  const urlParam = new URLSearchParams(window.location.search).get('p');
+  
+  // Try to find participant
+  const lval = val.toLowerCase();
+  let idx = PARTICIPANTS().findIndex(p => p.name.toLowerCase() === lval || p.name.toLowerCase().includes(lval));
+  
+  if (idx === -1 && /^\d+$/.test(val)) {
+    idx = parseInt(val) - 1;
+    if (idx < 0 || idx >= PARTICIPANTS().length) idx = -1;
+  }
+  
+  if (idx === -1) {
+    showAccessError("No encontré ese nombre. Intentá con parte del nombre o tu número.");
+    return;
+  }
+  
+  state.currentUser = idx;
+  state.isAdmin = false;
+  enterApp();
+  showParticipantView(idx);
+}
+
+function requestAdminAccess() {
+  // If already admin, go directly
+  if (state.isAdmin) { showPanel('panel-admin'); return; }
+  // Otherwise show password modal
+  document.getElementById('modalAdminPwInput').value = '';
+  document.getElementById('modalAdminPwError').classList.remove('show');
+  document.getElementById('modalAdminPw').classList.add('open');
+  setTimeout(() => document.getElementById('modalAdminPwInput').focus(), 100);
+}
+
+function confirmAdminAccess() {
+  const pwd = document.getElementById('modalAdminPwInput').value;
+  if (pwd === ADMIN_PWD) {
+    state.isAdmin = true;
+    closeModal('modalAdminPw');
+    document.getElementById('modalAdminPwInput').value = '';
+    buildAll();
+    showPanel('panel-admin');
+  } else {
+    const err = document.getElementById('modalAdminPwError');
+    err.textContent = 'Contraseña incorrecta.';
+    err.classList.add('show');
+    document.getElementById('modalAdminPwInput').value = '';
+    setTimeout(() => err.classList.remove('show'), 3000);
+  }
+}
+
+function toggleAdminLogin() {
+  const box = document.getElementById('adminLoginBox');
+  box.style.display = box.style.display === 'none' ? 'block' : 'none';
+  if (box.style.display === 'block') {
+    setTimeout(() => document.getElementById('adminPwInput').focus(), 50);
+  }
+}
+
+function handleAdminLogin() {
+  const pwd = document.getElementById('adminPwInput').value;
+  if (pwd === ADMIN_PWD) {
+    state.currentUser = 'admin';
+    state.isAdmin = true;
+    enterApp();
+    showPanel('panel-admin');
+  } else {
+    showAccessError("Contraseña incorrecta.");
+  }
+}
+
+function showAccessError(msg) {
+  const el = document.getElementById('accessError');
+  el.textContent = msg;
+  el.classList.add('show');
+  setTimeout(() => el.classList.remove('show'), 4000);
+}
+
+function enterApp() {
+  document.getElementById('accessScreen').style.display = 'none';
+  document.getElementById('mainApp').style.display = 'block';
+  document.getElementById('mainHeader').style.display = 'block';
+  document.getElementById('mainNav').style.display = 'flex';
+  buildAll();
+}
+
+// Check URL param on load
+window.addEventListener('load', () => {
+  loadState();
+  const urlIdx = new URLSearchParams(window.location.search).get('p');
+  if (urlIdx !== null) {
+    const idx = parseInt(urlIdx);
+    if (!isNaN(idx) && idx >= 0 && idx < PARTICIPANTS().length) {
+      state.currentUser = idx;
+      state.isAdmin = false;
+      enterApp();
+      showParticipantView(idx);
+    }
+  }
+});
+
+// ══════════════════════════════════════════════════
+// SCORING
+// ══════════════════════════════════════════════════
+function getMatchPts(stage) {
+  const s = STAGES.find(x => x.key === stage);
+  return s ? s.pts : 1;
+}
+
+function calcScore(participantIdx) {
+  let pts = 0, exact = 0, correct = 0;
+  const fcs = state.forecasts[participantIdx] || {};
+  
+  for (const m of MATCHES) {
+    const real = state.results[m.id];
+    const fc = fcs[m.id];
+    if (!real || !fc) continue;
+    if (fc.a === undefined || fc.b === undefined) continue;
+    
+    const multiplier = getMatchPts(m.etapa);
+    
+    if (fc.a === real.a && fc.b === real.b) {
+      // Resultado exacto: 3pts base × multiplicador
+      pts += 3 * multiplier;
+      exact++;
+    } else {
+      const realWinner = real.a > real.b ? 1 : real.a < real.b ? -1 : 0;
+      const fcWinner = fc.a > fc.b ? 1 : fc.a < fc.b ? -1 : 0;
+      if (realWinner === fcWinner) {
+        // Ganador correcto: 1pt × multiplicador
+        pts += 1 * multiplier;
+        correct++;
+      }
+    }
+  }
+  
+  // Campeón
+  if (state.realChampion && state.champion[participantIdx]) {
+    if (state.champion[participantIdx].toLowerCase() === state.realChampion.toLowerCase()) {
+      pts += 10;
+    }
+  }
+  
+  return { pts, exact, correct };
+}
+
+function getRanking() {
+  return PARTICIPANTS().map((p, idx) => {
+    const score = calcScore(idx);
+    return { idx, name: p.name, ...score };
+  }).sort((a, b) => b.pts - a.pts || b.exact - a.exact);
+}
+
+// ══════════════════════════════════════════════════
+// BUILD UI
+// ══════════════════════════════════════════════════
+function buildAll() {
+  buildStats();
+  buildRanking();
+  buildStageTabs();
+  buildMatches('1RUEDA');
+  buildParticipantsGrid();
+  buildAdminMatchSel();
+  buildAdminSummary();
+  if (state.isAdmin) { buildAdminParticipantsList(); buildStageRevealControls(); }
+}
+
+function buildStats() {
+  const played = Object.keys(state.results).length;
+  const total = MATCHES.length;
+  const ranking = getRanking();
+  const leader = ranking[0];
+  
+  document.getElementById('statsRow').innerHTML = `
+    <div class="stat-box">
+      <div class="stat-num">${played}</div>
+      <div class="stat-label">PARTIDOS JUGADOS</div>
+    </div>
+    <div class="stat-box">
+      <div class="stat-num">${total - played}</div>
+      <div class="stat-label">PARTIDOS RESTANTES</div>
+    </div>
+    <div class="stat-box">
+      <div class="stat-num">${PARTICIPANTS().length}</div>
+      <div class="stat-label">PARTICIPANTES</div>
+    </div>
+    <div class="stat-box">
+      <div class="stat-num" style="color:var(--oro);">${leader.pts}</div>
+      <div class="stat-label">PUNTAJE LÍDER</div>
+    </div>
+  `;
+}
+
+function buildRanking() {
+  const ranking = getRanking();
+  let html = `<table class="ranking-table"><thead><tr>
+    <th>#</th><th>PARTICIPANTE</th><th>PUNTOS</th><th>EXACTOS</th><th>CORRECTOS</th>
+    <th>MIS PRONÓSTICOS</th>
+  </tr></thead><tbody>`;
+  
+  ranking.forEach((p, i) => {
+    const posClass = i === 0 ? 'gold' : i === 1 ? 'silver' : i === 2 ? 'bronze' : '';
+    html += `<tr>
+      <td><span class="rank-pos ${posClass}">${i+1}</span></td>
+      <td><span class="rank-name">${p.name}</span></td>
+      <td><span class="rank-pts">${p.pts}</span></td>
+      <td><span class="rank-detail">⭐ ${p.exact}</span></td>
+      <td><span class="rank-detail">✓ ${p.correct}</span></td>
+      ${(state.isAdmin || state.currentUser === p.idx) ? `<td><button class="btn btn-ghost btn-sm" onclick="showParticipantView(${p.idx})">👁 Ver</button></td>` : '<td></td>'}
+    </tr>`;
+  });
+  
+  html += '</tbody></table>';
+  document.getElementById('rankingTableContainer').innerHTML = html;
+  buildRevealedStageButtons();
+}
+
+function buildRevealedStageButtons() {
+  const el = document.getElementById('revealedStageButtons');
+  if (!el) return;
+  const revealed = STAGES.filter(s => isStageRevealed(s.key));
+  if (revealed.length === 0) {
+    el.innerHTML = state.isAdmin ? '' : '<div style="background:var(--bg2);border:1px solid var(--border);border-radius:8px;padding:14px;font-size:13px;color:var(--text-muted);">📋 El comité aún no habilitó la visualización de ninguna planilla completa.</div>';
+    return;
+  }
+  let html = '<div style="margin-bottom:4px;font-size:12px;color:var(--text-muted);font-weight:600;letter-spacing:1px;">PLANILLAS DISPONIBLES</div><div style="display:flex;gap:8px;flex-wrap:wrap;">';
+  revealed.forEach(s => {
+    html += `<button class="btn btn-oro btn-sm" onclick="showFullStageTable('${s.key}')">📋 Ver planilla ${s.label}</button>`;
+  });
+  html += '</div>';
+  el.innerHTML = html;
+}
+
+function buildStageTabs() {
+  let html = '';
+  STAGES.forEach(s => {
+    html += `<button class="stage-tab ${s.key==='1RUEDA'?'active':''}" onclick="buildMatches('${s.key}', this)">${s.label} <small style="opacity:0.7;">(×${s.pts})</small></button>`;
+  });
+  document.getElementById('stageTabs').innerHTML = html;
+}
+
+function buildMatches(stageKey, btn) {
+  if (btn) {
+    document.querySelectorAll('.stage-tab').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+  }
+  
+  const matches = MATCHES.filter(m => m.etapa === stageKey);
+  const fcs = state.forecasts[state.currentUser] || {};
+  const isParticipant = state.currentUser !== 'admin' && state.currentUser !== null;
+  const multiplier = getMatchPts(stageKey);
+  
+  let html = '';
+  matches.forEach(m => {
+    const real = state.results[m.id];
+    const fc = isParticipant ? fcs[m.id] : null;
+    const locked = !!real || !isParticipant;
+    
+    let ptsHtml = '';
+    if (real && fc && fc.a !== undefined) {
+      if (fc.a === real.a && fc.b === real.b) {
+        ptsHtml = `<span class="pts-badge pts-3">+${3*multiplier}pts ⭐</span>`;
+      } else {
+        const rw = real.a>real.b?1:real.a<real.b?-1:0;
+        const fw = fc.a>fc.b?1:fc.a<fc.b?-1:0;
+        ptsHtml = rw===fw ? `<span class="pts-badge pts-1">+${multiplier}pt ✓</span>` : `<span class="pts-badge pts-0">0pts ✗</span>`;
+      }
+    } else if (real) {
+      ptsHtml = `<span class="pts-badge pts-pending">REAL: ${real.a}-${real.b}</span>`;
+    }
+    
+    const scoreInputs = locked
+      ? (real ? `<span style="font-family:'Bebas Neue',sans-serif;font-size:28px;color:var(--oro);">${real.a} - ${real.b}</span>` 
+              : (fc ? `<span style="font-family:'Bebas Neue',sans-serif;font-size:22px;color:var(--gris);">${fc.a} - ${fc.b}</span>` 
+                    : `<span class="mp-lock">Sin pronóstico</span>`))
+      : `<input type="number" class="score-input" min="0" max="20" value="${fc?.a??''}" placeholder="?" 
+           onchange="saveForecast(${m.id},'a',this.value)" oninput="this.value=Math.max(0,Math.min(20,parseInt(this.value)||0))">
+         <span class="score-dash">-</span>
+         <input type="number" class="score-input" min="0" max="20" value="${fc?.b??''}" placeholder="?" 
+           onchange="saveForecast(${m.id},'b',this.value)" oninput="this.value=Math.max(0,Math.min(20,parseInt(this.value)||0))">`;
+    
+    const adminInputs = '';
+    
+    const realBadge = real && state.isAdmin 
+      ? `<span style="font-family:'Bebas Neue';font-size:18px;color:var(--verde);">✓ ${real.a}-${real.b}</span>
+         <button class="btn btn-ghost btn-sm" onclick="deleteResult(${m.id})" style="margin-left:8px;">✕</button>` 
+      : '';
+    
+    html += `<div class="match-card">
+      <div class="match-num">${m.id}</div>
+      <div class="match-teams">
+        <div class="match-fecha">📅 ${m.fecha} ${m.hora} · ${m.estadio} · <strong>Grupo ${m.grupo}</strong></div>
+        <div class="match-teams-row">${m.local} <span class="match-vs">vs</span> ${m.visita}</div>
+        ${adminInputs}
+      </div>
+      <div class="match-score">
+        ${realBadge}
+        ${scoreInputs}
+        ${ptsHtml}
+      </div>
+    </div>`;
+  });
+  
+  document.getElementById('matchesContainer').innerHTML = html || '<div class="text-muted" style="padding:20px;">No hay partidos en esta etapa.</div>';
+}
+
+function buildParticipantsGrid() {
+  const ranking = getRanking();
+  let html = '';
+  PARTICIPANTS().forEach((p, idx) => {
+    const score = calcScore(idx);
+    const rank = ranking.findIndex(r => r.idx === idx) + 1;
+    const isMe = state.currentUser === idx;
+    const canSeeDetails = state.isAdmin || isMe;
+    html += `<div class="participant-card" style="${isMe ? 'border-color:var(--verde);' : ''}">
+      <div class="flex align-center justify-between">
+        <div>
+          <div class="p-name">${p.name} ${isMe ? '<span style="font-size:11px;background:var(--verde);color:#fff;padding:2px 8px;border-radius:10px;margin-left:6px;">YO</span>' : ''}</div>
+          <div class="p-pts">${score.pts} <span>puntos</span></div>
+          <div class="text-muted">#${rank} · ⭐${score.exact} exactos · ✓${score.correct} correctos</div>
+        </div>
+        <div style="display:flex;gap:6px;">
+          ${canSeeDetails ? `<button class="btn btn-ghost btn-sm" onclick="showParticipantView(${idx})">👁 Ver</button>` : ''}
+          ${state.isAdmin ? `<button class="btn btn-ghost btn-sm" onclick="showLinkModal(${idx})">🔗</button>` : ''}
+        </div>
+      </div>
+      ${state.isAdmin && p.email ? `<div class="p-link mt-8" style="font-size:12px;color:var(--text-muted);">✉️ ${p.email}</div>` : ''}
+    </div>`;
+  });
+  document.getElementById('participantsGrid').innerHTML = html;
+}
+
+function buildAdminMatchSel() { buildAdminResultsTable(state._adminStage || '1RUEDA'); }
+function onAdminMatchChange() {}
+
+function buildAdminResultsTable(stageKey) {
+  state._adminStage = stageKey;
+  // Build stage tabs
+  const tabsEl = document.getElementById('adminStageTabs');
+  if (tabsEl) {
+    tabsEl.innerHTML = STAGES.map(s => {
+      const matches = MATCHES.filter(m => m.etapa === s.key);
+      const done = matches.filter(m => state.results[m.id]).length;
+      const active = s.key === stageKey ? 'active' : '';
+      return `<button class="stage-tab ${active}" onclick="buildAdminResultsTable('${s.key}')">
+        ${s.label} <small style="opacity:0.7;">${done}/${matches.length}</small>
+      </button>`;
+    }).join('');
+  }
+
+  const el = document.getElementById('adminResultsTable');
+  if (!el) return;
+  const stageMatches = MATCHES.filter(m => m.etapa === stageKey);
+  const stage = STAGES.find(s => s.key === stageKey);
+  const donePct = Math.round(stageMatches.filter(m => state.results[m.id]).length / stageMatches.length * 100);
+
+  let html = `<div style="margin-bottom:12px;display:flex;align-items:center;gap:12px;flex-wrap:wrap;">
+    <div style="flex:1;background:var(--bg);border-radius:20px;height:8px;min-width:120px;">
+      <div style="background:var(--verde);height:8px;border-radius:20px;width:${donePct}%;transition:width 0.4s;"></div>
+    </div>
+    <span style="font-size:13px;color:var(--text-muted);">${stageMatches.filter(m=>state.results[m.id]).length} de ${stageMatches.length} resultados cargados</span>
+  </div>`;
+
+  // Group by date
+  const byDate = {};
+  stageMatches.forEach(m => {
+    if (!byDate[m.fecha]) byDate[m.fecha] = [];
+    byDate[m.fecha].push(m);
+  });
+
+  Object.entries(byDate).forEach(([fecha, matches]) => {
+    html += `<div style="font-size:12px;font-weight:700;color:var(--text-muted);letter-spacing:1px;margin:16px 0 8px;padding-bottom:4px;border-bottom:1px solid var(--border);">📅 ${fecha}</div>`;
+    matches.forEach(m => {
+      const real = state.results[m.id];
+      const saved = real ? 'border-color:var(--verde);' : '';
+      html += `<div style="background:var(--bg3);border:1px solid var(--border);${saved}border-radius:8px;padding:12px 16px;margin-bottom:8px;display:grid;grid-template-columns:32px 1fr auto;gap:12px;align-items:center;">
+        <div style="font-family:'Bebas Neue',sans-serif;font-size:18px;color:var(--text-muted);text-align:center;">${m.id}</div>
+        <div>
+          <div style="font-weight:600;font-size:14px;">${m.local} <span style="color:var(--text-muted);font-size:12px;">vs</span> ${m.visita}</div>
+          <div style="font-size:11px;color:var(--text-muted);margin-top:2px;">${m.hora} · ${m.estadio} · Grupo ${m.grupo}</div>
+        </div>
+        <div style="display:flex;align-items:center;gap:6px;">
+          ${real
+            ? `<span style="font-family:'Bebas Neue',sans-serif;font-size:24px;color:var(--verde);">${real.a} - ${real.b}</span>
+               <button class="btn btn-ghost btn-sm" onclick="editResult(${m.id})" title="Editar">✏️</button>
+               <button class="btn btn-ghost btn-sm" onclick="deleteResult(${m.id})" title="Borrar" style="color:var(--rojo);">✕</button>`
+            : `<input type="number" id="ra_${m.id}_a" min="0" max="20" placeholder="0"
+                 style="width:52px;background:var(--bg);border:1.5px solid var(--border);color:var(--text);padding:8px 4px;border-radius:6px;font-family:'Bebas Neue',sans-serif;font-size:22px;text-align:center;"
+                 onkeydown="if(event.key==='Tab'||event.key==='Enter'){event.preventDefault();document.getElementById('ra_${m.id}_b').focus();}"
+                 onfocus="this.select()">
+               <span style="font-family:'Bebas Neue',sans-serif;font-size:20px;color:var(--text-muted);">-</span>
+               <input type="number" id="ra_${m.id}_b" min="0" max="20" placeholder="0"
+                 style="width:52px;background:var(--bg);border:1.5px solid var(--border);color:var(--text);padding:8px 4px;border-radius:6px;font-family:'Bebas Neue',sans-serif;font-size:22px;text-align:center;"
+                 onkeydown="if(event.key==='Enter'){adminSaveInline(${m.id});}"
+                 onfocus="this.select()">
+               <button class="btn btn-green btn-sm" onclick="adminSaveInline(${m.id})" style="padding:8px 14px;">✓</button>`
+          }
+        </div>
+      </div>`;
+    });
+  });
+
+  el.innerHTML = html;
+}
+
+function adminSaveInline(matchId) {
+  const aEl = document.getElementById('ra_' + matchId + '_a');
+  const bEl = document.getElementById('ra_' + matchId + '_b');
+  if (!aEl || !bEl) return;
+  const a = parseInt(aEl.value);
+  const b = parseInt(bEl.value);
+  if (isNaN(a) || isNaN(b)) { showAlert('error','Ingresá ambos goles.'); aEl.focus(); return; }
+  state.results[matchId] = {a, b};
+  saveState();
+  buildAdminResultsTable(state._adminStage || '1RUEDA');
+  buildRanking(); buildStats();
+  showAlert('success', `Partido #${matchId}: ${a} - ${b} ✓`);
+  // Move focus to next pending match
+  const pending = MATCHES.filter(m => m.etapa === (state._adminStage||'1RUEDA') && !state.results[m.id]);
+  if (pending.length > 0) {
+    setTimeout(() => {
+      const next = document.getElementById('ra_' + pending[0].id + '_a');
+      if (next) next.focus();
+    }, 150);
+  }
+}
+
+function editResult(matchId) {
+  delete state.results[matchId];
+  saveState();
+  buildAdminResultsTable(state._adminStage || '1RUEDA');
+  buildRanking(); buildStats();
+}
+
+function buildAdminSummary() {
+  const el = document.getElementById('adminSummary');
+  if (!el) return;
+  const played = MATCHES.filter(m => state.results[m.id]).length;
+  const pending = MATCHES.length - played;
+  el.innerHTML = `
+    <div class="flex gap-8" style="flex-wrap:wrap; margin-bottom:12px;">
+      <span class="pts-badge pts-3">${played} partidos con resultado</span>
+      <span class="pts-badge pts-pending">${pending} pendientes</span>
+    </div>
+    <div class="text-muted">Participantes con al menos 1 pronóstico: 
+      ${Object.keys(state.forecasts).filter(k => Object.keys(state.forecasts[k]||{}).length > 0).length} de ${PARTICIPANTS().length}
+    </div>
+  `;
+}
+
+// ══════════════════════════════════════════════════
+// PARTICIPANT VIEW
+// ══════════════════════════════════════════════════
+function showParticipantView(idx, activeStageKey) {
+  if (!state.isAdmin && state.currentUser !== idx) {
+    showAlert('error', 'No tenés permiso para ver los pronósticos de otro participante.');
+    return;
+  }
+  showPanel('panel-participante');
+  if (!activeStageKey) activeStageKey = state._pvStage || '1RUEDA';
+  state._pvStage = activeStageKey;
+
+  const name = PARTICIPANTS()[idx]?.name || '';
+  const score = calcScore(idx);
+  const ranking = getRanking();
+  const rank = ranking.findIndex(r => r.idx === idx) + 1;
+  const fcs = state.forecasts[idx] || {};
+
+  // ── HEADER
+  let html = `
+    <div class="pv-header">
+      <div class="pv-name">${name}</div>
+      <div class="pv-pts">${score.pts}</div>
+      <div class="pv-pts-label">PUNTOS TOTALES</div>
+      <div class="pv-rank">Posición #${rank} de ${PARTICIPANTS().length} · ⭐ ${score.exact} exactos · ✓ ${score.correct} correctos</div>
+    </div>`;
+
+  // ── STAGE TABS (one per phase)
+  html += '<div class="stage-tabs" style="margin-bottom:0;">';
+  STAGES.forEach(stage => {
+    const sm = MATCHES.filter(m => m.etapa === stage.key);
+    const loaded = sm.filter(m => { const fc=fcs[m.id]; return fc && fc.a!==undefined; }).length;
+    const confirmed = state.confirmed?.[idx]?.[stage.key];
+    const active = stage.key === activeStageKey ? 'active' : '';
+    const dot = confirmed ? '✅' : loaded > 0 ? '🟡' : '';
+    html += `<button class="stage-tab ${active}" id="stageTab_${stage.key}" onclick="showParticipantView(${idx},'${stage.key}')">
+      ${dot} ${stage.label} <small style="opacity:0.7;">${loaded}/${sm.length}</small>
+    </button>`;
+  });
+  html += '</div>';
+
+  // ── ACTIVE STAGE CONTENT
+  const stage = STAGES.find(s => s.key === activeStageKey);
+  const stageMatches = MATCHES.filter(m => m.etapa === activeStageKey);
+  const fcsStage = stageMatches.filter(m => { const fc=fcs[m.id]; return fc && fc.a!==undefined; });
+  const total = stageMatches.length;
+  const loaded = fcsStage.length;
+  const pct = total > 0 ? Math.round(loaded/total*100) : 0;
+  const barColor = loaded === total ? 'var(--verde)' : loaded > 0 ? 'var(--oro)' : 'var(--gris)';
+  const confirmed = state.confirmed?.[idx]?.[activeStageKey];
+  const revealed = isStageRevealed(activeStageKey);
+
+  // Stage card
+  html += `<div class="card" style="margin-top:0;border-top-left-radius:0;border-top-right-radius:0;">`;
+
+  // Stage info bar
+  html += `<div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px;margin-bottom:18px;padding-bottom:14px;border-bottom:1px solid var(--border);">
+    <div>
+      <div style="font-family:'Bebas Neue',sans-serif;font-size:20px;color:var(--oro);letter-spacing:1px;">${stage.label.toUpperCase()}</div>
+      <div style="font-size:12px;color:var(--text-muted);">Exacto: ${3*stage.pts}pts · Correcto: ${stage.pts}pt</div>
+    </div>
+    <div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap;">
+      <div style="display:flex;align-items:center;gap:8px;">
+        <div style="width:100px;background:var(--bg);border-radius:20px;height:7px;">
+          <div style="background:${barColor};height:7px;border-radius:20px;width:${pct}%;transition:width 0.3s;"></div>
+        </div>
+        <span style="font-size:13px;color:var(--text-muted);font-weight:600;">${loaded}/${total}</span>
+      </div>
+      ${revealed ? `<button class="btn btn-oro btn-sm" onclick="showFullStageTable('${activeStageKey}')">📋 Ver planilla completa</button>` : '<span style="font-size:11px;color:var(--text-muted);">🔒 Planilla no revelada</span>'}
+    </div>
+  </div>`;
+
+  // Group matches by date
+  const byDate = {};
+  stageMatches.forEach(m => {
+    if (!byDate[m.fecha]) byDate[m.fecha] = [];
+    byDate[m.fecha].push(m);
+  });
+
+  Object.entries(byDate).forEach(([fecha, matches]) => {
+    html += `<div style="font-size:11px;font-weight:700;color:var(--text-muted);letter-spacing:1px;margin:14px 0 6px;padding-bottom:4px;border-bottom:1px solid var(--border);">📅 ${fecha}</div>`;
+    matches.forEach(m => {
+      const real = state.results[m.id];
+      const fc = fcs[m.id];
+      const isEditable = !real;
+
+      let ptsHtml = '';
+      if (real && fc && fc.a !== undefined) {
+        if (fc.a === real.a && fc.b === real.b) {
+          ptsHtml = `<span class="pts-badge pts-3">+${3*stage.pts}pts ⭐</span>`;
+        } else {
+          const rw = real.a>real.b?1:real.a<real.b?-1:0;
+          const fw = fc.a>fc.b?1:fc.a<fc.b?-1:0;
+          ptsHtml = rw===fw ? `<span class="pts-badge pts-1">+${stage.pts}pt ✓</span>` : `<span class="pts-badge pts-0">0pts ✗</span>`;
+        }
+      } else if (real && (!fc || fc.a === undefined)) {
+        ptsHtml = `<span class="pts-badge pts-0">Sin pronóstico</span>`;
+      }
+
+      const scoreRow = isEditable
+        ? `<div class="mp-inputs">
+             <input type="number" class="score-input" min="0" max="20" value="${fc?.a??''}" placeholder="?"
+               onchange="saveForForecast(${idx},${m.id},'a',this.value)"
+               oninput="this.value=Math.max(0,Math.min(20,parseInt(this.value)||0))"
+               onfocus="this.select()">
+             <span class="score-dash">-</span>
+             <input type="number" class="score-input" min="0" max="20" value="${fc?.b??''}" placeholder="?"
+               onchange="saveForForecast(${idx},${m.id},'b',this.value)"
+               oninput="this.value=Math.max(0,Math.min(20,parseInt(this.value)||0))"
+               onfocus="this.select()">
+           </div>`
+        : `<div style="font-family:'Bebas Neue',sans-serif;font-size:24px;color:${real?'var(--oro)':'var(--gris)'};">
+             ${fc?.a !== undefined ? `${fc.a} - ${fc.b}` : '—'}
+           </div>`;
+
+      const realRow = real ? `<div class="mp-real">Real: <strong style="color:var(--verde);">${real.a}-${real.b}</strong></div>` : '';
+
+      html += `<div class="match-pronostico" style="${real ? 'border-color:rgba(255,255,255,0.15);' : ''}">
+        <div class="mp-header">
+          <div>
+            <span class="mp-num">#${m.id}</span>
+            <span class="mp-teams"> ${m.local} <span style="color:var(--text-muted);font-size:12px;">vs</span> ${m.visita}</span>
+          </div>
+          <span class="mp-date">${m.hora} · ${m.estadio}</span>
+        </div>
+        <div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-top:8px;">
+          ${scoreRow}
+          ${realRow}
+          <span id="matchPts_${m.id}">${ptsHtml}</span>
+        </div>
+      </div>`;
+    });
+  });
+
+  // ── BOTTOM: confirm button
+  html += `<div style="display:flex;justify-content:space-between;align-items:center;gap:12px;margin-top:20px;padding-top:16px;border-top:2px solid var(--border);flex-wrap:wrap;">
+    <div>
+      <div id="pvProgressStatus" style="font-size:13px;color:var(--text-muted);">
+        ${loaded === total
+          ? `<span style="color:var(--verde);font-weight:600;">✅ Todos los pronósticos cargados</span>`
+          : `<span style="color:var(--oro);">Faltan ${total - loaded} pronósticos</span>`}
+      </div>
+      ${confirmed ? '<div style="font-size:12px;color:var(--verde);margin-top:4px;">✅ Enviado al comité</div>' : ''}
+    </div>
+    <button class="btn ${confirmed ? 'btn-ghost' : 'btn-green'}"
+      onclick="confirmStageForecasts(${idx},'${activeStageKey}')"
+      ${loaded === 0 ? 'disabled style="opacity:0.4;cursor:not-allowed;"' : ''}>
+      ${confirmed ? '🔄 Re-enviar pronósticos' : '📤 Enviar pronósticos al comité'}
+    </button>
+  </div>`;
+
+  html += '</div>'; // close card
+
+  document.getElementById('participantViewContent').innerHTML = html;
+}
+
+// ══════════════════════════════════════════════════
+// ACTIONS
+// ══════════════════════════════════════════════════
+function saveForecast(matchId, side, val) {
+  if (state.currentUser === 'admin' || state.currentUser === null) return;
+  const idx = state.currentUser;
+  if (!state.forecasts[idx]) state.forecasts[idx] = {};
+  if (!state.forecasts[idx][matchId]) state.forecasts[idx][matchId] = {};
+  state.forecasts[idx][matchId][side] = parseInt(val) || 0;
+  saveState();
+}
+
+function saveForForecast(pIdx, matchId, side, val) {
+  if (!state.forecasts[pIdx]) state.forecasts[pIdx] = {};
+  if (!state.forecasts[pIdx][matchId]) state.forecasts[pIdx][matchId] = {};
+  state.forecasts[pIdx][matchId][side] = parseInt(val) || 0;
+  saveState();
+  // Update only progress bar and pts badge without re-rendering (keeps focus)
+  updateStageProgress(pIdx, state._pvStage || '1RUEDA');
+  updateMatchPts(pIdx, matchId);
+}
+
+function updateStageProgress(pIdx, stageKey) {
+  const stage = STAGES.find(s => s.key === stageKey);
+  if (!stage) return;
+  const stageMatches = MATCHES.filter(m => m.etapa === stageKey);
+  const fcs = state.forecasts[pIdx] || {};
+  const total = stageMatches.length;
+  const loaded = stageMatches.filter(m => { const fc=fcs[m.id]; return fc && fc.a!==undefined && fc.b!==undefined; }).length;
+  const pct = total > 0 ? Math.round(loaded/total*100) : 0;
+  const barColor = loaded === total ? 'var(--verde)' : loaded > 0 ? 'var(--oro)' : 'var(--gris)';
+
+  // Update progress bar
+  const bar = document.getElementById('pvProgressBar');
+  const label = document.getElementById('pvProgressLabel');
+  const statusEl = document.getElementById('pvProgressStatus');
+  if (bar) { bar.style.width = pct + '%'; bar.style.background = barColor; }
+  if (label) label.textContent = loaded + '/' + total;
+  if (statusEl) {
+    statusEl.innerHTML = loaded === total
+      ? '<span style="color:var(--verde);font-weight:600;">✅ Todos los pronósticos cargados</span>'
+      : '<span style="color:var(--oro);">Faltan ' + (total - loaded) + ' pronósticos</span>';
+  }
+
+  // Update tab badge
+  const tabBtn = document.getElementById('stageTab_' + stageKey);
+  if (tabBtn) {
+    const confirmed = state.confirmed?.[pIdx]?.[stageKey];
+    const dot = confirmed ? '✅' : loaded > 0 ? '🟡' : '';
+    tabBtn.innerHTML = dot + ' ' + stage.label + ' <small style="opacity:0.7;">' + loaded + '/' + total + '</small>';
+  }
+}
+
+function updateMatchPts(pIdx, matchId) {
+  const m = MATCHES.find(x => x.id === matchId);
+  if (!m) return;
+  const real = state.results[m.id];
+  const fc = (state.forecasts[pIdx] || {})[m.id];
+  const stage = STAGES.find(s => s.key === m.etapa);
+  const el = document.getElementById('matchPts_' + matchId);
+  if (!el || !real || !fc || fc.a === undefined) return;
+
+  let html = '';
+  if (fc.a === real.a && fc.b === real.b) {
+    html = '<span class="pts-badge pts-3">+' + (3*stage.pts) + 'pts ⭐</span>';
+  } else {
+    const rw = real.a>real.b?1:real.a<real.b?-1:0;
+    const fw = fc.a>fc.b?1:fc.a<fc.b?-1:0;
+    html = rw===fw ? '<span class="pts-badge pts-1">+' + stage.pts + 'pt ✓</span>' : '<span class="pts-badge pts-0">0pts ✗</span>';
+  }
+  el.innerHTML = html;
+}
+
+function saveResult() {
+  const id = parseInt(document.getElementById('adminMatchSel').value);
+  const a = parseInt(document.getElementById('adminGoalA').value);
+  const b = parseInt(document.getElementById('adminGoalB').value);
+  if (isNaN(a) || isNaN(b)) { showAlert('error','Ingresá los goles.'); return; }
+  state.results[id] = {a, b};
+  saveState();
+  buildAll();
+  buildAdminMatchSel();
+  showAlert('success', `Resultado del partido #${id} guardado: ${a}-${b}`);
+}
+
+function quickSaveResult(matchId) {
+  const a = parseInt(document.getElementById(`ri_${matchId}_a`).value);
+  const b = parseInt(document.getElementById(`ri_${matchId}_b`).value);
+  if (isNaN(a) || isNaN(b)) return;
+  state.results[matchId] = {a, b};
+  saveState();
+  buildAll();
+  const activeTab = document.querySelector('.stage-tab.active');
+  if (activeTab) buildMatches(MATCHES.find(m=>m.id===matchId).etapa, activeTab);
+  showAlert('success', `Partido #${matchId}: ${a}-${b}`);
+}
+
+function deleteResult(matchId) {
+  if (!confirm(`¿Borrar resultado del partido #${matchId}?`)) return;
+  delete state.results[matchId];
+  saveState();
+  buildAll();
+}
+
+function saveChampion() {
+  state.realChampion = document.getElementById('adminChampion').value.trim();
+  saveState();
+  buildRanking();
+  showAlert('success', `Campeón real guardado: ${state.realChampion}`);
+}
+
+function saveChampionForecast(idx) {
+  const val = document.getElementById('champInput').value.trim();
+  state.champion[idx] = val;
+  saveState();
+  showAlert('success', 'Pronóstico campeón guardado.');
+}
+
+// ══════════════════════════════════════════════════
+// UI HELPERS
+// ══════════════════════════════════════════════════
+function showPanel(id) {
+  document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+  const map = {
+    'panel-posiciones': 0, 'panel-partidos': 1, 'panel-participantes': 2, 'panel-admin': 3,
+  };
+  const navBtns = document.querySelectorAll('.nav-btn');
+  if (map[id] !== undefined) navBtns[map[id]]?.classList.add('active');
+  
+  if (id === 'panel-posiciones') { buildStats(); buildRanking(); }
+  if (id === 'panel-partidos') { buildStageTabs(); buildMatches('1RUEDA'); }
+  if (id === 'panel-participantes') buildParticipantsGrid();
+  if (id === 'panel-admin') { buildAdminMatchSel(); buildAdminSummary(); buildAdminParticipantsList(); buildStageRevealControls(); }
+}
+
+function showAlert(type, msg) {
+  const el = document.getElementById('globalAlert');
+  el.className = `alert alert-${type === 'success' ? 'success' : 'error'} show`;
+  el.textContent = msg;
+  setTimeout(() => el.classList.remove('show'), 4000);
+}
+
+function showLinkModal(idx) {
+  const url = `${location.origin}${location.pathname}?p=${idx}`;
+  document.getElementById('modalLinkUrl').textContent = url;
+  document.getElementById('modalLinkUrl').dataset.url = url;
+  document.getElementById('modalLink').classList.add('open');
+}
+function closeModal(id) { document.getElementById(id).classList.remove('open'); }
+function copyLink() {
+  const url = document.getElementById('modalLinkUrl').dataset.url;
+  navigator.clipboard.writeText(url).then(() => {
+    showAlert('success','Link copiado al portapapeles.');
+    closeModal('modalLink');
+  });
+}
+
+// ══════════════════════════════════════════════════
+// PARTICIPANT MANAGEMENT (ADMIN)
+// ══════════════════════════════════════════════════
+function addParticipant() {
+  const name = document.getElementById('newPartName').value.trim();
+  const email = document.getElementById('newPartEmail').value.trim();
+  if (!name) { showAlert('error', 'Ingresá el nombre del participante.'); return; }
+  const exists = state.participants.some(p => p.name.toLowerCase() === name.toLowerCase());
+  if (exists) { showAlert('error', 'Ya existe un participante con ese nombre.'); return; }
+  state.participants.push({name, email});
+  saveState();
+  document.getElementById('newPartName').value = '';
+  document.getElementById('newPartEmail').value = '';
+  buildAdminParticipantsList();
+  buildParticipantsGrid();
+  buildStats();
+  buildRanking();
+  showAlert('success', `Participante "${name}" agregado. Es el N° ${state.participants.length}.`);
+}
+
+function removeParticipant(idx) {
+  const p = state.participants[idx];
+  if (!confirm(`¿Eliminar a "${p.name}"? Se borrarán también sus pronósticos.`)) return;
+  state.participants.splice(idx, 1);
+  // Clean up their forecasts and champion
+  delete state.forecasts[idx];
+  delete state.champion[idx];
+  saveState();
+  buildAdminParticipantsList();
+  buildParticipantsGrid();
+  buildStats();
+  buildRanking();
+  showAlert('success', `Participante eliminado.`);
+}
+
+function updateParticipantEmail(idx, email) {
+  state.participants[idx].email = email.trim();
+  saveState();
+}
+
+function buildAdminParticipantsList() {
+  const el = document.getElementById('adminParticipantsList');
+  if (!el) return;
+  let html = `<table class="ranking-table"><thead><tr>
+    <th>#</th><th>NOMBRE</th><th>EMAIL</th><th>LINK</th><th></th>
+  </tr></thead><tbody>`;
+  state.participants.forEach((p, idx) => {
+    const score = calcScore(idx);
+    html += `<tr>
+      <td style="font-family:'Bebas Neue';font-size:18px;color:var(--text-muted);">${idx+1}</td>
+      <td>
+        <strong>${p.name}</strong>
+        <button class="btn btn-ghost btn-sm" onclick="editParticipantName(${idx})" title="Editar nombre" style="margin-left:6px;padding:2px 8px;font-size:11px;">✏️</button>
+        <br><small style="color:var(--text-muted);">${score.pts} pts</small>
+      </td>
+      <td>
+        <input type="email" value="${p.email}" placeholder="email@ejemplo.com"
+          style="background:var(--bg);border:1px solid var(--border);color:var(--text);padding:6px 10px;border-radius:6px;font-size:13px;width:220px;"
+          onchange="updateParticipantEmail(${idx}, this.value)">
+      </td>
+      <td>
+        <button class="btn btn-ghost btn-sm" onclick="showLinkModal(${idx})" title="Ver link">🔗 Link</button>
+        ${p.email ? `<button class="btn btn-ghost btn-sm" onclick="showEmailModal(${idx})" title="Enviar email" style="margin-left:4px;">✉️ Email</button>` : ''}
+      </td>
+      <td>
+        <button class="btn btn-red btn-sm" onclick="removeParticipant(${idx})" title="Eliminar">✕</button>
+      </td>
+    </tr>`;
+  });
+  html += '</tbody></table>';
+  el.innerHTML = html;
+}
+
+// ── EMAIL
+let currentEmailIdx = null;
+function showEmailModal(idx) {
+  currentEmailIdx = idx;
+  const p = state.participants[idx];
+  const url = `${location.origin}${location.pathname}?p=${idx}`;
+  document.getElementById('modalEmailContent').innerHTML = `
+    <p style="font-size:14px;color:var(--text-muted);margin-bottom:12px;">
+      Enviando invitación a <strong style="color:var(--text);">${p.name}</strong>
+    </p>
+    <div style="background:var(--bg3);border:1px solid var(--border);border-radius:8px;padding:14px;font-size:13px;line-height:1.7;">
+      <div><strong>Para:</strong> ${p.email}</div>
+      <div><strong>Asunto:</strong> Polla Tito Fuentes · Mundial 2026 · Tu link personal</div>
+      <div style="margin-top:8px;padding-top:8px;border-top:1px solid var(--border);">
+        Hola ${p.name}!<br><br>
+        Te invitamos a participar de la <strong>Polla Tito Fuentes · Mundial 2026</strong>.<br><br>
+        Entrá con tu link personal (sin contraseña):<br>
+        <span style="color:var(--verde);word-break:break-all;">${url}</span><br><br>
+        Desde ahí podés cargar tus pronósticos partido por partido.<br>
+        ¡Buena suerte! ⚽
+      </div>
+    </div>
+    <p style="font-size:12px;color:var(--text-muted);margin-top:10px;">
+      Se abrirá tu cliente de correo con este mensaje listo para enviar.
+    </p>
+  `;
+  document.getElementById('modalEmailBtn').dataset.idx = idx;
+  document.getElementById('modalEmail').classList.add('open');
+}
+
+function sendEmail() {
+  const idx = parseInt(document.getElementById('modalEmailBtn').dataset.idx);
+  const p = state.participants[idx];
+  const url = `${location.origin}${location.pathname}?p=${idx}`;
+  const subject = encodeURIComponent('Polla Tito Fuentes · Mundial 2026 · Tu link personal');
+  const body = encodeURIComponent(
+    `Hola ${p.name}!\n\n` +
+    `Te invitamos a participar de la Polla Tito Fuentes · Mundial 2026.\n\n` +
+    `Entrá con tu link personal (sin contraseña):\n${url}\n\n` +
+    `Desde ahí podés cargar tus pronósticos partido por partido.\n¡Buena suerte! ⚽`
+  );
+  window.open(`mailto:${p.email}?subject=${subject}&body=${body}`);
+  closeModal('modalEmail');
+}
+
+
+// ══════════════════════════════════════════════════
+// STAGE REVEAL CONTROLS
+// ══════════════════════════════════════════════════
+function buildStageRevealControls() {
+  const el = document.getElementById('stageRevealControls');
+  if (!el) return;
+  let html = '<div style="display:grid;gap:10px;">';
+  STAGES.forEach(stage => {
+    const revealed = isStageRevealed(stage.key);
+    const matchesInStage = MATCHES.filter(m => m.etapa === stage.key);
+    const played = matchesInStage.filter(m => state.results[m.id]).length;
+    const total = matchesInStage.length;
+    html += `<div style="background:var(--bg3);border:1px solid ${revealed?'var(--verde)':'var(--border)'};border-radius:8px;padding:14px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px;">
+      <div>
+        <div style="font-weight:600;font-size:15px;">${stage.label}</div>
+        <div style="font-size:12px;color:var(--text-muted);margin-top:2px;">
+          ${played}/${total} partidos jugados
+          ${revealed ? ' · <span style="color:var(--verde);">✓ Planilla visible para todos</span>' : ' · <span style="color:var(--text-muted);">🔒 Solo cada uno ve los suyos</span>'}
+        </div>
+      </div>
+      <div style="display:flex;gap:8px;align-items:center;">
+        ${revealed 
+          ? `<button class="btn btn-red btn-sm" onclick="toggleStageReveal('${stage.key}', false)">🔒 Cerrar planilla</button>`
+          : `<button class="btn btn-oro btn-sm" onclick="toggleStageReveal('${stage.key}', true)">🔓 Revelar planilla</button>`
+        }
+        ${revealed ? `<button class="btn btn-ghost btn-sm" onclick="showFullStageTable('${stage.key}')">👁 Ver planilla</button>` : ''}
+      </div>
+    </div>`;
+  });
+  html += '</div>';
+  el.innerHTML = html;
+}
+
+function toggleStageReveal(stageKey, reveal) {
+  if (!state.revealedStages) state.revealedStages = {};
+  state.revealedStages[stageKey] = reveal;
+  saveState();
+  buildStageRevealControls();
+  buildParticipantsGrid();
+  buildRanking();
+  const stage = STAGES.find(s => s.key === stageKey);
+  showAlert('success', reveal 
+    ? `✅ Planilla de ${stage.label} ahora visible para todos los participantes.`
+    : `🔒 Planilla de ${stage.label} cerrada. Cada uno ve solo los suyos.`
+  );
+}
+
+// ══════════════════════════════════════════════════
+// FULL STAGE TABLE (planilla completa de una etapa)
+// ══════════════════════════════════════════════════
+function showFullStageTable(stageKey) {
+  // Can be called by admin always, or by participant if stage is revealed
+  const canSee = state.isAdmin || isStageRevealed(stageKey);
+  if (!canSee) {
+    showAlert('error', 'Esta etapa aún no fue revelada por el comité.');
+    return;
+  }
+  const stage = STAGES.find(s => s.key === stageKey);
+  const stageMatches = MATCHES.filter(m => m.etapa === stageKey);
+  const participants = PARTICIPANTS();
+  
+  let html = `<div style="overflow-x:auto;">
+    <div style="font-family:'Bebas Neue',sans-serif;font-size:24px;color:var(--oro);letter-spacing:2px;margin-bottom:16px;">
+      PLANILLA COMPLETA · ${stage.label.toUpperCase()}
+    </div>
+    <table style="border-collapse:collapse;font-size:12px;min-width:100%;">
+      <thead>
+        <tr>
+          <th style="background:var(--azul);padding:8px 12px;text-align:left;border-bottom:2px solid var(--verde);white-space:nowrap;position:sticky;left:0;z-index:2;">PARTIDO</th>
+          <th style="background:var(--azul);padding:8px 12px;text-align:center;border-bottom:2px solid var(--verde);white-space:nowrap;">REAL</th>`;
+  
+  participants.forEach((p, idx) => {
+    const isMe = state.currentUser === idx;
+    html += `<th style="background:${isMe?'rgba(0,166,81,0.2)':'var(--azul)'};padding:6px 8px;text-align:center;border-bottom:2px solid var(--verde);white-space:nowrap;max-width:100px;overflow:hidden;text-overflow:ellipsis;" title="${p.name}">
+      <span style="color:${isMe?'var(--verde)':'var(--text-muted)'};font-size:11px;">${p.name.split(' ')[0]}</span>
+    </th>`;
+  });
+  html += '</tr></thead><tbody>';
+  
+  stageMatches.forEach((m, mi) => {
+    const real = state.results[m.id];
+    html += `<tr style="border-bottom:1px solid var(--border);">
+      <td style="padding:8px 12px;background:var(--bg2);position:sticky;left:0;z-index:1;white-space:nowrap;">
+        <span style="font-weight:600;">#${m.id}</span> ${m.local} vs ${m.visita}
+      </td>
+      <td style="padding:8px 12px;text-align:center;background:var(--bg2);">
+        ${real ? `<span style="font-family:'Bebas Neue',sans-serif;font-size:18px;color:var(--oro);">${real.a}-${real.b}</span>` : '<span style="color:var(--text-muted);">—</span>'}
+      </td>`;
+    
+    participants.forEach((p, idx) => {
+      const fc = (state.forecasts[idx] || {})[m.id];
+      const isMe = state.currentUser === idx;
+      let cell = '<span style="color:var(--text-muted);">—</span>';
+      let bg = mi % 2 === 0 ? 'var(--bg)' : 'var(--bg2)';
+      let pts = '';
+      
+      if (fc && fc.a !== undefined) {
+        if (real) {
+          if (fc.a === real.a && fc.b === real.b) {
+            bg = 'rgba(0,166,81,0.15)';
+            pts = `<span style="color:var(--verde);font-size:10px;">+${3*stage.pts}</span>`;
+          } else {
+            const rw = real.a>real.b?1:real.a<real.b?-1:0;
+            const fw = fc.a>fc.b?1:fc.a<fc.b?-1:0;
+            if (rw === fw) {
+              bg = 'rgba(245,197,24,0.1)';
+              pts = `<span style="color:var(--oro);font-size:10px;">+${stage.pts}</span>`;
+            } else {
+              bg = 'rgba(230,57,70,0.08)';
+              pts = `<span style="color:var(--rojo);font-size:10px;">0</span>`;
+            }
+          }
+        }
+        cell = `<span style="font-family:'Bebas Neue',sans-serif;font-size:16px;">${fc.a}-${fc.b}</span>${pts ? '<br>'+pts : ''}`;
+      }
+      
+      html += `<td style="padding:6px 8px;text-align:center;background:${bg};${isMe?'border-left:2px solid var(--verde);border-right:2px solid var(--verde);':''}">${cell}</td>`;
+    });
+    
+    html += '</tr>';
+  });
+  
+  // Totals row
+  html += `<tr style="border-top:2px solid var(--verde);">
+    <td colspan="2" style="padding:10px 12px;background:var(--azul);font-family:'Bebas Neue',sans-serif;letter-spacing:1px;font-size:14px;">TOTAL ${stage.label.toUpperCase()}</td>`;
+  participants.forEach((p, idx) => {
+    let stagePts = 0;
+    stageMatches.forEach(m => {
+      const real = state.results[m.id];
+      const fc = (state.forecasts[idx] || {})[m.id];
+      if (!real || !fc || fc.a === undefined) return;
+      if (fc.a === real.a && fc.b === real.b) stagePts += 3*stage.pts;
+      else {
+        const rw = real.a>real.b?1:real.a<real.b?-1:0;
+        const fw = fc.a>fc.b?1:fc.a<fc.b?-1:0;
+        if (rw === fw) stagePts += stage.pts;
+      }
+    });
+    const isMe = state.currentUser === idx;
+    html += `<td style="padding:10px 8px;text-align:center;background:var(--azul);${isMe?'border-left:2px solid var(--verde);border-right:2px solid var(--verde);':''}">
+      <span style="font-family:'Bebas Neue',sans-serif;font-size:20px;color:var(--verde);">${stagePts}</span>
+    </td>`;
+  });
+  html += '</tr></tbody></table></div>';
+  
+  // Show in a full-page overlay
+  let overlay = document.getElementById('fullTableOverlay');
+  if (!overlay) {
+    overlay = document.createElement('div');
+    overlay.id = 'fullTableOverlay';
+    overlay.style.cssText = 'position:fixed;inset:0;background:var(--bg);z-index:500;overflow:auto;padding:24px;';
+    document.body.appendChild(overlay);
+  }
+  overlay.innerHTML = `
+    <div style="max-width:1600px;margin:0 auto;">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;">
+        <div style="font-family:'Bebas Neue',sans-serif;font-size:18px;color:var(--text-muted);letter-spacing:2px;">POLLA TITO FUENTES · MUNDIAL 2026</div>
+        <button class="btn btn-ghost" onclick="document.getElementById('fullTableOverlay').remove()">✕ Cerrar</button>
+      </div>
+      ${html}
+    </div>`;
+  overlay.style.display = 'block';
+}
+
+
+// ══════════════════════════════════════════════════
+// CONFIRM FORECASTS
+// ══════════════════════════════════════════════════
+function confirmStageForecasts(pIdx, stageKey) {
+  const stage = STAGES.find(s => s.key === stageKey);
+  const stageMatches = MATCHES.filter(m => m.etapa === stageKey);
+  const fcs = state.forecasts[pIdx] || {};
+  const loaded = stageMatches.filter(m => fcs[m.id] && fcs[m.id].a !== undefined).length;
+  const total = stageMatches.length;
+
+  if (loaded === 0) { showAlert('error','No tenés ningún pronóstico cargado en esta etapa.'); return; }
+
+  const msg = loaded < total
+    ? `Tenés ${loaded} de ${total} pronósticos cargados en ${stage.label}. Los partidos sin pronóstico quedarán en 0. ¿Confirmás?`
+    : `Confirmás los ${total} pronósticos de ${stage.label}?`;
+
+  if (!confirm(msg)) return;
+
+  if (!state.confirmed) state.confirmed = {};
+  if (!state.confirmed[pIdx]) state.confirmed[pIdx] = {};
+  state.confirmed[pIdx][stageKey] = true;
+  saveState();
+  showParticipantView(pIdx, stageKey);
+  showAlert('success', `📤 Pronósticos de ${stage.label} enviados al comité.`);
+}
+
+// ══════════════════════════════════════════════════
+// EDIT PARTICIPANT NAME (admin)
+// ══════════════════════════════════════════════════
+function editParticipantName(idx) {
+  const current = state.participants[idx].name;
+  const newName = prompt('Nuevo nombre para el participante:', current);
+  if (!newName || newName.trim() === current) return;
+  state.participants[idx].name = newName.trim();
+  saveState();
+  buildAdminParticipantsList();
+  buildParticipantsGrid();
+  buildRanking();
+  showAlert('success', `Nombre actualizado a "${newName.trim()}"`);
+}
+
+
+</script>
+</body>
+</html>
