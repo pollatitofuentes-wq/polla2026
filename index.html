@@ -1,10 +1,10 @@
 <!DOCTYPE html>
-<html lang="es">
-<head>
-<meta charset="UTF-8">
+<!-- saved from url=(0048)https://pollatitofuentes-wq.github.io/polla2026/ -->
+<html lang="es" webcrx=""><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Polla Tito Fuentes · Mundial 2026</title>
-<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow+Condensed:wght@400;600;700&family=Barlow:wght@400;500;600&display=swap" rel="stylesheet">
+<link href="./index_files/css2" rel="stylesheet">
 <style>
 :root {
   --verde: #00a651;
@@ -295,7 +295,7 @@ input::placeholder { color: var(--text-muted); }
   .participants-grid { grid-template-columns: 1fr; }
 }
 </style>
-</head>
+<script src="blob:https://pollatitofuentes-wq.github.io/5a9fff85-9553-4fed-b736-b6475fcb3790"></script><script src="blob:https://pollatitofuentes-wq.github.io/9ced3c81-f741-467e-98d1-aad106c27cdb"></script></head>
 <body>
 
 <!-- ══════════════════ APP SHELL ══════════════════ -->
@@ -311,9 +311,9 @@ input::placeholder { color: var(--text-muted); }
     <span class="badge">⚽ DESDE 1966</span>
     <div id="syncIndicator" style="font-size:12px;margin-right:8px;"></div>
     <nav class="nav" id="mainNav" style="display:none;">
-      <button class="nav-btn active" onclick="showPanel('panel-posiciones')">🏆 Posiciones</button>
-      <button class="nav-btn" onclick="showPanel('panel-partidos')">📋 Partidos</button>
-      <button class="nav-btn" onclick="showPanel('panel-participantes')">👥 Participantes</button>
+      <button class="nav-btn active" onclick="showPanel(&#39;panel-posiciones&#39;)">🏆 Posiciones</button>
+      <button class="nav-btn" onclick="showPanel(&#39;panel-partidos&#39;)">📋 Partidos</button>
+      <button class="nav-btn" onclick="showPanel(&#39;panel-participantes&#39;)">👥 Participantes</button>
       <button class="nav-btn" onclick="requestAdminAccess()">⚙️ Comité</button>
     </nav>
   </div>
@@ -322,9 +322,9 @@ input::placeholder { color: var(--text-muted); }
 <!-- ══ ACCESS SCREEN ══ -->
 <div id="accessScreen" style="min-height:100vh; display:flex; align-items:center; justify-content:center; background:linear-gradient(135deg,var(--bg) 0%, var(--azul) 100%);">
   <div style="background:var(--bg2); border:1px solid var(--border); border-radius:16px; padding:40px; max-width:440px; width:90%; text-align:center;">
-    <div style="font-family:'Bebas Neue',sans-serif; font-size:52px; color:var(--oro); letter-spacing:3px; line-height:1;">POLLA</div>
-    <div style="font-family:'Bebas Neue',sans-serif; font-size:24px; color:var(--verde); letter-spacing:4px; margin-bottom:4px;">TITO FUENTES</div>
-    <div style="font-size:12px; color:var(--text-muted); margin-bottom:32px; letter-spacing:2px; font-family:'Barlow Condensed',sans-serif;">MUNDIAL 2026 · CANADÁ / MÉXICO / EE.UU.</div>
+    <div style="font-family:&#39;Bebas Neue&#39;,sans-serif; font-size:52px; color:var(--oro); letter-spacing:3px; line-height:1;">POLLA</div>
+    <div style="font-family:&#39;Bebas Neue&#39;,sans-serif; font-size:24px; color:var(--verde); letter-spacing:4px; margin-bottom:4px;">TITO FUENTES</div>
+    <div style="font-size:12px; color:var(--text-muted); margin-bottom:32px; letter-spacing:2px; font-family:&#39;Barlow Condensed&#39;,sans-serif;">MUNDIAL 2026 · CANADÁ / MÉXICO / EE.UU.</div>
     
     <div style="margin-bottom:20px;">
       <label style="text-align:left; display:block;">Tu nombre o código de acceso:</label>
@@ -335,7 +335,7 @@ input::placeholder { color: var(--text-muted); }
     <div style="border-top: 1px solid var(--border); padding-top:20px; margin-top:8px;">
       <button class="btn btn-ghost btn-sm" style="width:100%;" onclick="toggleAdminLogin()">⚙️ Acceso Comité Organizador</button>
       <div id="adminLoginBox" style="display:none; margin-top:12px;">
-        <input type="password" id="adminPwInput" placeholder="Contraseña del comité..." style="margin-bottom:10px; font-size:14px;" onkeydown="if(event.key==='Enter') handleAdminLogin()">
+        <input type="password" id="adminPwInput" placeholder="Contraseña del comité..." style="margin-bottom:10px; font-size:14px;" onkeydown="if(event.key===&#39;Enter&#39;) handleAdminLogin()">
         <button class="btn btn-green btn-sm" style="width:100%;" onclick="handleAdminLogin()">INGRESAR</button>
       </div>
     </div>
@@ -453,12 +453,10 @@ input::placeholder { color: var(--text-muted); }
   <div class="modal" style="max-width:360px;">
     <div class="modal-title">⚙️ ACCESO COMITÉ</div>
     <p style="font-size:14px;color:var(--text-muted);margin-bottom:16px;">Ingresá la contraseña del comité organizador:</p>
-    <input type="password" id="modalAdminPwInput" placeholder="Contraseña..." 
-      style="font-size:16px;margin-bottom:16px;"
-      onkeydown="if(event.key==='Enter') confirmAdminAccess()">
+    <input type="password" id="modalAdminPwInput" placeholder="Contraseña..." style="font-size:16px;margin-bottom:16px;" onkeydown="if(event.key===&#39;Enter&#39;) confirmAdminAccess()">
     <div class="alert alert-error" id="modalAdminPwError" style="margin-bottom:12px;"></div>
     <div class="modal-footer">
-      <button class="btn btn-ghost" onclick="closeModal('modalAdminPw'); document.getElementById('modalAdminPwInput').value='';">Cancelar</button>
+      <button class="btn btn-ghost" onclick="closeModal(&#39;modalAdminPw&#39;); document.getElementById(&#39;modalAdminPwInput&#39;).value=&#39;&#39;;">Cancelar</button>
       <button class="btn btn-green" onclick="confirmAdminAccess()">INGRESAR</button>
     </div>
   </div>
@@ -472,7 +470,7 @@ input::placeholder { color: var(--text-muted); }
     <div style="background:var(--bg3); border:1px solid var(--border); border-radius:8px; padding:14px; font-family:monospace; font-size:13px; word-break:break-all;" id="modalLinkUrl"></div>
     <p style="font-size:12px; color:var(--text-muted); margin-top:10px;">O simplemente que escriba su nombre al entrar.</p>
     <div class="modal-footer">
-      <button class="btn btn-ghost" onclick="closeModal('modalLink')">Cerrar</button>
+      <button class="btn btn-ghost" onclick="closeModal(&#39;modalLink&#39;)">Cerrar</button>
       <button class="btn btn-green" onclick="copyLink()">📋 Copiar link</button>
     </div>
   </div>
@@ -484,7 +482,7 @@ input::placeholder { color: var(--text-muted); }
     <div class="modal-title">✉️ ENVIAR INVITACIÓN</div>
     <div id="modalEmailContent"></div>
     <div class="modal-footer">
-      <button class="btn btn-ghost" onclick="closeModal('modalEmail')">Cerrar</button>
+      <button class="btn btn-ghost" onclick="closeModal(&#39;modalEmail&#39;)">Cerrar</button>
       <button class="btn btn-green" id="modalEmailBtn" onclick="sendEmail()">📧 Abrir correo</button>
     </div>
   </div>
@@ -1916,5 +1914,6 @@ function editParticipantName(idx) {
 
 
 </script>
-</body>
-</html>
+
+
+</body></html>
