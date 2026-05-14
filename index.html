@@ -1227,12 +1227,12 @@ function buildAdminResultsTable(stageKey) {
             : `<input type="number" id="ra_${m.id}_a" min="0" max="20" placeholder="0"
                  style="width:52px;background:var(--bg);border:1.5px solid var(--border);color:var(--text);padding:8px 4px;border-radius:6px;font-family:'Bebas Neue',sans-serif;font-size:22px;text-align:center;"
                  onkeydown="if(event.key==='Tab'||event.key==='Enter'){event.preventDefault();document.getElementById('ra_${m.id}_b').focus();}"
-                 onfocus="this.select()">
+                 onfocus="this.select(); this.scrollIntoView({behavior:'smooth', block:'center'});">
                <span style="font-family:'Bebas Neue',sans-serif;font-size:20px;color:var(--text-muted);">-</span>
                <input type="number" id="ra_${m.id}_b" min="0" max="20" placeholder="0"
                  style="width:52px;background:var(--bg);border:1.5px solid var(--border);color:var(--text);padding:8px 4px;border-radius:6px;font-family:'Bebas Neue',sans-serif;font-size:22px;text-align:center;"
                  onkeydown="if(event.key==='Enter'){adminSaveInline(${m.id});}"
-                 onfocus="this.select()">
+                 onfocus="this.select(); this.scrollIntoView({behavior:'smooth', block:'center'});">
                <button class="btn btn-green btn-sm" onclick="adminSaveInline(${m.id})" style="padding:8px 14px;">✓</button>`
           }
         </div>
@@ -1392,12 +1392,12 @@ function showParticipantView(idx, activeStageKey) {
              <input type="number" class="score-input" min="0" max="20" value="${fc?.a??''}" placeholder="?"
                onchange="saveForForecast(${idx},${m.id},'a',this.value)"
                oninput="this.value=Math.max(0,Math.min(20,parseInt(this.value)||0))"
-               onfocus="this.select()">
+               onfocus="this.select(); this.scrollIntoView({behavior:'smooth', block:'center'});">
              <span class="score-dash">-</span>
              <input type="number" class="score-input" min="0" max="20" value="${fc?.b??''}" placeholder="?"
                onchange="saveForForecast(${idx},${m.id},'b',this.value)"
                oninput="this.value=Math.max(0,Math.min(20,parseInt(this.value)||0))"
-               onfocus="this.select()">
+               onfocus="this.select(); this.scrollIntoView({behavior:'smooth', block:'center'});">
            </div>`
         : `<div style="font-family:'Bebas Neue',sans-serif;font-size:24px;color:${real?'var(--oro)':'var(--gris)'};">
              ${fc?.a !== undefined ? `${fc.a} - ${fc.b}` : '—'}
