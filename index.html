@@ -1945,7 +1945,107 @@ function editParticipantName(idx) {
 
 
 // ══════════════════════════════════════════════════
-// EXPORT TO CSV/EXCEL
+// EXPORT TO EXCEL (formato planilla patrón)
+// ══════════════════════════════════════════════════
+function exportTableToCSV(stageKey) {
+  const stage = STAGES.find(s => s.key === stageKey);
+  const stageMatches = MATCHES.filter(m => m.etapa === stageKey);
+  const parts = PARTICIPANTS();
+
+  // Build CSV with planilla format
+  // Header rows
+  const rows = [];
+
+  // Row 1: Title
+  rows.push(['POLLA TITO FUENTES - 60 Aniversario · MUNDIAL 2026']);
+
+  // Row 2: Stage + pts
+  rows.push([`${stage.label} · Exacto: ${3*stage.pts} pts · Correcto: ${stage.pts} pt`]);
+
+  // Row 3: Numbers
+  rows.push(['','','','','REAL', ...parts.map((_,i) => i+1)]);
+
+  // Row 4: POSICIONES top
+  const topTotals = parts.map((_,idx) => {
+    let pts = 0;
+    stageMatches.forEach(m => {
+      const real = state.results[m.id];
+      const fc = (state.forecasts[idx]||{})[m.id];
+      if (!real || !fc || fc.a===undefined) return;
+      if (fc.a===real.a && fc.b===real.b) pts += 3*stage.pts;
+      else {
+        const rw = real.a>real.b?1:real.a<real.b?-1:0;
+        const fw = fc.a>fc.b?1:fc.a<fc.b?-1:0;
+        if (rw===fw) pts += stage.pts;
+      }
+    });
+    return pts;
+  });
+  rows.push(['POSICIONES','','','','TOTAL', ...topTotals]);
+
+  // Row 5: Names
+  rows.push(['#','FECHA/HORA/ESTADIO','GRP','EQUIPO','REAL', ...parts.map(p => p.name)]);
+
+  // Matches
+  stageMatches.forEach(m => {
+    const real = state.results[m.id];
+    const realA = real ? real.a : '';
+    const realB = real ? real.b : '';
+
+    // Local row
+    const localRow = [m.id, m.fecha, m.grupo, m.local, realA];
+    parts.forEach((_,idx) => {
+      const fc = (state.forecasts[idx]||{})[m.id];
+      localRow.push(fc && fc.a!==undefined ? fc.a : '');
+    });
+    rows.push(localRow);
+
+    // Visita row
+    const visitaRow = ['', `${m.hora} - ${m.estadio}`, m.grupo, m.visita, realB];
+    parts.forEach((_,idx) => {
+      const fc = (state.forecasts[idx]||{})[m.id];
+      visitaRow.push(fc && fc.b!==undefined ? fc.b : '');
+    });
+    rows.push(visitaRow);
+
+    // PUNTAJE row
+    const puntajeRow = ['PUNTAJE','','','',''];
+    parts.forEach((_,idx) => {
+      if (!real) { puntajeRow.push(''); return; }
+      const fc = (state.forecasts[idx]||{})[m.id];
+      if (!fc || fc.a===undefined) { puntajeRow.push(0); return; }
+      if (fc.a===real.a && fc.b===real.b) { puntajeRow.push(3*stage.pts); return; }
+      const rw = real.a>real.b?1:real.a<real.b?-1:0;
+      const fw = fc.a>fc.b?1:fc.a<fc.b?-1:0;
+      puntajeRow.push(rw===fw ? stage.pts : 0);
+    });
+    rows.push(puntajeRow);
+  });
+
+  // POSICIONES bottom
+  rows.push(['POSICIONES','','','','TOTAL', ...topTotals]);
+
+  // Convert to CSV
+  const csv = rows.map(row =>
+    row.map(cell => {
+      const s = String(cell===null||cell===undefined ? '' : cell);
+      return s.includes(',') || s.includes('"') || s.includes('\n')
+        ? '"' + s.replace(/"/g, '""') + '"'
+        : s;
+    }).join(',')
+  ).join('\n');
+
+  const blob = new Blob(['\uFEFF' + csv], {type: 'text/csv;charset=utf-8;'});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = 'Polla_Tito_Fuentes_' + stage.label.replace(/[^a-zA-Z0-9]/g,'_') + '.csv';
+  a.click();
+  URL.revokeObjectURL(url);
+  showAlert('success', 'Planilla exportada. Abrila con Excel.');
+}
+
+
 // ══════════════════════════════════════════════════
 function exportTableToCSV(stageKey) {
   const stage = STAGES.find(s => s.key === stageKey);
