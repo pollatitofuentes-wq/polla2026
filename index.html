@@ -363,6 +363,8 @@ input::placeholder { color: var(--text-muted); }
   </div>
   
   <div class="stats-row" id="statsRow"></div>
+
+  <div id="globalMsgBanner" style="margin-bottom:12px;"></div>
   
   <div id="revealedStageButtons" style="margin-bottom:16px;"></div>
 
@@ -743,10 +745,22 @@ async function gsGet(key) {
 
 async function gsSet(key, value) {
   try {
-    const url = GS_URL + '?action=set&key=' + encodeURIComponent(key) + '&value=' + encodeURIComponent(JSON.stringify(value));
-    const r = await fetch(url);
-    return (await r.json()).ok;
-  } catch(e) { return false; }
+    const body = JSON.stringify({ action: 'set', key: key, value: JSON.stringify(value) });
+    const r = await fetch(GS_URL, {
+      method: 'POST',
+      headers: { 'Content-Type': 'text/plain' },
+      body: body
+    });
+    const d = await r.json();
+    return d.ok;
+  } catch(e) {
+    // Fallback to GET for smaller payloads
+    try {
+      const url = GS_URL + '?action=set&key=' + encodeURIComponent(key) + '&value=' + encodeURIComponent(JSON.stringify(value));
+      const r2 = await fetch(url);
+      return (await r2.json()).ok;
+    } catch(e2) { return false; }
+  }
 }
 
 async function gsGetAll() {
@@ -1055,6 +1069,20 @@ function buildRanking() {
   buildRevealedStageButtons();
 }
 
+function buildGlobalMsgBanner() {
+  const el = document.getElementById('globalMsgBanner');
+  if (!el) return;
+  const msg = state.comiteMsg || '';
+  if (msg.trim()) {
+    el.innerHTML = `<div style="background:linear-gradient(135deg,rgba(245,197,24,0.2),rgba(0,166,81,0.15));border:2px solid rgba(245,197,24,0.6);border-radius:8px;padding:14px 16px;display:flex;align-items:flex-start;gap:10px;width:100%;box-sizing:border-box;">
+      <span style="font-size:20px;flex-shrink:0;">📢</span>
+      <span style="font-size:15px;color:var(--text);font-weight:500;line-height:1.4;">${msg}</span>
+    </div>`;
+  } else {
+    el.innerHTML = '';
+  }
+}
+
 function buildRevealedStageButtons() {
   const el = document.getElementById('revealedStageButtons');
   if (!el) return;
@@ -1318,9 +1346,9 @@ function showParticipantView(idx, activeStageKey) {
   // ── MESSAGE BANNER from comité
   const msg = state.comiteMsg || '';
   if (msg.trim()) {
-    html += `<div style="background:linear-gradient(135deg,rgba(245,197,24,0.15),rgba(0,166,81,0.1));border:1px solid rgba(245,197,24,0.4);border-radius:8px;padding:12px 18px;margin-bottom:12px;display:flex;align-items:center;gap:10px;">
-      <span style="font-size:18px;">📢</span>
-      <span style="font-size:14px;color:var(--text);">${msg}</span>
+    html += `<div style="background:linear-gradient(135deg,rgba(245,197,24,0.2),rgba(0,166,81,0.15));border:2px solid rgba(245,197,24,0.6);border-radius:8px;padding:14px 16px;margin-bottom:16px;display:flex;align-items:flex-start;gap:10px;width:100%;box-sizing:border-box;">
+      <span style="font-size:20px;flex-shrink:0;">📢</span>
+      <span style="font-size:15px;color:var(--text);font-weight:500;line-height:1.4;word-break:break-word;">${msg}</span>
     </div>`;
   }
 
