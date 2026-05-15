@@ -304,7 +304,7 @@ input::placeholder { color: var(--text-muted); }
 <!-- HEADER -->
 <header class="header" id="mainHeader">
   <div class="header-inner">
-    <div class="logo">
+    <div class="logo" onclick="if(state.currentUser!==null && state.currentUser!=='admin'){showParticipantView(state.currentUser, state._pvStage||'1RUEDA');}" style="cursor:pointer;" title="Ir a mis pronósticos">
       Polla Tito Fuentes
       <span>MUNDIAL 2026 · EDICIÓN HOMENAJE</span>
     </div>
@@ -405,6 +405,20 @@ input::placeholder { color: var(--text-muted); }
 
 
 
+    <!-- Mensaje del Comité -->
+    <div style="margin-bottom:24px;">
+      <div class="section-title">📢 MENSAJE A LOS PARTICIPANTES</div>
+      <div style="font-size:13px;color:var(--text-muted);margin-bottom:12px;">Este mensaje aparece en la pantalla de todos los participantes. Dejalo vacío para ocultarlo.</div>
+      <div style="display:flex;gap:10px;align-items:flex-end;">
+        <div style="flex:1;">
+          <input type="text" id="comiteMsgInput" placeholder="Ej: ¡Cierra la carga de pronósticos el 10/06!" style="font-size:14px;" maxlength="200">
+        </div>
+        <button class="btn btn-green" onclick="saveComiteMsg()">💾 GUARDAR</button>
+        <button class="btn btn-ghost" onclick="clearComiteMsg()">✕ Borrar</button>
+      </div>
+      <div id="comiteMsgPreview" style="margin-top:8px;font-size:12px;color:var(--text-muted);"></div>
+    </div>
+
     <!-- Control de revelación por etapa -->
     <div style="margin-bottom:24px;">
       <div class="section-title">🔓 CONTROL DE VISIBILIDAD POR ETAPA</div>
@@ -418,6 +432,13 @@ input::placeholder { color: var(--text-muted); }
     <div style="margin-bottom:24px;">
       <div class="section-title">RESUMEN DE PARTICIPACIONES</div>
       <div id="adminSummary"></div>
+    </div>
+
+    <!-- Reset total -->
+    <div style="margin-bottom:24px;">
+      <div class="section-title">⚠️ RESETEAR TODO</div>
+      <div style="font-size:13px;color:var(--text-muted);margin-bottom:12px;">Borra todos los pronósticos, resultados y datos. Esta acción no se puede deshacer.</div>
+      <button class="btn btn-red" onclick="confirmReset()">🗑️ BORRAR TODOS LOS DATOS</button>
     </div>
 
     <!-- Gestión de participantes -->
@@ -687,6 +708,7 @@ let state = {
   realChampion: "",
   revealedStages: {}, // {stageKey: true} - comité habilita ver planilla completa
   confirmed: {},     // {participantIdx: {stageKey: true}}
+  comiteMsg: '',     // mensaje del comité visible para todos
   currentUser: null,
   isAdmin: false,
 };
@@ -705,6 +727,7 @@ function saveLocal() {
     realChampion: state.realChampion,
     revealedStages: state.revealedStages,
     confirmed: state.confirmed || {},
+    comiteMsg: state.comiteMsg || '',
   };
   localStorage.setItem('pollaTitoFuentes2026', JSON.stringify(toSave));
 }
@@ -769,6 +792,7 @@ async function syncFromSheets() {
       if (!state.confirmed) state.confirmed = {};
       Object.entries(blob.confirmed).forEach(([idx, conf]) => { state.confirmed[idx] = conf; });
     }
+    if (blob.comiteMsg !== undefined) state.comiteMsg = blob.comiteMsg;
   }
 
   saveLocal();
@@ -798,6 +822,7 @@ async function pushToSheets() {
     realChampion: state.realChampion,
     revealedStages: state.revealedStages,
     confirmed: state.confirmed || {},
+    comiteMsg: state.comiteMsg || '',
   };
   // Save as one blob
   const ok = await gsSet('appState', toSave);
@@ -1290,6 +1315,15 @@ function showParticipantView(idx, activeStageKey) {
       <div class="pv-rank">Posición #${rank} de ${PARTICIPANTS().length} · ⭐ ${score.exact} exactos · ✓ ${score.correct} correctos</div>
     </div>`;
 
+  // ── MESSAGE BANNER from comité
+  const msg = state.comiteMsg || '';
+  if (msg.trim()) {
+    html += `<div style="background:linear-gradient(135deg,rgba(245,197,24,0.15),rgba(0,166,81,0.1));border:1px solid rgba(245,197,24,0.4);border-radius:8px;padding:12px 18px;margin-bottom:12px;display:flex;align-items:center;gap:10px;">
+      <span style="font-size:18px;">📢</span>
+      <span style="font-size:14px;color:var(--text);">${msg}</span>
+    </div>`;
+  }
+
   // ── STAGE TABS (one per phase)
   html += '<div class="stage-tabs" style="margin-bottom:0;">';
   STAGES.forEach(stage => {
@@ -1562,7 +1596,7 @@ function showPanel(id) {
   if (id === 'panel-posiciones') { buildStats(); buildRanking(); }
   if (id === 'panel-partidos') { buildStageTabs(); buildMatches('1RUEDA'); }
   if (id === 'panel-participantes') buildParticipantsGrid();
-  if (id === 'panel-admin') { buildAdminMatchSel(); buildAdminSummary(); buildAdminParticipantsList(); buildStageRevealControls(); }
+  if (id === 'panel-admin') { buildAdminMatchSel(); buildAdminSummary(); buildAdminParticipantsList(); buildStageRevealControls(); loadComiteMsg(); }
 }
 
 function showAlert(type, msg) {
@@ -1875,6 +1909,8 @@ function showFullStageTable(stageKey) {
       <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;">
         <div style="font-family:'Bebas Neue',sans-serif;font-size:18px;color:var(--text-muted);letter-spacing:2px;">POLLA TITO FUENTES · MUNDIAL 2026</div>
         <button class="btn btn-ghost" onclick="document.getElementById('fullTableOverlay').remove()">✕ Cerrar</button>
+          <button class="btn btn-green btn-sm" onclick="exportTableToCSV('${stageKey}')" style="margin-left:8px;">📥 Exportar Excel</button>
+        </div>
       </div>
       ${html}
     </div>`;
@@ -2012,6 +2048,61 @@ function exportTableToCSV(stageKey) {
   document.body.removeChild(a);
   URL.revokeObjectURL(url);
   showAlert('success', 'Planilla exportada. Abrila con Excel.');
+}
+
+
+function saveComiteMsg() {
+  const msg = document.getElementById('comiteMsgInput').value.trim();
+  state.comiteMsg = msg;
+  saveState();
+  const preview = document.getElementById('comiteMsgPreview');
+  if (preview) preview.innerHTML = msg ? '✅ Mensaje activo: <em style="color:var(--oro);">' + msg + '</em>' : '📭 Sin mensaje activo.';
+  showAlert('success', msg ? '📢 Mensaje enviado a todos los participantes.' : '📭 Mensaje borrado.');
+}
+
+function clearComiteMsg() {
+  state.comiteMsg = '';
+  document.getElementById('comiteMsgInput').value = '';
+  saveState();
+  const preview = document.getElementById('comiteMsgPreview');
+  if (preview) preview.innerHTML = '📭 Sin mensaje activo.';
+  showAlert('success', 'Mensaje borrado.');
+}
+
+function loadComiteMsg() {
+  const input = document.getElementById('comiteMsgInput');
+  const preview = document.getElementById('comiteMsgPreview');
+  if (input) input.value = state.comiteMsg || '';
+  if (preview) preview.innerHTML = state.comiteMsg ? '✅ Mensaje activo: <em style="color:var(--oro);">' + state.comiteMsg + '</em>' : '📭 Sin mensaje activo.';
+}
+
+// ══════════════════════════════════════════════════
+// RESET ALL DATA
+// ══════════════════════════════════════════════════
+function confirmReset() {
+  const pwd1 = prompt('Para resetear todos los datos, ingresá la contraseña del comité:');
+  if (pwd1 !== ADMIN_PWD) { showAlert('error', 'Contraseña incorrecta.'); return; }
+  const pwd2 = prompt('Confirmación — ingresá la contraseña nuevamente:');
+  if (pwd2 !== ADMIN_PWD) { showAlert('error', 'Contraseña incorrecta. Reset cancelado.'); return; }
+  if (!confirm('¿Estás seguro? Se borrarán TODOS los pronósticos, resultados y datos. Esta acción NO se puede deshacer.')) return;
+
+  // Reset state
+  state.results = {};
+  state.forecasts = {};
+  state.confirmed = {};
+  state.revealedStages = {};
+  state.realChampion = '';
+  state.comiteMsg = '';
+  // Keep participants list
+
+  // Clear localStorage
+  localStorage.removeItem('pollaTitoFuentes2026');
+
+  // Clear Google Sheets
+  saveState();
+
+  buildAll();
+  showAlert('success', '✅ Todos los datos fueron borrados. La polla está en cero.');
 }
 
 
