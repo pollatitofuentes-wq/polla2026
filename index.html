@@ -827,42 +827,10 @@ function handleAccess() {
     if (idx < 0 || idx >= PARTICIPANTS().length) idx = -1;
   }
   if (idx === -1) { showAccessError("No encontré ese nombre. Intentá con parte del nombre o tu número."); return; }
-  const p = PARTICIPANTS()[idx];
-  if (p.pin && p.pin.trim() !== '') {
-    const existing = document.getElementById('pinBox');
-    if (!existing) {
-      const pinDiv = document.createElement('div');
-      pinDiv.id = 'pinBox';
-      pinDiv.style.cssText = 'margin-top:12px;';
-      pinDiv.innerHTML = '<div style="font-size:13px;color:var(--text-muted);margin-bottom:8px;">Hola <strong style="color:var(--oro);">' + p.name + '</strong>! Ingresá tu PIN:</div>' +
-        '<input type="password" id="pinInput" placeholder="PIN..." style="font-size:18px;text-align:center;letter-spacing:6px;margin-bottom:10px;" maxlength="8">' +
-        '<button class="btn btn-green" style="width:100%;" onclick="checkPin(' + idx + ')">ENTRAR ⚽</button>';
-      document.getElementById('accessInput').closest('div').appendChild(pinDiv);
-      setTimeout(() => { const pi = document.getElementById('pinInput'); if(pi) { pi.focus(); pi.onkeydown = e => { if(e.key==='Enter') checkPin(idx); }; } }, 50);
-    } else {
-      checkPin(idx);
-    }
-    return;
-  }
   state.currentUser = idx;
   state.isAdmin = false;
   enterApp();
   showParticipantView(idx);
-}
-
-function checkPin(idx) {
-  const p = PARTICIPANTS()[idx];
-  const pi = document.getElementById('pinInput');
-  const entered = pi ? pi.value.trim() : '';
-  if (entered === p.pin) {
-    state.currentUser = idx;
-    state.isAdmin = false;
-    enterApp();
-    showParticipantView(idx);
-  } else {
-    showAccessError("PIN incorrecto.");
-    if (pi) { pi.value = ''; pi.focus(); }
-  }
 }
 
 function requestAdminAccess() {
