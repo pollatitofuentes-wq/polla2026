@@ -304,7 +304,7 @@ input::placeholder { color: var(--text-muted); }
 <!-- HEADER -->
 <header class="header" id="mainHeader">
   <div class="header-inner">
-    <div class="logo" onclick="if(state.currentUser!==null && state.currentUser!=='admin'){showParticipantView(state.currentUser, state._pvStage||'1RUEDA');}" style="cursor:pointer;" title="Ir a mis pronósticos">
+    <div class="logo" onclick="if(state.currentUser!==null && state.currentUser!=='admin'){showParticipantView(state.currentUser, state._pvStage||'1RUEDA');}" style="cursor:pointer;" title="Ir a mis pronósticos" tabindex="-1">
       Polla Tito Fuentes
       <span>MUNDIAL 2026 · EDICIÓN HOMENAJE</span>
     </div>
@@ -1464,12 +1464,14 @@ function showParticipantView(idx, activeStageKey) {
              <input type="number" class="score-input" min="0" max="20" value="${fc?.a??''}" placeholder="?"
                onchange="saveForForecast(${idx},${m.id},'a',this.value)"
                oninput="this.value=Math.max(0,Math.min(20,parseInt(this.value)||0))"
-               onfocus="this.select(); this.scrollIntoView({behavior:'smooth', block:'center'});">
+               onfocus="this.select(); this.scrollIntoView({behavior:'smooth', block:'center'});"
+               onkeydown="if(event.key==='Tab'){event.preventDefault();this.nextElementSibling.nextElementSibling.focus();}">
              <span class="score-dash">-</span>
              <input type="number" class="score-input" min="0" max="20" value="${fc?.b??''}" placeholder="?"
                onchange="saveForForecast(${idx},${m.id},'b',this.value)"
                oninput="this.value=Math.max(0,Math.min(20,parseInt(this.value)||0))"
-               onfocus="this.select(); this.scrollIntoView({behavior:'smooth', block:'center'});">
+               onfocus="this.select(); this.scrollIntoView({behavior:'smooth', block:'center'});"
+               onkeydown="if(event.key==='Tab'){event.preventDefault(); const inputs=document.querySelectorAll('.score-input'); const arr=Array.from(inputs); const idx=arr.indexOf(this); if(arr[idx+1]) arr[idx+1].focus();}">
            </div>`
         : `<div style="font-family:'Bebas Neue',sans-serif;font-size:24px;color:${real?'var(--oro)':'var(--gris)'};">
              ${fc?.a !== undefined ? `${fc.a} - ${fc.b}` : '—'}
