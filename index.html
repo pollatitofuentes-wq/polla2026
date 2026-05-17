@@ -900,13 +900,9 @@ function showSyncIndicator(status) {
 function handleAccess() {
   const val = document.getElementById('accessInput').value.trim();
   if (!val) { showAccessError("Ingresá tu nombre o código."); return; }
-  const lval = val.toLowerCase();
-  let idx = PARTICIPANTS().findIndex(p => p.name.toLowerCase() === lval || p.name.toLowerCase().includes(lval));
-  if (idx === -1 && /^[0-9]+$/.test(val)) {
-    idx = parseInt(val) - 1;
-    if (idx < 0 || idx >= PARTICIPANTS().length) idx = -1;
-  }
-  if (idx === -1) { showAccessError("No encontré ese nombre. Intentá con parte del nombre o tu número."); return; }
+  const lval = val.toLowerCase().trim();
+  let idx = PARTICIPANTS().findIndex(p => p.name.toLowerCase() === lval);
+  if (idx === -1) { showAccessError("Nombre no encontrado. Ingresá tu nombre exactamente como figura en la lista."); return; }
   state.currentUser = idx;
   state.isAdmin = false;
   enterApp();
