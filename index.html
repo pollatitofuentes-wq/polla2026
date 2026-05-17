@@ -831,6 +831,21 @@ function loadState() {
 }
 
 
+// ── Guardar en localStorage (siempre, como cache) ──
+function saveLocal() {
+  const toSave = {
+    participants: state.participants,
+    results: state.results,
+    forecasts: state.forecasts,
+    champion: state.champion,
+    realChampion: state.realChampion,
+    revealedStages: state.revealedStages,
+    confirmed: state.confirmed || {},
+    comiteMsg: state.comiteMsg || '',
+  };
+  localStorage.setItem('pollaTitoFuentes2026', JSON.stringify(toSave));
+}
+
 // ── saveState: guarda local + sube a Firebase ──
 function saveState() {
   saveLocal();
