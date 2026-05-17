@@ -811,9 +811,20 @@ function mergeFirebaseData(data) {
     saveLocal();
     showSyncIndicator('ok');
     if (document.getElementById('mainApp').style.display !== 'none') {
-      buildAll();
-      if (state.currentUser !== null && state.currentUser !== 'admin') {
+      // Rebuild stats and ranking without changing current panel
+      buildStats();
+      buildRanking();
+      buildRevealedStageButtons();
+      buildGlobalMsgBanner();
+      // Only update participant view if currently viewing it
+      const activePanel = document.querySelector('.panel.active');
+      if (activePanel && activePanel.id === 'panel-participante' && state.currentUser !== null && state.currentUser !== 'admin') {
         showParticipantView(state.currentUser, state._pvStage);
+      }
+      // If on admin panel, refresh admin-specific controls
+      if (activePanel && activePanel.id === 'panel-admin') {
+        buildStageRevealControls();
+        buildAdminSummary();
       }
     }
   }
@@ -1990,7 +2001,7 @@ function showFullStageTable(stageKey) {
     <div style="max-width:1600px;margin:0 auto;">
       <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;">
         <div style="font-family:'Bebas Neue',sans-serif;font-size:18px;color:var(--text-muted);letter-spacing:2px;">POLLA TITO FUENTES · MUNDIAL 2026</div>
-        <button class="btn btn-ghost" onclick="document.getElementById('fullTableOverlay').remove()">✕ Cerrar</button>
+        <button class="btn btn-ghost" onclick="closeFullTable()">✕ Cerrar</button>
           ${state.isAdmin ? `<button class="btn btn-green btn-sm" onclick="exportTableToCSV('${stageKey}')" style="margin-left:8px;">📥 Exportar Excel</button>` : ''}
         </div>
       </div>
