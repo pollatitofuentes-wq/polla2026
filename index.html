@@ -771,9 +771,27 @@ function fbSubscribe() {
 }
 
 function mergeFirebaseData(data) {
+  if (!data) {
+    // Data was cleared (reset) - clear local state too
+    state.results = {};
+    state.forecasts = {};
+    state.confirmed = {};
+    state.revealedStages = {};
+    state.comiteMsg = '';
+    state.realChampion = '';
+    saveLocal();
+    showSyncIndicator('ok');
+    if (document.getElementById('mainApp').style.display !== 'none') {
+      buildAll();
+      if (state.currentUser !== null && state.currentUser !== 'admin') {
+        showParticipantView(state.currentUser, state._pvStage);
+      }
+    }
+    return;
+  }
   let changed = false;
-  if (data.results) { state.results = data.results; changed = true; }
-  if (data.revealedStages) { state.revealedStages = data.revealedStages; changed = true; }
+  if (data.results !== undefined) { state.results = data.results || {}; changed = true; }
+  if (data.revealedStages !== undefined) { state.revealedStages = data.revealedStages || {}; changed = true; }
   if (data.realChampion !== undefined) { state.realChampion = data.realChampion; changed = true; }
   if (data.participants && data.participants.length > 0) { state.participants = data.participants; changed = true; }
   if (data.comiteMsg !== undefined) { state.comiteMsg = data.comiteMsg; changed = true; }
@@ -2142,13 +2160,18 @@ function confirmReset() {
   // Clear localStorage
   localStorage.removeItem('pollaTitoFuentes2026');
 
-  // Clear Google Sheets
-  saveState();
+  // Clear Firebase - push empty state so all users get reset
+  pushToFirebase();
 
   buildAll();
   showAlert('success', '✅ Todos los datos fueron borrados. La polla está en cero.');
 }
 
+
+function closeFullTable() {
+  const el = document.getElementById('fullTableOverlay');
+  if (el) el.remove();
+}
 
 </script>
 </body>
