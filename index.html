@@ -576,110 +576,110 @@ const BASE_PARTICIPANTS = [
 function PARTICIPANTS() { return state.participants || []; }
 
 const MATCHES = [
-  {id:1,fecha:"11/06/2026",hora:"16:00",estadio:"Estadio Azteca",grupo:"A",local:"México",visita:"Sudáfrica",etapa:"1RUEDA"},
-  {id:2,fecha:"11/06/2026",hora:"23:00",estadio:"Estadio Akron",grupo:"A",local:"Corea del Sur",visita:"República Checa",etapa:"1RUEDA"},
-  {id:3,fecha:"12/06/2026",hora:"16:00",estadio:"BMO Field",grupo:"B",local:"Canadá",visita:"Bosnia y Herzegovina",etapa:"1RUEDA"},
-  {id:4,fecha:"12/06/2026",hora:"22:00",estadio:"SoFi Stadium",grupo:"D",local:"Estados Unidos",visita:"Paraguay",etapa:"1RUEDA"},
-  {id:5,fecha:"13/06/2026",hora:"16:00",estadio:"Levi's Stadium",grupo:"B",local:"Qatar",visita:"Suiza",etapa:"1RUEDA"},
-  {id:6,fecha:"13/06/2026",hora:"19:00",estadio:"MetLife Stadium",grupo:"C",local:"Brasil",visita:"Marruecos",etapa:"1RUEDA"},
-  {id:7,fecha:"13/06/2026",hora:"22:00",estadio:"Gillette Stadium",grupo:"C",local:"Haití",visita:"Escocia",etapa:"1RUEDA"},
-  {id:8,fecha:"2026-06-14 00:00:00",hora:"01:00",estadio:"BC Place",grupo:"D",local:"Australia",visita:"Turquía",etapa:"1RUEDA"},
-  {id:9,fecha:"14/06/2026",hora:"14:00",estadio:"NRG Stadium",grupo:"E",local:"Alemania",visita:"Curazao",etapa:"1RUEDA"},
-  {id:10,fecha:"14/06/2026",hora:"17:00",estadio:"AT&T Stadium",grupo:"F",local:"Países Bajos",visita:"Japón",etapa:"1RUEDA"},
-  {id:11,fecha:"14/06/2026",hora:"20:00",estadio:"Lincoln Financial Field",grupo:"E",local:"Costa de Marfil",visita:"Ecuador",etapa:"1RUEDA"},
-  {id:12,fecha:"14/06/2026",hora:"23:00",estadio:"Estadio BBVA",grupo:"F",local:"Suecia",visita:"Túnez",etapa:"1RUEDA"},
-  {id:13,fecha:"15/06/2026",hora:"13:00",estadio:"Mercedes-Benz Stadium",grupo:"H",local:"España",visita:"Cabo Verde",etapa:"1RUEDA"},
-  {id:14,fecha:"15/06/2026",hora:"16:00",estadio:"Lumen Field",grupo:"G",local:"Bélgica",visita:"Egipto",etapa:"1RUEDA"},
-  {id:15,fecha:"15/06/2026",hora:"19:00",estadio:"Hard Rock Stadium",grupo:"H",local:"Arabia Saudita",visita:"Uruguay",etapa:"1RUEDA"},
-  {id:16,fecha:"15/06/2026",hora:"22:00",estadio:"SoFi Stadium",grupo:"G",local:"Irán",visita:"Nueva Zelanda",etapa:"1RUEDA"},
-  {id:17,fecha:"16/06/2026",hora:"16:00",estadio:"MetLife Stadium",grupo:"I",local:"Francia",visita:"Senegal",etapa:"1RUEDA"},
-  {id:18,fecha:"16/06/2026",hora:"19:00",estadio:"Gillette Stadium",grupo:"I",local:"Irak",visita:"Noruega",etapa:"1RUEDA"},
-  {id:19,fecha:"16/06/2026",hora:"22:00",estadio:"Arrowhead Stadium",grupo:"J",local:"Argentina",visita:"Argelia",etapa:"1RUEDA"},
-  {id:20,fecha:"2026-06-17 00:00:00",hora:"01:00",estadio:"Levi's Stadium",grupo:"J",local:"Austria",visita:"Jordania",etapa:"1RUEDA"},
-  {id:21,fecha:"17/06/2026",hora:"14:00",estadio:"NRG Stadium",grupo:"K",local:"Portugal",visita:"RD del Congo",etapa:"1RUEDA"},
-  {id:22,fecha:"17/06/2026",hora:"17:00",estadio:"AT&T Stadium",grupo:"L",local:"Inglaterra",visita:"Croacia",etapa:"1RUEDA"},
-  {id:23,fecha:"17/06/2026",hora:"20:00",estadio:"BMO Field",grupo:"L",local:"Ghana",visita:"Panamá",etapa:"1RUEDA"},
-  {id:24,fecha:"17/06/2026",hora:"23:00",estadio:"Estadio Azteca",grupo:"K",local:"Uzbekistán",visita:"Colombia",etapa:"1RUEDA"},
-  {id:25,fecha:"18/06/2026",hora:"13:00",estadio:"Mercedes-Benz Stadium",grupo:"A",local:"República Checa",visita:"Sudáfrica",etapa:"1RUEDA"},
-  {id:26,fecha:"18/06/2026",hora:"16:00",estadio:"SoFi Stadium",grupo:"B",local:"Suiza",visita:"Bosnia y Herzegovina",etapa:"1RUEDA"},
-  {id:27,fecha:"18/06/2026",hora:"19:00",estadio:"BC Place",grupo:"B",local:"Canadá",visita:"Qatar",etapa:"1RUEDA"},
-  {id:28,fecha:"18/06/2026",hora:"22:00",estadio:"Estadio Akron",grupo:"A",local:"México",visita:"Corea del Sur",etapa:"1RUEDA"},
-  {id:29,fecha:"19/06/2026",hora:"16:00",estadio:"Lumen Field",grupo:"D",local:"Estados Unidos",visita:"Australia",etapa:"1RUEDA"},
-  {id:30,fecha:"19/06/2026",hora:"19:00",estadio:"Gillette Stadium",grupo:"C",local:"Escocia",visita:"Marruecos",etapa:"1RUEDA"},
-  {id:31,fecha:"19/06/2026",hora:"22:00",estadio:"Lincoln Financial Field",grupo:"C",local:"Brasil",visita:"Haití",etapa:"1RUEDA"},
-  {id:32,fecha:"2026-06-20 00:00:00",hora:"01:00",estadio:"Levi's Stadium",grupo:"D",local:"Turquía",visita:"Paraguay",etapa:"1RUEDA"},
-  {id:33,fecha:"20/06/2026",hora:"14:00",estadio:"NRG Stadium",grupo:"F",local:"Países Bajos",visita:"Suecia",etapa:"1RUEDA"},
-  {id:34,fecha:"20/06/2026",hora:"17:00",estadio:"BMO Field",grupo:"E",local:"Alemania",visita:"Costa de Marfil",etapa:"1RUEDA"},
-  {id:35,fecha:"20/06/2026",hora:"21:00",estadio:"Arrowhead Stadium",grupo:"E",local:"Ecuador",visita:"Curazao",etapa:"1RUEDA"},
-  {id:36,fecha:"2026-06-21 00:00:00",hora:"01:00",estadio:"Estadio BBVA",grupo:"F",local:"Túnez",visita:"Japón",etapa:"1RUEDA"},
-  {id:37,fecha:"21/06/2026",hora:"13:00",estadio:"Mercedes-Benz Stadium",grupo:"H",local:"España",visita:"Arabia Saudita",etapa:"1RUEDA"},
-  {id:38,fecha:"21/06/2026",hora:"16:00",estadio:"SoFi Stadium",grupo:"G",local:"Bélgica",visita:"Irán",etapa:"1RUEDA"},
-  {id:39,fecha:"21/06/2026",hora:"19:00",estadio:"Hard Rock Stadium",grupo:"H",local:"Uruguay",visita:"Cabo Verde",etapa:"1RUEDA"},
-  {id:40,fecha:"21/06/2026",hora:"22:00",estadio:"BC Place",grupo:"G",local:"Nueva Zelanda",visita:"Egipto",etapa:"1RUEDA"},
-  {id:41,fecha:"22/06/2026",hora:"14:00",estadio:"AT&T Stadium",grupo:"J",local:"Argentina",visita:"Austria",etapa:"1RUEDA"},
-  {id:42,fecha:"22/06/2026",hora:"18:00",estadio:"Lincoln Financial Field",grupo:"I",local:"Francia",visita:"Irak",etapa:"1RUEDA"},
-  {id:43,fecha:"22/06/2026",hora:"21:00",estadio:"MetLife Stadium",grupo:"I",local:"Noruega",visita:"Senegal",etapa:"1RUEDA"},
-  {id:44,fecha:"2026-06-23 00:00:00",hora:"00:00",estadio:"Levi's Stadium",grupo:"J",local:"Jordania",visita:"Argelia",etapa:"1RUEDA"},
-  {id:45,fecha:"23/06/2026",hora:"14:00",estadio:"NRG Stadium",grupo:"K",local:"Portugal",visita:"Uzbekistán",etapa:"1RUEDA"},
-  {id:46,fecha:"23/06/2026",hora:"17:00",estadio:"Gillette Stadium",grupo:"L",local:"Inglaterra",visita:"Ghana",etapa:"1RUEDA"},
-  {id:47,fecha:"23/06/2026",hora:"20:00",estadio:"BMO Field",grupo:"L",local:"Panamá",visita:"Croacia",etapa:"1RUEDA"},
-  {id:48,fecha:"23/06/2026",hora:"23:00",estadio:"Estadio Akron",grupo:"K",local:"Colombia",visita:"RD del Congo",etapa:"1RUEDA"},
-  {id:49,fecha:"24/06/2026",hora:"16:00",estadio:"BC Place",grupo:"B",local:"Suiza",visita:"Canadá",etapa:"1RUEDA"},
-  {id:50,fecha:"24/06/2026",hora:"16:00",estadio:"Lumen Field",grupo:"B",local:"Bosnia y Herzegovina",visita:"Qatar",etapa:"1RUEDA"},
-  {id:51,fecha:"24/06/2026",hora:"19:00",estadio:"Hard Rock Stadium",grupo:"C",local:"Escocia",visita:"Brasil",etapa:"1RUEDA"},
-  {id:52,fecha:"24/06/2026",hora:"19:00",estadio:"Mercedes-Benz Stadium",grupo:"C",local:"Marruecos",visita:"Haití",etapa:"1RUEDA"},
-  {id:53,fecha:"24/06/2026",hora:"22:00",estadio:"Estadio Azteca",grupo:"A",local:"República Checa",visita:"México",etapa:"1RUEDA"},
-  {id:54,fecha:"24/06/2026",hora:"22:00",estadio:"Estadio BBVA",grupo:"A",local:"Sudáfrica",visita:"Corea del Sur",etapa:"1RUEDA"},
-  {id:55,fecha:"25/06/2026",hora:"17:00",estadio:"Lincoln Financial Field",grupo:"E",local:"Curazao",visita:"Costa de Marfil",etapa:"1RUEDA"},
-  {id:56,fecha:"25/06/2026",hora:"17:00",estadio:"MetLife Stadium",grupo:"E",local:"Ecuador",visita:"Alemania",etapa:"1RUEDA"},
-  {id:57,fecha:"25/06/2026",hora:"20:00",estadio:"AT&T Stadium",grupo:"F",local:"Japón",visita:"Suecia",etapa:"1RUEDA"},
-  {id:58,fecha:"25/06/2026",hora:"20:00",estadio:"Arrowhead Stadium",grupo:"F",local:"Túnez",visita:"Países Bajos",etapa:"1RUEDA"},
-  {id:59,fecha:"25/06/2026",hora:"23:00",estadio:"SoFi Stadium",grupo:"D",local:"Turquía",visita:"Estados Unidos",etapa:"1RUEDA"},
-  {id:60,fecha:"25/06/2026",hora:"23:00",estadio:"Levi's Stadium",grupo:"D",local:"Paraguay",visita:"Australia",etapa:"1RUEDA"},
-  {id:61,fecha:"26/06/2026",hora:"16:00",estadio:"Gillette Stadium",grupo:"I",local:"Noruega",visita:"Francia",etapa:"1RUEDA"},
-  {id:62,fecha:"26/06/2026",hora:"16:00",estadio:"BMO Field",grupo:"I",local:"Senegal",visita:"Irak",etapa:"1RUEDA"},
-  {id:63,fecha:"26/06/2026",hora:"21:00",estadio:"NRG Stadium",grupo:"H",local:"Cabo Verde",visita:"Arabia Saudita",etapa:"1RUEDA"},
-  {id:64,fecha:"26/06/2026",hora:"21:00",estadio:"Estadio Akron",grupo:"H",local:"Uruguay",visita:"España",etapa:"1RUEDA"},
-  {id:65,fecha:"2026-06-27 00:00:00",hora:"00:00",estadio:"Lumen Field",grupo:"G",local:"Egipto",visita:"Irán",etapa:"1RUEDA"},
-  {id:66,fecha:"2026-06-27 00:00:00",hora:"00:00",estadio:"BC Place",grupo:"G",local:"Nueva Zelanda",visita:"Bélgica",etapa:"1RUEDA"},
-  {id:67,fecha:"27/06/2026",hora:"18:00",estadio:"MetLife Stadium",grupo:"L",local:"Panamá",visita:"Inglaterra",etapa:"1RUEDA"},
-  {id:68,fecha:"27/06/2026",hora:"18:00",estadio:"Lincoln Financial Field",grupo:"L",local:"Croacia",visita:"Ghana",etapa:"1RUEDA"},
-  {id:69,fecha:"27/06/2026",hora:"20:30",estadio:"Hard Rock Stadium",grupo:"K",local:"Colombia",visita:"Portugal",etapa:"1RUEDA"},
-  {id:70,fecha:"27/06/2026",hora:"20:30",estadio:"Mercedes-Benz Stadium",grupo:"K",local:"RD del Congo",visita:"Uzbekistán",etapa:"1RUEDA"},
-  {id:71,fecha:"27/06/2026",hora:"23:00",estadio:"Arrowhead Stadium",grupo:"J",local:"Argelia",visita:"Austria",etapa:"1RUEDA"},
-  {id:72,fecha:"27/06/2026",hora:"23:00",estadio:"AT&T Stadium",grupo:"J",local:"Jordania",visita:"Argentina",etapa:"1RUEDA"},
-  {id:73,fecha:"28/06/2026",hora:"12:00",estadio:"Los Angeles Stadium",grupo:"2A",local:"2A",visita:"2B",etapa:"16AVOS"},
-  {id:74,fecha:"29/06/2026",hora:"16:30",estadio:"Boston Stadium",grupo:"1E",local:"1E",visita:"3ABCDF",etapa:"16AVOS"},
-  {id:75,fecha:"29/06/2026",hora:"19:00",estadio:"Estadio Monterrey",grupo:"1F",local:"1F",visita:"2C",etapa:"16AVOS"},
-  {id:76,fecha:"29/06/2026",hora:"12:00",estadio:"Houston Stadium",grupo:"1C",local:"1C",visita:"2F",etapa:"16AVOS"},
-  {id:77,fecha:"30/06/2026",hora:"17:00",estadio:"New York / New Jersey Stadium",grupo:"1I",local:"1I",visita:"3CDFGH",etapa:"16AVOS"},
-  {id:78,fecha:"30/06/2026",hora:"12:00",estadio:"Dallas Stadium",grupo:"2E",local:"2E",visita:"2I",etapa:"16AVOS"},
-  {id:79,fecha:"30/06/2026",hora:"19:00",estadio:"Estadio Azteca Mexico City",grupo:"1A",local:"1A",visita:"3CEFHI",etapa:"16AVOS"},
-  {id:80,fecha:"01/07/2026",hora:"12:00",estadio:"Atlanta Stadium",grupo:"1L",local:"1L",visita:"3EHIJK",etapa:"16AVOS"},
-  {id:81,fecha:"01/07/2026",hora:"17:00",estadio:"San Francisco Bay Area Stadium",grupo:"1D",local:"1D",visita:"3BEFIJ",etapa:"16AVOS"},
-  {id:82,fecha:"01/07/2026",hora:"13:00",estadio:"Seattle Stadium",grupo:"1G",local:"1G",visita:"3AEHIJ",etapa:"16AVOS"},
-  {id:83,fecha:"02/07/2026",hora:"19:00",estadio:"Toronto Stadium",grupo:"2K",local:"2K",visita:"2L",etapa:"16AVOS"},
-  {id:84,fecha:"02/07/2026",hora:"12:00",estadio:"Los Angeles Stadium",grupo:"1H",local:"1H",visita:"2J",etapa:"16AVOS"},
-  {id:85,fecha:"02/07/2026",hora:"20:00",estadio:"BC Place Vancouver Stadium",grupo:"1B",local:"1B",visita:"3EFGIJ",etapa:"16AVOS"},
-  {id:86,fecha:"03/07/2026",hora:"18:00",estadio:"Miami Stadium",grupo:"1J",local:"1J",visita:"2H",etapa:"16AVOS"},
-  {id:87,fecha:"03/07/2026",hora:"20:30",estadio:"Kansas City Stadium",grupo:"1K",local:"1K",visita:"3DEIJL",etapa:"16AVOS"},
-  {id:88,fecha:"03/07/2026",hora:"13:00",estadio:"Dallas Stadium",grupo:"2D",local:"2D",visita:"2G",etapa:"16AVOS"},
-  {id:89,fecha:"04/07/2026",hora:"17:00",estadio:"Philadelphia Stadium",grupo:"W74",local:"W74",visita:"W77",etapa:"8VOS"},
-  {id:90,fecha:"04/07/2026",hora:"12:00",estadio:"Houston Stadium",grupo:"W73",local:"W73",visita:"W75",etapa:"8VOS"},
-  {id:91,fecha:"05/07/2026",hora:"16:00",estadio:"New York / New Jersey Stadium",grupo:"W76",local:"W76",visita:"W78",etapa:"8VOS"},
-  {id:92,fecha:"05/07/2026",hora:"18:00",estadio:"Estadio Azteca Mexico City",grupo:"W79",local:"W79",visita:"W80",etapa:"8VOS"},
-  {id:93,fecha:"06/07/2026",hora:"14:00",estadio:"Dallas Stadium",grupo:"W83",local:"W83",visita:"W84",etapa:"8VOS"},
-  {id:94,fecha:"06/07/2026",hora:"17:00",estadio:"Seattle Stadium",grupo:"W81",local:"W81",visita:"W82",etapa:"8VOS"},
-  {id:95,fecha:"07/07/2026",hora:"12:00",estadio:"Atlanta Stadium",grupo:"W86",local:"W86",visita:"W88",etapa:"8VOS"},
-  {id:96,fecha:"07/07/2026",hora:"13:00",estadio:"BC Place Vancouver Stadium",grupo:"W85",local:"W85",visita:"W87",etapa:"8VOS"},
-  {id:97,fecha:"09/07/2026",hora:"16:00",estadio:"Boston Stadium",grupo:"",local:"W89",visita:"W90",etapa:"4TOS"},
-  {id:98,fecha:"10/07/2026",hora:"12:00",estadio:"Los Angeles Stadium",grupo:"",local:"W93",visita:"W94",etapa:"4TOS"},
-  {id:99,fecha:"11/07/2026",hora:"17:00",estadio:"Miami Stadium",grupo:"",local:"W91",visita:"W92",etapa:"4TOS"},
-  {id:100,fecha:"11/07/2026",hora:"20:00",estadio:"Kansas City Stadium",grupo:"",local:"W95",visita:"W96",etapa:"4TOS"},
-  {id:101,fecha:"14/07/2026",hora:"14:00",estadio:"Dallas Stadium",grupo:"",local:"W97",visita:"W98",etapa:"SEMIS"},
-  {id:102,fecha:"15/07/2026",hora:"15:00",estadio:"Atlanta Stadium",grupo:"",local:"W99",visita:"W100",etapa:"SEMIS"},
-  {id:103,fecha:"18/07/2026",hora:"17:00",estadio:"Miami Stadium",grupo:"",local:"Perdedor SF1",visita:"Perdedor SF2",etapa:"FINAL"},
-  {id:104,fecha:"19/07/2026",hora:"15:00",estadio:"New York / New Jersey Stadium",grupo:"",local:"Ganador SF1",visita:"Ganador SF2",etapa:"FINAL"},
+  {id:1,fecha:"11/06/2026",hora:"16:00",estadio:"Estadio Azteca - Ciudad de México",grupo:"A",local:"🇲🇽 México",visita:"🇿🇦 Sudáfrica",etapa:"1RUEDA"},
+  {id:2,fecha:"11/06/2026",hora:"23:00",estadio:"Estadio Akron - Guadalajara",grupo:"A",local:"🇰🇷 Corea del Sur",visita:"🇨🇿 República Checa",etapa:"1RUEDA"},
+  {id:3,fecha:"12/06/2026",hora:"16:00",estadio:"BMO Field - Toronto",grupo:"B",local:"🇨🇦 Canadá",visita:"🇧🇦 Bosnia y Herzegovina",etapa:"1RUEDA"},
+  {id:4,fecha:"12/06/2026",hora:"22:00",estadio:"SoFi Stadium - Los Angeles",grupo:"D",local:"🇺🇸 Estados Unidos",visita:"🇹🇷 Turquía",etapa:"1RUEDA"},
+  {id:5,fecha:"13/06/2026",hora:"01:00",estadio:"BC Place - Vancouver",grupo:"D",local:"🇦🇺 Australia",visita:"🇵🇾 Paraguay",etapa:"1RUEDA"},
+  {id:6,fecha:"13/06/2026",hora:"16:00",estadio:"Levi's Stadium - San Francisco",grupo:"B",local:"🇶🇦 Qatar",visita:"🇨🇭 Suiza",etapa:"1RUEDA"},
+  {id:7,fecha:"13/06/2026",hora:"19:00",estadio:"MetLife Stadium - New Jersey",grupo:"C",local:"🇧🇷 Brasil",visita:"🇲🇦 Marruecos",etapa:"1RUEDA"},
+  {id:8,fecha:"13/06/2026",hora:"22:00",estadio:"Gillette Stadium - Boston",grupo:"C",local:"🇭🇹 Haití",visita:"🏴󠁧󠁢󠁳󠁣󠁴󠁿 Escocia",etapa:"1RUEDA"},
+  {id:9,fecha:"14/06/2026",hora:"14:00",estadio:"Lincoln Financial Field - Philadelphia",grupo:"E",local:"🇩🇪 Alemania",visita:"🇨🇼 Curazao",etapa:"1RUEDA"},
+  {id:10,fecha:"14/06/2026",hora:"17:00",estadio:"AT&T Stadium - Dallas",grupo:"F",local:"🇳🇱 Países Bajos",visita:"🇯🇵 Japón",etapa:"1RUEDA"},
+  {id:11,fecha:"14/06/2026",hora:"20:00",estadio:"NRG Stadium - Houston",grupo:"E",local:"🇨🇮 Costa de Marfil",visita:"🇪🇨 Ecuador",etapa:"1RUEDA"},
+  {id:12,fecha:"14/06/2026",hora:"23:00",estadio:"Estadio BBVA - Monterrey",grupo:"F",local:"🇸🇪 Suecia",visita:"🇹🇳 Túnez",etapa:"1RUEDA"},
+  {id:13,fecha:"15/06/2026",hora:"13:00",estadio:"Hard Rock Stadium - Miami",grupo:"H",local:"🇪🇸 España",visita:"🇨🇻 Cabo Verde",etapa:"1RUEDA"},
+  {id:14,fecha:"15/06/2026",hora:"18:00",estadio:"Lumen Field - Seattle",grupo:"G",local:"🇧🇪 Bélgica",visita:"🇪🇬 Egipto",etapa:"1RUEDA"},
+  {id:15,fecha:"15/06/2026",hora:"19:00",estadio:"Mercedes-Benz Stadium - Atlanta",grupo:"H",local:"🇸🇦 Arabia Saudita",visita:"🇺🇾 Uruguay",etapa:"1RUEDA"},
+  {id:16,fecha:"15/06/2026",hora:"22:00",estadio:"SoFi Stadium - Los Angeles",grupo:"G",local:"🇮🇷 Irán",visita:"🇳🇿 Nueva Zelanda",etapa:"1RUEDA"},
+  {id:17,fecha:"16/06/2026",hora:"01:00",estadio:"Levi's Stadium - San Francisco",grupo:"J",local:"🇦🇹 Austria",visita:"🇯🇴 Jordania",etapa:"1RUEDA"},
+  {id:18,fecha:"16/06/2026",hora:"16:00",estadio:"MetLife Stadium - New Jersey",grupo:"I",local:"🇫🇷 Francia",visita:"🇸🇳 Senegal",etapa:"1RUEDA"},
+  {id:19,fecha:"16/06/2026",hora:"19:00",estadio:"Gillette Stadium - Boston",grupo:"I",local:"🇮🇶 Irak",visita:"🇳🇴 Noruega",etapa:"1RUEDA"},
+  {id:20,fecha:"16/06/2026",hora:"22:00",estadio:"Arrowhead Stadium - Kansas City",grupo:"J",local:"🇦🇷 Argentina",visita:"🇩🇿 Argelia",etapa:"1RUEDA"},
+  {id:21,fecha:"17/06/2026",hora:"14:00",estadio:"NRG Stadium - Houston",grupo:"K",local:"🇵🇹 Portugal",visita:"🇨🇩 RD del Congo",etapa:"1RUEDA"},
+  {id:22,fecha:"17/06/2026",hora:"17:00",estadio:"BMO Field - Toronto",grupo:"L",local:"🏴󠁧󠁢󠁥󠁮󠁧󠁿 Inglaterra",visita:"🇭🇷 Croacia",etapa:"1RUEDA"},
+  {id:23,fecha:"17/06/2026",hora:"20:00",estadio:"AT&T Stadium - Dallas",grupo:"L",local:"🇬🇭 Ghana",visita:"🇵🇦 Panamá",etapa:"1RUEDA"},
+  {id:24,fecha:"17/06/2026",hora:"23:00",estadio:"Estadio Azteca - Ciudad de México",grupo:"K",local:"🇺🇿 Uzbekistán",visita:"🇨🇴 Colombia",etapa:"1RUEDA"},
+  {id:25,fecha:"18/06/2026",hora:"13:00",estadio:"Mercedes-Benz Stadium - Atlanta",grupo:"A",local:"🇨🇿 República Checa",visita:"🇿🇦 Sudáfrica",etapa:"1RUEDA"},
+  {id:26,fecha:"18/06/2026",hora:"16:00",estadio:"SoFi Stadium - Los Angeles",grupo:"B",local:"🇨🇭 Suiza",visita:"🇧🇦 Bosnia y Herzegovina",etapa:"1RUEDA"},
+  {id:27,fecha:"18/06/2026",hora:"19:00",estadio:"BC Place - Vancouver",grupo:"B",local:"🇨🇦 Canadá",visita:"🇶🇦 Qatar",etapa:"1RUEDA"},
+  {id:28,fecha:"18/06/2026",hora:"22:00",estadio:"Estadio Akron - Guadalajara",grupo:"A",local:"🇲🇽 México",visita:"🇰🇷 Corea del Sur",etapa:"1RUEDA"},
+  {id:29,fecha:"19/06/2026",hora:"01:00",estadio:"Lumen Field - Seattle",grupo:"D",local:"🇺🇸 Estados Unidos",visita:"🇦🇺 Australia",etapa:"1RUEDA"},
+  {id:30,fecha:"19/06/2026",hora:"16:00",estadio:"Levi's Stadium - San Francisco",grupo:"D",local:"🇹🇷 Turquía",visita:"🇵🇾 Paraguay",etapa:"1RUEDA"},
+  {id:31,fecha:"19/06/2026",hora:"19:00",estadio:"Lincoln Financial Field - Philadelphia",grupo:"C",local:"🇧🇷 Brasil",visita:"🇭🇹 Haití",etapa:"1RUEDA"},
+  {id:32,fecha:"19/06/2026",hora:"22:00",estadio:"Gillette Stadium - Boston",grupo:"C",local:"🏴󠁧󠁢󠁳󠁣󠁴󠁿 Escocia",visita:"🇲🇦 Marruecos",etapa:"1RUEDA"},
+  {id:33,fecha:"20/06/2026",hora:"01:00",estadio:"Estadio BBVA - Monterrey",grupo:"F",local:"🇯🇵 Japón",visita:"🇹🇳 Túnez",etapa:"1RUEDA"},
+  {id:34,fecha:"20/06/2026",hora:"14:00",estadio:"NRG Stadium - Houston",grupo:"F",local:"🇳🇱 Países Bajos",visita:"🇸🇪 Suecia",etapa:"1RUEDA"},
+  {id:35,fecha:"20/06/2026",hora:"17:00",estadio:"BMO Field - Toronto",grupo:"E",local:"🇩🇪 Alemania",visita:"🇨🇮 Costa de Marfil",etapa:"1RUEDA"},
+  {id:36,fecha:"20/06/2026",hora:"21:00",estadio:"Arrowhead Stadium - Kansas City",grupo:"E",local:"🇨🇼 Curazao",visita:"🇪🇨 Ecuador",etapa:"1RUEDA"},
+  {id:37,fecha:"21/06/2026",hora:"13:00",estadio:"Hard Rock Stadium - Miami",grupo:"H",local:"🇪🇸 España",visita:"🇸🇦 Arabia Saudita",etapa:"1RUEDA"},
+  {id:38,fecha:"21/06/2026",hora:"16:00",estadio:"SoFi Stadium - Los Angeles",grupo:"G",local:"🇧🇪 Bélgica",visita:"🇮🇷 Irán",etapa:"1RUEDA"},
+  {id:39,fecha:"21/06/2026",hora:"19:00",estadio:"Mercedes-Benz Stadium - Atlanta",grupo:"H",local:"🇨🇻 Cabo Verde",visita:"🇺🇾 Uruguay",etapa:"1RUEDA"},
+  {id:40,fecha:"21/06/2026",hora:"22:00",estadio:"BC Place - Vancouver",grupo:"G",local:"🇳🇿 Nueva Zelanda",visita:"🇪🇬 Egipto",etapa:"1RUEDA"},
+  {id:41,fecha:"22/06/2026",hora:"00:00",estadio:"Levi's Stadium - San Francisco",grupo:"J",local:"🇯🇴 Jordania",visita:"🇩🇿 Argelia",etapa:"1RUEDA"},
+  {id:42,fecha:"22/06/2026",hora:"14:00",estadio:"AT&T Stadium - Dallas",grupo:"J",local:"🇦🇷 Argentina",visita:"🇦🇹 Austria",etapa:"1RUEDA"},
+  {id:43,fecha:"22/06/2026",hora:"18:00",estadio:"MetLife Stadium - New Jersey",grupo:"I",local:"🇫🇷 Francia",visita:"🇮🇶 Irak",etapa:"1RUEDA"},
+  {id:44,fecha:"22/06/2026",hora:"21:00",estadio:"Lincoln Financial Field - Philadelphia",grupo:"I",local:"🇳🇴 Noruega",visita:"🇸🇳 Senegal",etapa:"1RUEDA"},
+  {id:45,fecha:"23/06/2026",hora:"14:00",estadio:"NRG Stadium - Houston",grupo:"K",local:"🇵🇹 Portugal",visita:"🇺🇿 Uzbekistán",etapa:"1RUEDA"},
+  {id:46,fecha:"23/06/2026",hora:"17:00",estadio:"Gillette Stadium - Boston",grupo:"L",local:"🏴󠁧󠁢󠁥󠁮󠁧󠁿 Inglaterra",visita:"🇬🇭 Ghana",etapa:"1RUEDA"},
+  {id:47,fecha:"23/06/2026",hora:"20:00",estadio:"BMO Field - Toronto",grupo:"L",local:"🇭🇷 Croacia",visita:"🇵🇦 Panamá",etapa:"1RUEDA"},
+  {id:48,fecha:"23/06/2026",hora:"23:00",estadio:"Estadio Akron - Guadalajara",grupo:"K",local:"🇨🇩 RD del Congo",visita:"🇨🇴 Colombia",etapa:"1RUEDA"},
+  {id:49,fecha:"24/06/2026",hora:"16:00",estadio:"BC Place - Vancouver",grupo:"B",local:"🇨🇭 Suiza",visita:"🇨🇦 Canadá",etapa:"1RUEDA"},
+  {id:50,fecha:"24/06/2026",hora:"16:00",estadio:"Lumen Field - Seattle",grupo:"B",local:"🇧🇦 Bosnia y Herzegovina",visita:"🇶🇦 Qatar",etapa:"1RUEDA"},
+  {id:51,fecha:"24/06/2026",hora:"19:00",estadio:"Hard Rock Stadium - Miami",grupo:"C",local:"🏴󠁧󠁢󠁳󠁣󠁴󠁿 Escocia",visita:"🇧🇷 Brasil",etapa:"1RUEDA"},
+  {id:52,fecha:"24/06/2026",hora:"19:00",estadio:"Mercedes-Benz Stadium - Atlanta",grupo:"C",local:"🇲🇦 Marruecos",visita:"🇭🇹 Haití",etapa:"1RUEDA"},
+  {id:53,fecha:"24/06/2026",hora:"22:00",estadio:"Estadio Azteca - Ciudad de México",grupo:"A",local:"🇨🇿 República Checa",visita:"🇲🇽 México",etapa:"1RUEDA"},
+  {id:54,fecha:"24/06/2026",hora:"22:00",estadio:"Estadio BBVA - Monterrey",grupo:"A",local:"🇿🇦 Sudáfrica",visita:"🇰🇷 Corea del Sur",etapa:"1RUEDA"},
+  {id:55,fecha:"25/06/2026",hora:"17:00",estadio:"Lincoln Financial Field - Philadelphia",grupo:"E",local:"🇪🇨 Ecuador",visita:"🇩🇪 Alemania",etapa:"1RUEDA"},
+  {id:56,fecha:"25/06/2026",hora:"17:00",estadio:"MetLife Stadium - New Jersey",grupo:"E",local:"🇨🇼 Curazao",visita:"🇨🇮 Costa de Marfil",etapa:"1RUEDA"},
+  {id:57,fecha:"25/06/2026",hora:"20:00",estadio:"AT&T Stadium - Dallas",grupo:"F",local:"🇹🇳 Túnez",visita:"🇳🇱 Países Bajos",etapa:"1RUEDA"},
+  {id:58,fecha:"25/06/2026",hora:"20:00",estadio:"Arrowhead Stadium - Kansas City",grupo:"F",local:"🇯🇵 Japón",visita:"🇸🇪 Suecia",etapa:"1RUEDA"},
+  {id:59,fecha:"25/06/2026",hora:"23:00",estadio:"SoFi Stadium - Los Angeles",grupo:"D",local:"🇹🇷 Turquía",visita:"🇺🇸 Estados Unidos",etapa:"1RUEDA"},
+  {id:60,fecha:"25/06/2026",hora:"23:00",estadio:"Levi's Stadium - San Francisco",grupo:"D",local:"🇵🇾 Paraguay",visita:"🇦🇺 Australia",etapa:"1RUEDA"},
+  {id:61,fecha:"26/06/2026",hora:"00:00",estadio:"BC Place - Vancouver",grupo:"G",local:"🇪🇬 Egipto",visita:"🇮🇷 Irán",etapa:"1RUEDA"},
+  {id:62,fecha:"26/06/2026",hora:"16:00",estadio:"Gillette Stadium - Boston",grupo:"I",local:"🇳🇴 Noruega",visita:"🇫🇷 Francia",etapa:"1RUEDA"},
+  {id:63,fecha:"26/06/2026",hora:"16:00",estadio:"BMO Field - Toronto",grupo:"I",local:"🇸🇳 Senegal",visita:"🇮🇶 Irak",etapa:"1RUEDA"},
+  {id:64,fecha:"26/06/2026",hora:"21:00",estadio:"Lumen Field - Seattle",grupo:"G",local:"🇳🇿 Nueva Zelanda",visita:"🇧🇪 Bélgica",etapa:"1RUEDA"},
+  {id:65,fecha:"26/06/2026",hora:"21:00",estadio:"NRG Stadium - Houston",grupo:"H",local:"🇨🇻 Cabo Verde",visita:"🇸🇦 Arabia Saudita",etapa:"1RUEDA"},
+  {id:66,fecha:"26/06/2026",hora:"21:00",estadio:"Estadio Akron - Guadalajara",grupo:"H",local:"🇺🇾 Uruguay",visita:"🇪🇸 España",etapa:"1RUEDA"},
+  {id:67,fecha:"27/06/2026",hora:"18:00",estadio:"MetLife Stadium - New Jersey",grupo:"L",local:"🇵🇦 Panamá",visita:"🏴󠁧󠁢󠁥󠁮󠁧󠁿 Inglaterra",etapa:"1RUEDA"},
+  {id:68,fecha:"27/06/2026",hora:"18:00",estadio:"Lincoln Financial Field - Philadelphia",grupo:"L",local:"🇭🇷 Croacia",visita:"🇬🇭 Ghana",etapa:"1RUEDA"},
+  {id:69,fecha:"27/06/2026",hora:"20:30",estadio:"Hard Rock Stadium - Miami",grupo:"K",local:"🇨🇴 Colombia",visita:"🇵🇹 Portugal",etapa:"1RUEDA"},
+  {id:70,fecha:"27/06/2026",hora:"20:30",estadio:"Mercedes-Benz Stadium - Atlanta",grupo:"K",local:"🇨🇩 RD del Congo",visita:"🇺🇿 Uzbekistán",etapa:"1RUEDA"},
+  {id:71,fecha:"27/06/2026",hora:"23:00",estadio:"AT&T Stadium - Dallas",grupo:"J",local:"🇯🇴 Jordania",visita:"🇦🇷 Argentina",etapa:"1RUEDA"},
+  {id:72,fecha:"27/06/2026",hora:"23:00",estadio:"Arrowhead Stadium - Kansas City",grupo:"J",local:"🇩🇿 Argelia",visita:"🇦🇹 Austria",etapa:"1RUEDA"},
+  {id:73,fecha:"28/06/2026",hora:"16:00",estadio:"SoFi Stadium - Los Angeles",grupo:"",local:"2° Grupo A",visita:"2° Grupo B",etapa:"16AVOS"},
+  {id:74,fecha:"29/06/2026",hora:"14:00",estadio:"Gillette Stadium - Boston",grupo:"",local:"1° Grupo E",visita:"Mejor 3°",etapa:"16AVOS"},
+  {id:75,fecha:"29/06/2026",hora:"17:30",estadio:"Estadio BBVA - Monterrey",grupo:"",local:"1° Grupo F",visita:"2° Grupo C",etapa:"16AVOS"},
+  {id:76,fecha:"29/06/2026",hora:"22:00",estadio:"NRG Stadium - Houston",grupo:"",local:"1° Grupo C",visita:"2° Grupo F",etapa:"16AVOS"},
+  {id:77,fecha:"30/06/2026",hora:"18:00",estadio:"MetLife Stadium - New Jersey",grupo:"",local:"1° Grupo I",visita:"Mejor 3°",etapa:"16AVOS"},
+  {id:78,fecha:"30/06/2026",hora:"14:00",estadio:"AT&T Stadium - Dallas",grupo:"",local:"2° Grupo E",visita:"2° Grupo I",etapa:"16AVOS"},
+  {id:79,fecha:"30/06/2026",hora:"22:00",estadio:"Estadio Azteca - Ciudad de México",grupo:"",local:"1° Grupo A",visita:"Mejor 3°",etapa:"16AVOS"},
+  {id:80,fecha:"01/07/2026",hora:"13:00",estadio:"BMO Field - Toronto",grupo:"",local:"1° Grupo L",visita:"Mejor 3°",etapa:"16AVOS"},
+  {id:81,fecha:"01/07/2026",hora:"17:00",estadio:"Levi's Stadium - San Francisco",grupo:"",local:"1° Grupo D",visita:"Mejor 3°",etapa:"16AVOS"},
+  {id:82,fecha:"01/07/2026",hora:"13:00",estadio:"Lumen Field - Seattle",grupo:"",local:"1° Grupo G",visita:"Mejor 3°",etapa:"16AVOS"},
+  {id:83,fecha:"02/07/2026",hora:"14:00",estadio:"BC Place - Vancouver",grupo:"",local:"2° Grupo K",visita:"2° Grupo L",etapa:"16AVOS"},
+  {id:84,fecha:"02/07/2026",hora:"18:00",estadio:"SoFi Stadium - Los Angeles",grupo:"",local:"1° Grupo H",visita:"2° Grupo J",etapa:"16AVOS"},
+  {id:85,fecha:"02/07/2026",hora:"22:00",estadio:"BC Place - Vancouver",grupo:"",local:"1° Grupo B",visita:"Mejor 3°",etapa:"16AVOS"},
+  {id:86,fecha:"03/07/2026",hora:"19:00",estadio:"Hard Rock Stadium - Miami",grupo:"",local:"1° Grupo J",visita:"2° Grupo H",etapa:"16AVOS"},
+  {id:87,fecha:"03/07/2026",hora:"22:30",estadio:"Arrowhead Stadium - Kansas City",grupo:"",local:"1° Grupo K",visita:"Mejor 3°",etapa:"16AVOS"},
+  {id:88,fecha:"03/07/2026",hora:"15:00",estadio:"AT&T Stadium - Dallas",grupo:"",local:"2° Grupo D",visita:"2° Grupo G",etapa:"16AVOS"},
+  {id:89,fecha:"04/07/2026",hora:"14:00",estadio:"Lincoln Financial Field - Philadelphia",grupo:"",local:"W74",visita:"W77",etapa:"8VOS"},
+  {id:90,fecha:"04/07/2026",hora:"18:00",estadio:"NRG Stadium - Houston",grupo:"",local:"W73",visita:"W75",etapa:"8VOS"},
+  {id:91,fecha:"05/07/2026",hora:"16:00",estadio:"MetLife Stadium - New Jersey",grupo:"",local:"W76",visita:"W78",etapa:"8VOS"},
+  {id:92,fecha:"05/07/2026",hora:"20:00",estadio:"Estadio Azteca - Ciudad de México",grupo:"",local:"W79",visita:"W80",etapa:"8VOS"},
+  {id:93,fecha:"06/07/2026",hora:"14:00",estadio:"AT&T Stadium - Dallas",grupo:"",local:"W83",visita:"W84",etapa:"8VOS"},
+  {id:94,fecha:"06/07/2026",hora:"18:00",estadio:"Lumen Field - Seattle",grupo:"",local:"W81",visita:"W82",etapa:"8VOS"},
+  {id:95,fecha:"07/07/2026",hora:"13:00",estadio:"Mercedes-Benz Stadium - Atlanta",grupo:"",local:"W86",visita:"W88",etapa:"8VOS"},
+  {id:96,fecha:"07/07/2026",hora:"17:00",estadio:"BC Place - Vancouver",grupo:"",local:"W85",visita:"W87",etapa:"8VOS"},
+  {id:97,fecha:"09/07/2026",hora:"14:00",estadio:"Gillette Stadium - Boston",grupo:"",local:"W89",visita:"W90",etapa:"4TOS"},
+  {id:98,fecha:"10/07/2026",hora:"13:00",estadio:"SoFi Stadium - Los Angeles",grupo:"",local:"W93",visita:"W94",etapa:"4TOS"},
+  {id:99,fecha:"11/07/2026",hora:"17:00",estadio:"Hard Rock Stadium - Miami",grupo:"",local:"W91",visita:"W92",etapa:"4TOS"},
+  {id:100,fecha:"11/07/2026",hora:"21:00",estadio:"Arrowhead Stadium - Kansas City",grupo:"",local:"W95",visita:"W96",etapa:"4TOS"},
+  {id:101,fecha:"14/07/2026",hora:"14:00",estadio:"AT&T Stadium - Dallas",grupo:"",local:"W97",visita:"W98",etapa:"SEMIS"},
+  {id:102,fecha:"15/07/2026",hora:"15:00",estadio:"Mercedes-Benz Stadium - Atlanta",grupo:"",local:"W99",visita:"W100",etapa:"SEMIS"},
+  {id:103,fecha:"18/07/2026",hora:"17:00",estadio:"Hard Rock Stadium - Miami",grupo:"",local:"Perdedor SF1",visita:"Perdedor SF2",etapa:"FINAL"},
+  {id:104,fecha:"19/07/2026",hora:"17:00",estadio:"MetLife Stadium - New Jersey",grupo:"",local:"Ganador SF1",visita:"Ganador SF2",etapa:"FINAL"},
 ];
 
 const STAGES = [
@@ -715,119 +715,111 @@ let state = {
   isAdmin: false,
 };
 
-// ── GOOGLE SHEETS URL (reemplazar con la URL de tu Web App) ──
-const GS_URL = "https://script.google.com/macros/s/AKfycbxlAL0r9w0YUS1LiD19xPCpMqHqoBpKQB5pm8c8ZnOMZ8BL-3Gv0CV26hv62pMHM_uM/exec";
-const USE_SHEETS = GS_URL !== "https://script.google.com/macros/s/AKfycbxlAL0r9w0YUS1LiD19xPCpMqHqoBpKQB5pm8c8ZnOMZ8BL-3Gv0CV26hv62pMHM_uM/exec";
+// ── FIREBASE REALTIME DATABASE ──
+const FIREBASE_URL = "https://base-polla-tito-default-rtdb.firebaseio.com";
 
-// ── Guardar en localStorage (siempre, como cache) ──
-function saveLocal() {
-  const toSave = {
-    participants: state.participants,
-    results: state.results,
-    forecasts: state.forecasts,
-    champion: state.champion,
-    realChampion: state.realChampion,
-    revealedStages: state.revealedStages,
-    confirmed: state.confirmed || {},
-    comiteMsg: state.comiteMsg || '',
-  };
-  localStorage.setItem('pollaTitoFuentes2026', JSON.stringify(toSave));
-}
-
-// ── Sincronizar con Google Sheets ──
-async function gsGet(key) {
+async function fbGet(path) {
   try {
-    const r = await fetch(GS_URL + '?action=get&key=' + encodeURIComponent(key));
-    const d = await r.json();
-    return d.ok ? d.value : null;
+    const r = await fetch(FIREBASE_URL + '/' + path + '.json');
+    return await r.json();
   } catch(e) { return null; }
 }
 
-async function gsSet(key, value) {
+async function fbSet(path, value) {
   try {
-    const body = JSON.stringify({ action: 'set', key: key, value: JSON.stringify(value) });
-    const r = await fetch(GS_URL, {
-      method: 'POST',
-      headers: { 'Content-Type': 'text/plain' },
-      body: body
+    const r = await fetch(FIREBASE_URL + '/' + path + '.json', {
+      method: 'PUT',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify(value)
     });
-    const d = await r.json();
-    return d.ok;
-  } catch(e) {
-    // Fallback to GET for smaller payloads
+    return r.ok;
+  } catch(e) { return false; }
+}
+
+async function fbPatch(path, value) {
+  try {
+    const r = await fetch(FIREBASE_URL + '/' + path + '.json', {
+      method: 'PATCH',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify(value)
+    });
+    return r.ok;
+  } catch(e) { return false; }
+}
+
+// Subscribe to real-time updates via SSE
+let fbEventSource = null;
+function fbSubscribe() {
+  if (fbEventSource) fbEventSource.close();
+  fbEventSource = new EventSource(FIREBASE_URL + '/polla.json');
+  fbEventSource.addEventListener('put', (e) => {
     try {
-      const url = GS_URL + '?action=set&key=' + encodeURIComponent(key) + '&value=' + encodeURIComponent(JSON.stringify(value));
-      const r2 = await fetch(url);
-      return (await r2.json()).ok;
-    } catch(e2) { return false; }
+      const d = JSON.parse(e.data);
+      if (d.data) mergeFirebaseData(d.data);
+    } catch(err) {}
+  });
+  fbEventSource.addEventListener('patch', (e) => {
+    try {
+      const d = JSON.parse(e.data);
+      if (d.data) mergeFirebaseData(d.data);
+    } catch(err) {}
+  });
+  fbEventSource.onerror = () => {
+    showSyncIndicator('error');
+    setTimeout(fbSubscribe, 5000);
+  };
+}
+
+function mergeFirebaseData(data) {
+  let changed = false;
+  if (data.results) { state.results = data.results; changed = true; }
+  if (data.revealedStages) { state.revealedStages = data.revealedStages; changed = true; }
+  if (data.realChampion !== undefined) { state.realChampion = data.realChampion; changed = true; }
+  if (data.participants && data.participants.length > 0) { state.participants = data.participants; changed = true; }
+  if (data.comiteMsg !== undefined) { state.comiteMsg = data.comiteMsg; changed = true; }
+  if (data.forecasts) {
+    Object.entries(data.forecasts).forEach(([idx, fc]) => { state.forecasts[idx] = fc; changed = true; });
+  }
+  if (data.confirmed) {
+    if (!state.confirmed) state.confirmed = {};
+    Object.entries(data.confirmed).forEach(([idx, conf]) => { state.confirmed[idx] = conf; changed = true; });
+  }
+  if (changed) {
+    saveLocal();
+    showSyncIndicator('ok');
+    if (document.getElementById('mainApp').style.display !== 'none') {
+      buildAll();
+      if (state.currentUser !== null && state.currentUser !== 'admin') {
+        showParticipantView(state.currentUser, state._pvStage);
+      }
+    }
   }
 }
 
-async function gsGetAll() {
-  try {
-    const r = await fetch(GS_URL + '?action=getAll');
-    const d = await r.json();
-    return d.ok ? d.data : null;
-  } catch(e) { return null; }
-}
 
-// ── loadState: primero local (rápido), luego sincroniza con Sheets ──
+// ── loadState: primero local (rápido), luego suscribe a Firebase ──
 function loadState() {
-  // 1. Cargar desde localStorage (respuesta instantánea)
   const s = localStorage.getItem('pollaTitoFuentes2026');
   if (s) {
-    const loaded = JSON.parse(s);
-    state = {...state, ...loaded};
+    try {
+      const loaded = JSON.parse(s);
+      state = {...state, ...loaded};
+    } catch(e) {}
   }
   if (!state.participants || state.participants.length === 0) {
     state.participants = BASE_PARTICIPANTS.map(p => ({...p}));
   }
-  // 2. Si hay Sheets configurado, sincronizar en background
-  if (USE_SHEETS) syncFromSheets();
+  fbSubscribe();
 }
 
-async function syncFromSheets() {
-  showSyncIndicator('syncing');
-  const data = await gsGetAll();
-  if (!data) { showSyncIndicator('error'); return; }
 
-  // Merge remote data into state (remote wins for shared data)
-  // Use single blob appState if exists
-  const blob = data.appState;
-  if (blob) {
-    if (blob.results) state.results = blob.results;
-    if (blob.revealedStages) state.revealedStages = blob.revealedStages;
-    if (blob.realChampion !== undefined) state.realChampion = blob.realChampion;
-    if (blob.participants && blob.participants.length > 0) state.participants = blob.participants;
-    if (blob.forecasts) {
-      Object.entries(blob.forecasts).forEach(([idx, fc]) => { state.forecasts[idx] = fc; });
-    }
-    if (blob.confirmed) {
-      if (!state.confirmed) state.confirmed = {};
-      Object.entries(blob.confirmed).forEach(([idx, conf]) => { state.confirmed[idx] = conf; });
-    }
-    if (blob.comiteMsg !== undefined) state.comiteMsg = blob.comiteMsg;
-  }
-
-  saveLocal();
-  showSyncIndicator('ok');
-
-  // Rebuild UI if already in app
-  if (document.getElementById('mainApp').style.display !== 'none') {
-    buildAll();
-    if (state.currentUser !== null && state.currentUser !== 'admin') {
-      showParticipantView(state.currentUser, state._pvStage);
-    }
-  }
-}
-
-// ── saveState: guarda local + sube a Sheets en background ──
+// ── saveState: guarda local + sube a Firebase ──
 function saveState() {
   saveLocal();
-  if (USE_SHEETS) pushToSheets();
+  pushToFirebase();
 }
 
-async function pushToSheets() {
+async function pushToFirebase() {
   showSyncIndicator('syncing');
   const toSave = {
     participants: state.participants,
@@ -838,10 +830,10 @@ async function pushToSheets() {
     confirmed: state.confirmed || {},
     comiteMsg: state.comiteMsg || '',
   };
-  // Save as one blob
-  const ok = await gsSet('appState', toSave);
+  const ok = await fbSet('polla', toSave);
   showSyncIndicator(ok ? 'ok' : 'error');
 }
+
 
 function showSyncIndicator(status) {
   let el = document.getElementById('syncIndicator');
