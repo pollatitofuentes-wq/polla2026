@@ -1935,15 +1935,21 @@ function showFullStageTable(stageKey) {
   const stageMatches = MATCHES.filter(m => m.etapa === stageKey);
   const participants = PARTICIPANTS();
   
+  const COL_PARTIDO = 200;
+  const COL_REAL = 72;
   let html = `<div style="overflow-x:auto;">
     <div style="font-family:'Bebas Neue',sans-serif;font-size:24px;color:var(--oro);letter-spacing:2px;margin-bottom:16px;">
       PLANILLA COMPLETA · ${stage.label.toUpperCase()}
     </div>
-    <table style="border-collapse:collapse;font-size:12px;min-width:100%;">
+    <table style="border-collapse:collapse;font-size:12px;min-width:100%;table-layout:fixed;">
+      <colgroup>
+        <col style="width:${COL_PARTIDO}px;min-width:${COL_PARTIDO}px;">
+        <col style="width:${COL_REAL}px;min-width:${COL_REAL}px;">
+      </colgroup>
       <thead>
         <tr>
-          <th style="background:var(--azul);padding:8px 12px;text-align:left;border-bottom:2px solid var(--verde);white-space:nowrap;position:sticky;left:0;z-index:2;">PARTIDO</th>
-          <th style="background:var(--azul);padding:8px 12px;text-align:center;border-bottom:2px solid var(--verde);white-space:nowrap;position:sticky;left:200px;z-index:2;">REAL</th>`;
+          <th style="background:var(--azul);padding:8px 12px;text-align:left;border-bottom:2px solid var(--verde);white-space:nowrap;position:sticky;left:0;z-index:2;width:${COL_PARTIDO}px;">PARTIDO</th>
+          <th style="background:var(--azul);padding:8px 12px;text-align:center;border-bottom:2px solid var(--verde);white-space:nowrap;position:sticky;left:${COL_PARTIDO}px;z-index:2;width:${COL_REAL}px;border-left:2px solid var(--oro);">REAL</th>`;
   
   participants.forEach((p, idx) => {
     const isMe = state.currentUser === idx;
@@ -1955,7 +1961,8 @@ function showFullStageTable(stageKey) {
 
   // TOTAL row at TOP
   html += `<tr style="border-bottom:2px solid var(--verde);position:sticky;top:0;z-index:2;">
-    <td colspan="2" style="padding:8px 12px;background:var(--azul);font-family:'Bebas Neue',sans-serif;letter-spacing:1px;font-size:13px;position:sticky;left:0;z-index:3;">TOTAL ${stage.label.toUpperCase()}</td>`;
+    <td style="padding:8px 12px;background:var(--azul);font-family:'Bebas Neue',sans-serif;letter-spacing:1px;font-size:13px;position:sticky;left:0;z-index:3;width:${COL_PARTIDO}px;">TOTAL ${stage.label.toUpperCase()}</td>
+    <td style="padding:8px 12px;background:var(--azul);position:sticky;left:${COL_PARTIDO}px;z-index:3;border-left:2px solid var(--oro);width:${COL_REAL}px;"></td>`;
   participants.forEach((p, idx) => {
     let stagePts = 0;
     stageMatches.forEach(m => {
@@ -1979,10 +1986,10 @@ function showFullStageTable(stageKey) {
   stageMatches.forEach((m, mi) => {
     const real = state.results[m.id];
     html += `<tr style="border-bottom:1px solid var(--border);">
-      <td style="padding:8px 12px;background:var(--bg2);position:sticky;left:0;z-index:1;white-space:nowrap;">
+      <td style="padding:8px 12px;background:var(--bg2);position:sticky;left:0;z-index:1;white-space:nowrap;width:${COL_PARTIDO}px;max-width:${COL_PARTIDO}px;overflow:hidden;text-overflow:ellipsis;">
         <span style="font-weight:600;">#${m.id}</span> ${m.local} vs ${m.visita}
       </td>
-      <td style="padding:8px 12px;text-align:center;background:var(--bg2);position:sticky;left:200px;z-index:1;">
+      <td style="padding:8px 12px;text-align:center;background:var(--bg2);position:sticky;left:${COL_PARTIDO}px;z-index:1;width:${COL_REAL}px;border-left:2px solid var(--oro);">
         ${real ? `<span style="font-family:'Bebas Neue',sans-serif;font-size:18px;color:var(--oro);">${real.a}-${real.b}</span>` : '<span style="color:var(--text-muted);">—</span>'}
       </td>`;
     
@@ -2021,7 +2028,8 @@ function showFullStageTable(stageKey) {
   
   // Totals row
   html += `<tr style="border-top:2px solid var(--verde);">
-    <td colspan="2" style="padding:10px 12px;background:var(--azul);font-family:'Bebas Neue',sans-serif;letter-spacing:1px;font-size:14px;">TOTAL ${stage.label.toUpperCase()}</td>`;
+    <td style="padding:10px 12px;background:var(--azul);font-family:'Bebas Neue',sans-serif;letter-spacing:1px;font-size:14px;position:sticky;left:0;z-index:1;width:${COL_PARTIDO}px;">TOTAL ${stage.label.toUpperCase()}</td>
+    <td style="padding:10px 12px;background:var(--azul);position:sticky;left:${COL_PARTIDO}px;z-index:1;border-left:2px solid var(--oro);width:${COL_REAL}px;"></td>`;
   participants.forEach((p, idx) => {
     let stagePts = 0;
     stageMatches.forEach(m => {
