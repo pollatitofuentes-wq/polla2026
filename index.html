@@ -301,6 +301,14 @@ button, .nav-btn, .stage-tab, .logo, .badge, header, nav {
   .container { padding: 12px; }
   .pv-name { font-size: 26px; }
   .pv-pts { font-size: 48px; }
+  .logo { font-size: 18px; letter-spacing: 0.5px; }
+  .logo .mobile-break { display: block; }
+  .logo span { font-size: 9px; letter-spacing: 1.5px; }
+  .logo .mobile-break-sub { display: block; }
+}
+@media (min-width: 769px) {
+  .logo .mobile-break { display: none; }
+  .logo .mobile-break-sub { display: none; }
 }
 </style>
 </head>
@@ -313,8 +321,8 @@ button, .nav-btn, .stage-tab, .logo, .badge, header, nav {
 <header class="header" id="mainHeader">
   <div class="header-inner">
     <div class="logo" onclick="if(state.currentUser!==null && state.currentUser!=='admin'){showParticipantView(state.currentUser, state._pvStage||'1RUEDA');}" style="cursor:pointer;" title="Ir a mis pronósticos" tabindex="-1">
-      Polla Tito Fuentes
-      <span>MUNDIAL 2026 · 60 ANIVERSARIO</span>
+      POLLA<span class="mobile-break"> </span>TITO FUENTES
+      <span>MUNDIAL 2026<span class="mobile-break-sub"> · </span>60 ANIVERSARIO</span>
     </div>
     <span class="badge">⚽ DESDE 1966</span>
     <div id="syncIndicator" style="font-size:12px;margin-right:8px;"></div>
