@@ -311,7 +311,7 @@ button, .nav-btn, .stage-tab, .logo, .badge, header, nav {
   <div class="header-inner">
     <div class="logo" onclick="if(state.currentUser!==null && state.currentUser!=='admin'){showParticipantView(state.currentUser, state._pvStage||'1RUEDA');}" style="cursor:pointer;" title="Ir a mis pronósticos" tabindex="-1">
       Polla Tito Fuentes
-      <span>MUNDIAL 2026 · EDICIÓN HOMENAJE</span>
+      <span>MUNDIAL 2026 · 60 ANIVERSARIO</span>
     </div>
     <span class="badge">⚽ DESDE 1966</span>
     <div id="syncIndicator" style="font-size:12px;margin-right:8px;"></div>
@@ -1097,7 +1097,7 @@ function buildRanking() {
       <td><span class="rank-pts">${p.pts}</span></td>
       <td><span class="rank-detail">⭐ ${p.exact}</span></td>
       <td><span class="rank-detail">✓ ${p.correct}</span></td>
-      ${(state.isAdmin || state.currentUser === p.idx) ? `<td><button class="btn btn-ghost btn-sm" onclick="showParticipantView(${p.idx})">👁 Ver</button></td>` : '<td></td>'}
+      ${(state.isAdmin || state.currentUser === p.idx || STAGES.some(s => isStageRevealed(s.key))) ? `<td><button class="btn btn-ghost btn-sm" onclick="showParticipantView(${p.idx})">👁 Ver</button></td>` : '<td></td>'}
     </tr>`;
   });
   
@@ -1216,7 +1216,9 @@ function buildParticipantsGrid() {
     const score = calcScore(idx);
     const rank = ranking.findIndex(r => r.idx === idx) + 1;
     const isMe = state.currentUser === idx;
-    const canSeeDetails = state.isAdmin || isMe;
+    // Can only see others' details if admin OR if any stage is revealed
+    const anyRevealed = STAGES.some(s => isStageRevealed(s.key));
+    const canSeeDetails = state.isAdmin || isMe || anyRevealed;
     html += `<div class="participant-card" style="${isMe ? 'border-color:var(--verde);' : ''}">
       <div class="flex align-center justify-between">
         <div>
@@ -1357,8 +1359,9 @@ function buildAdminSummary() {
 // PARTICIPANT VIEW
 // ══════════════════════════════════════════════════
 function showParticipantView(idx, activeStageKey) {
-  if (!state.isAdmin && state.currentUser !== idx) {
-    showAlert('error', 'No tenés permiso para ver los pronósticos de otro participante.');
+  const anyRevealed = STAGES.some(s => isStageRevealed(s.key));
+  if (!state.isAdmin && state.currentUser !== idx && !anyRevealed) {
+    showAlert('error', 'La planilla aún no fue publicada por el comité.');
     return;
   }
   showPanel('panel-participante');
