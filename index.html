@@ -1880,12 +1880,13 @@ function buildStageRevealControls() {
           ${revealed ? ' · <span style="color:var(--verde);">✓ Planilla visible para todos</span>' : ' · <span style="color:var(--text-muted);">🔒 Solo cada uno ve los suyos</span>'}
         </div>
       </div>
-      <div style="display:flex;gap:8px;align-items:center;">
+      <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;">
         ${revealed 
           ? `<button class="btn btn-red btn-sm" onclick="toggleStageReveal('${stage.key}', false)">🔒 Cerrar planilla</button>`
           : `<button class="btn btn-oro btn-sm" onclick="toggleStageReveal('${stage.key}', true)">🔓 Revelar planilla</button>`
         }
-        ${revealed ? `<button class="btn btn-ghost btn-sm" onclick="showFullStageTable('${stage.key}')">👁 Ver planilla</button>` : ''}
+        <button class="btn btn-ghost btn-sm" onclick="showFullStageTable('${stage.key}')">👁 Ver planilla</button>
+        <button class="btn btn-green btn-sm" onclick="exportTableToCSV('${stage.key}')">📥 Exportar Excel</button>
       </div>
     </div>`;
   });
