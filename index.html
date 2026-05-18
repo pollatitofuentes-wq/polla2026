@@ -144,6 +144,9 @@ input::placeholder { color: var(--text-muted); }
   font-family: 'Bebas Neue', sans-serif; font-size: 16px; padding: 4px 12px;
   border-radius: 20px; min-width: 40px; text-align: center;
 }
+@media (max-width: 768px) {
+  .pts-badge { font-size: 11px; padding: 3px 8px; min-width: 30px; }
+}
 .pts-3 { background: rgba(0,166,81,0.25); color: var(--verde); border: 1px solid var(--verde); }
 .pts-1 { background: rgba(245,197,24,0.2); color: var(--oro); border: 1px solid var(--oro); }
 .pts-0 { background: rgba(230,57,70,0.15); color: var(--rojo); border: 1px solid rgba(230,57,70,0.4); }
@@ -1489,7 +1492,7 @@ function showParticipantView(idx, activeStageKey) {
         </div>
         <span id="pvProgressLabel" style="font-size:13px;color:var(--text-muted);font-weight:600;">${loaded}/${total}</span>
       </div>
-      ${revealed ? `<button class="btn btn-oro btn-sm" onclick="showFullStageTable('${activeStageKey}')">📋 Ver planilla completa</button>` : '<span style="font-size:11px;color:var(--text-muted);">🔒 Planilla no revelada</span>'}
+      ${(revealed || state.isAdmin) ? `<button class="btn btn-oro btn-sm" onclick="showFullStageTable('${activeStageKey}')">📋 Ver planilla completa</button>` : '<span style="font-size:11px;color:var(--text-muted);">🔒 Planilla no revelada</span>'}
     </div>
   </div>`;
 
@@ -1924,6 +1927,7 @@ function showFullStageTable(stageKey) {
     showAlert('error', 'Esta etapa aún no fue revelada por el comité.');
     return;
   }
+  // Admin always passes through
   const stage = STAGES.find(s => s.key === stageKey);
   const stageMatches = MATCHES.filter(m => m.etapa === stageKey);
   const participants = PARTICIPANTS();
@@ -2048,7 +2052,7 @@ function showFullStageTable(stageKey) {
       <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;">
         <div style="font-family:'Bebas Neue',sans-serif;font-size:18px;color:var(--text-muted);letter-spacing:2px;">POLLA TITO FUENTES · MUNDIAL 2026</div>
         <button class="btn btn-ghost" onclick="closeFullTable()">✕ Cerrar</button>
-          ${state.isAdmin ? `<button class="btn btn-green btn-sm" onclick="exportTableToCSV('${stageKey}')" style="margin-left:8px;">📥 Exportar Excel</button>` : ''}
+          ${(state.isAdmin || isStageRevealed(stageKey)) ? `<button class="btn btn-green btn-sm" onclick="exportTableToCSV('${stageKey}')" style="margin-left:8px;">📥 Exportar Excel</button>` : ''}
         </div>
       </div>
       ${html}
