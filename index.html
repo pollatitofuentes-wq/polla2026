@@ -327,7 +327,7 @@ button, .nav-btn, .stage-tab, .logo, .badge, header, nav {
 <!-- HEADER -->
 <header class="header" id="mainHeader">
   <div class="header-inner">
-    <div class="logo" onclick="if(state.currentUser!==null && state.currentUser!=='admin'){showParticipantView(state.currentUser, state._pvStage||'1RUEDA');}" style="cursor:pointer;" title="Ir a mis pronósticos" tabindex="-1">
+    <div class="logo" onclick="const _u=state.isAdmin?state._originalUserIdx:state.currentUser; if(_u!==null && _u!=='admin'){showParticipantView(_u, state._pvStage||'1RUEDA');}" style="cursor:pointer;" title="Ir a mis pronósticos" tabindex="-1">
       POLLA<span class="mobile-break"> </span>TITO FUENTES
       <span>MUNDIAL 2026<span class="mobile-break-sub"> · </span>60 ANIVERSARIO</span>
     </div>
@@ -456,7 +456,7 @@ button, .nav-btn, .stage-tab, .logo, .badge, header, nav {
 
     <!-- Ver resumen -->
     <div style="margin-bottom:24px;">
-      <div class="section-title">RESUMEN DE PARTICIPACIONES</div>
+      <div class="section-title" style="display:flex;align-items:center;justify-content:space-between;"><span>RESUMEN DE PARTICIPACIONES</span><button class="btn btn-green btn-sm" onclick="exportPositionsToCSV()">📥 Exportar Posiciones</button></div>
       <div id="adminSummary"></div>
     </div>
 
@@ -738,6 +738,7 @@ let state = {
   currentUser: null,
   isAdmin: false,
   _adminViewingIdx: null, // when admin is viewing a participant
+  _originalUserIdx: null, // participant idx before becoming admin
 };
 
 // ── FIREBASE REALTIME DATABASE ──
@@ -974,6 +975,7 @@ function requestAdminAccess() {
 function confirmAdminAccess() {
   const pwd = document.getElementById('modalAdminPwInput').value;
   if (pwd === ADMIN_PWD) {
+    if (state.currentUser !== null && state.currentUser !== 'admin') state._originalUserIdx = state.currentUser;
     state.isAdmin = true;
     state.currentUser = 'admin';
     closeModal('modalAdminPw');
@@ -2265,6 +2267,34 @@ function confirmReset() {
 }
 
 
+function exportPositionsToCSV() {
+  const ranking = getRanking();
+  const SEP = ';';
+  const rows = [];
+  rows.push(['POLLA TITO FUENTES - 60 ANIVERSARIO · MUNDIAL 2026', '', 'TABLA GENERAL DE POSICIONES']);
+  rows.push([]);
+  rows.push(['', ...ranking.map(p => p.name)]);
+  rows.push(['PUNTOS', ...ranking.map(p => p.pts)]);
+  rows.push(['EXACTOS', ...ranking.map(p => p.exact)]);
+  rows.push(['CORRECTOS', ...ranking.map(p => p.correct)]);
+  const csv = '\uFEFF' + rows.map(row =>
+    row.map(cell => {
+      const s = String(cell === null || cell === undefined ? '' : cell);
+      return s.includes(SEP) || s.includes('"') ? '"' + s.replace(/"/g, '""') + '"' : s;
+    }).join(SEP)
+  ).join('\n');
+  const blob = new Blob([csv], {type: 'text/csv;charset=utf-8;'});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = 'Polla_Tito_Fuentes_Posiciones.csv';
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+  showAlert('success', 'Posiciones exportadas. Abrila con Excel.');
+}
+
 function closeFullTable() {
   const el = document.getElementById('fullTableOverlay');
   if (el) el.remove();
@@ -2275,6 +2305,7 @@ function logoutUser() {
   localStorage.removeItem('pollaSession');
   state.currentUser = null;
   state.isAdmin = false;
+  state._originalUserIdx = null;
   document.getElementById('mainApp').style.display = 'none';
   document.getElementById('mainNav').style.display = 'none';
   document.getElementById('accessScreen').style.display = 'flex';
