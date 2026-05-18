@@ -733,6 +733,7 @@ let state = {
   comiteMsg: '',     // mensaje del comité visible para todos
   currentUser: null,
   isAdmin: false,
+  _adminViewingIdx: null, // when admin is viewing a participant
 };
 
 // ── FIREBASE REALTIME DATABASE ──
@@ -803,7 +804,9 @@ function mergeFirebaseData(data) {
     showSyncIndicator('ok');
     if (document.getElementById('mainApp').style.display !== 'none') {
       buildAll();
-      if (state.currentUser !== null && state.currentUser !== 'admin') {
+      if (state.isAdmin && state._adminViewingIdx !== null) {
+        showParticipantView(state._adminViewingIdx, state._pvStage);
+      } else if (state.currentUser !== null && state.currentUser !== 'admin') {
         showParticipantView(state.currentUser, state._pvStage);
       }
     }
@@ -833,8 +836,13 @@ function mergeFirebaseData(data) {
       buildGlobalMsgBanner();
       // Only update participant view if currently viewing it
       const activePanel = document.querySelector('.panel.active');
-      if (activePanel && activePanel.id === 'panel-participante' && state.currentUser !== null && state.currentUser !== 'admin') {
-        showParticipantView(state.currentUser, state._pvStage);
+      if (activePanel && activePanel.id === 'panel-participante') {
+        if (state.isAdmin && state._adminViewingIdx !== null) {
+          // Admin was viewing a participant — restore that view
+          showParticipantView(state._adminViewingIdx, state._pvStage);
+        } else if (state.currentUser !== null && state.currentUser !== 'admin') {
+          showParticipantView(state.currentUser, state._pvStage);
+        }
       }
       // If on admin panel, refresh admin-specific controls
       if (activePanel && activePanel.id === 'panel-admin') {
@@ -963,6 +971,7 @@ function confirmAdminAccess() {
   const pwd = document.getElementById('modalAdminPwInput').value;
   if (pwd === ADMIN_PWD) {
     state.isAdmin = true;
+    state.currentUser = 'admin';
     closeModal('modalAdminPw');
     document.getElementById('modalAdminPwInput').value = '';
     buildAll();
@@ -1407,6 +1416,7 @@ function showParticipantView(idx, activeStageKey) {
   showPanel('panel-participante');
   if (!activeStageKey) activeStageKey = state._pvStage || '1RUEDA';
   state._pvStage = activeStageKey;
+  if (state.isAdmin) state._adminViewingIdx = idx; else state._adminViewingIdx = null;
 
   const name = PARTICIPANTS()[idx]?.name || '';
   const score = calcScore(idx);
@@ -1701,6 +1711,8 @@ function showPanel(id) {
   };
   const navBtns = document.querySelectorAll('.nav-btn');
   if (map[id] !== undefined) navBtns[map[id]]?.classList.add('active');
+  // Clear admin participant view tracking when navigating away
+  if (id !== 'panel-participante' && state.isAdmin) state._adminViewingIdx = null;
   
   if (id === 'panel-posiciones') { buildStats(); buildRanking(); }
   if (id === 'panel-partidos') { buildStageTabs(); buildMatches('1RUEDA'); }
