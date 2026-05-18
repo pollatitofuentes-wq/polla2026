@@ -323,6 +323,7 @@ button, .nav-btn, .stage-tab, .logo, .badge, header, nav {
       <button class="nav-btn" onclick="showPanel('panel-partidos')">📋 Partidos</button>
       <button class="nav-btn" onclick="showPanel('panel-participantes')">👥 Participantes</button>
       <button class="nav-btn" onclick="requestAdminAccess()">⚙️ Comité</button>
+      <button class="nav-btn" onclick="logoutUser()" title="Salir" style="padding:6px 10px;display:flex;align-items:center;gap:4px;" onmouseover="this.style.borderColor='var(--rojo)';this.style.color='var(--rojo)'" onmouseout="this.style.borderColor='';this.style.color=''"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg></button>
     </nav>
   </div>
 </header>
@@ -847,6 +848,33 @@ function loadState() {
     state.participants = BASE_PARTICIPANTS.map(p => ({...p}));
   }
   fbSubscribe();
+  // Restore session if user was logged in
+  const session = localStorage.getItem('pollaSession');
+  if (session) {
+    try {
+      const sess = JSON.parse(session);
+      // Only auto-restore if not already handled by ?p= URL param
+      const urlIdx = new URLSearchParams(window.location.search).get('p');
+      if (urlIdx === null && sess.currentUser !== null) {
+        state.currentUser = sess.currentUser;
+        state.isAdmin = sess.isAdmin || false;
+        state._pvStage = sess.pvStage || '1RUEDA';
+        // Auto-enter app
+        setTimeout(() => {
+          document.getElementById('accessScreen').style.display = 'none';
+          document.getElementById('mainApp').style.display = 'block';
+          document.getElementById('mainHeader').style.display = 'block';
+          document.getElementById('mainNav').style.display = 'flex';
+          buildAll();
+          if (state.currentUser !== 'admin') {
+            showParticipantView(state.currentUser, state._pvStage);
+          } else {
+            showPanel('panel-admin');
+          }
+        }, 100);
+      }
+    } catch(e) {}
+  }
 }
 
 
@@ -863,6 +891,14 @@ function saveLocal() {
     comiteMsg: state.comiteMsg || '',
   };
   localStorage.setItem('pollaTitoFuentes2026', JSON.stringify(toSave));
+  // Save session (who is logged in)
+  if (state.currentUser !== null) {
+    localStorage.setItem('pollaSession', JSON.stringify({
+      currentUser: state.currentUser,
+      isAdmin: state.isAdmin,
+      pvStage: state._pvStage || '1RUEDA'
+    }));
+  }
 }
 
 // ── saveState: guarda local + sube a Firebase ──
@@ -2192,6 +2228,7 @@ function confirmReset() {
 
   // Clear localStorage
   localStorage.removeItem('pollaTitoFuentes2026');
+  localStorage.removeItem('pollaSession');
 
   // Clear Firebase - push empty state so all users get reset
   pushToFirebase();
@@ -2204,6 +2241,17 @@ function confirmReset() {
 function closeFullTable() {
   const el = document.getElementById('fullTableOverlay');
   if (el) el.remove();
+}
+
+function logoutUser() {
+  if (!confirm('¿Querés salir y cambiar de usuario?')) return;
+  localStorage.removeItem('pollaSession');
+  state.currentUser = null;
+  state.isAdmin = false;
+  document.getElementById('mainApp').style.display = 'none';
+  document.getElementById('mainNav').style.display = 'none';
+  document.getElementById('accessScreen').style.display = 'flex';
+  document.getElementById('accessInput').value = '';
 }
 
 </script>
