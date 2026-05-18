@@ -2136,11 +2136,12 @@ function exportTableToCSV(stageKey) {
   rows.push(['', '', '', '', 'REAL', ...parts.map((_,i) => i+1)]);
 
   // POSICIONES top
-  const topTotals = parts.map((_,idx) => {
+  const topTotals = parts.map((p) => {
+    const pidx = state.participants.findIndex(x => x.name === p.name);
     let pts = 0;
     stageMatches.forEach(m => {
       const real = state.results[m.id];
-      const fc = (state.forecasts[idx]||{})[m.id];
+      const fc = (state.forecasts[pidx]||{})[m.id];
       if (!real || !fc || fc.a===undefined) return;
       if (fc.a===real.a && fc.b===real.b) { pts += 3*stage.pts; return; }
       const rw = real.a>real.b?1:real.a<real.b?-1:0;
@@ -2159,25 +2160,28 @@ function exportTableToCSV(stageKey) {
     const real = state.results[m.id];
     // Local row
     const localRow = [m.id, m.fecha, m['hora'] + ' - ' + m['estadio'], m.grupo, m.local, real ? real.a : ''];
-    parts.forEach((_,idx) => {
-      const fc = (state.forecasts[idx]||{})[m.id];
+    parts.forEach((p,i) => {
+      const pidx = state.participants.findIndex(x => x.name === p.name);
+      const fc = (state.forecasts[pidx]||{})[m.id];
       localRow.push((fc && fc.a !== undefined && fc.a !== null) ? fc.a : '');
     });
     rows.push(localRow);
 
     // Visita row
     const visitaRow = ['', '', '', '', m.visita, real ? real.b : ''];
-    parts.forEach((_,idx) => {
-      const fc = (state.forecasts[idx]||{})[m.id];
+    parts.forEach((p,i) => {
+      const pidx = state.participants.findIndex(x => x.name === p.name);
+      const fc = (state.forecasts[pidx]||{})[m.id];
       visitaRow.push((fc && fc.b !== undefined && fc.b !== null) ? fc.b : '');
     });
     rows.push(visitaRow);
 
     // PUNTAJE row
     const pRow = ['PUNTAJE', '', '', '', '', ''];
-    parts.forEach((_,idx) => {
+    parts.forEach((p,i) => {
+      const pidx = state.participants.findIndex(x => x.name === p.name);
       if (!real) { pRow.push(''); return; }
-      const fc = (state.forecasts[idx]||{})[m.id];
+      const fc = (state.forecasts[pidx]||{})[m.id];
       if (!fc || fc.a===undefined) { pRow.push(0); return; }
       if (fc.a===real.a && fc.b===real.b) { pRow.push(3*stage.pts); return; }
       const rw = real.a>real.b?1:real.a<real.b?-1:0;
