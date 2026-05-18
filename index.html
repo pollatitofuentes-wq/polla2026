@@ -348,7 +348,7 @@ button, .nav-btn, .stage-tab, .logo, .badge, header, nav {
     
     <div style="margin-bottom:20px;">
       <label style="text-align:left; display:block;">Tu nombre o código de acceso:</label>
-      <input type="text" id="accessInput" placeholder="Escribí tu nombre o código..." style="margin-bottom:12px; font-size:16px;" autocomplete="name">
+      <input type="text" id="accessInput" placeholder="Escribí tu nombre o código..." style="margin-bottom:12px; font-size:16px;" autocomplete="name" onkeydown="if(event.key==='Enter') handleAccess()">
       <button class="btn btn-green" style="width:100%; font-size:16px;" onclick="handleAccess()">ENTRAR ⚽</button>
     </div>
     
@@ -859,30 +859,20 @@ function loadState() {
     state.participants = BASE_PARTICIPANTS.map(p => ({...p}));
   }
   fbSubscribe();
-  // Restore session if user was logged in
+  // Pre-fill the access input with last used name (suggest but don't auto-login)
   const session = localStorage.getItem('pollaSession');
   if (session) {
     try {
       const sess = JSON.parse(session);
-      // Only auto-restore if not already handled by ?p= URL param
       const urlIdx = new URLSearchParams(window.location.search).get('p');
-      if (urlIdx === null && sess.currentUser !== null) {
-        state.currentUser = sess.currentUser;
-        state.isAdmin = sess.isAdmin || false;
-        state._pvStage = sess.pvStage || '1RUEDA';
-        // Auto-enter app
-        setTimeout(() => {
-          document.getElementById('accessScreen').style.display = 'none';
-          document.getElementById('mainApp').style.display = 'block';
-          document.getElementById('mainHeader').style.display = 'block';
-          document.getElementById('mainNav').style.display = 'flex';
-          buildAll();
-          if (state.currentUser !== 'admin') {
-            showParticipantView(state.currentUser, state._pvStage);
-          } else {
-            showPanel('panel-admin');
-          }
-        }, 100);
+      if (urlIdx === null && sess.currentUser !== null && sess.currentUser !== 'admin') {
+        const p = BASE_PARTICIPANTS[sess.currentUser];
+        if (p) {
+          setTimeout(() => {
+            const input = document.getElementById('accessInput');
+            if (input) input.value = p.name;
+          }, 50);
+        }
       }
     } catch(e) {}
   }
