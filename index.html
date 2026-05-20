@@ -871,8 +871,22 @@ function mergeFirebaseData(data) {
 
 // ── loadState: primero local (rápido), luego suscribe a Firebase ──
 function loadState() {
-  // Check if Firebase has a newer reset than our local cache
-  // We'll verify this after Firebase connects, but first load local cache
+  // First fetch reset timestamp from Firebase before loading localStorage
+  fetch(FIREBASE_URL + '/polla/_resetTimestamp.json')
+    .then(r => r.json())
+    .then(fbTs => {
+      const localTs = parseInt(localStorage.getItem('pollaResetTimestamp') || '0');
+      if (fbTs && fbTs > localTs) {
+        // Firebase has a newer reset — wipe local cache
+        localStorage.removeItem('pollaTitoFuentes2026');
+        localStorage.setItem('pollaResetTimestamp', fbTs);
+      }
+      _loadStateFromLocalStorage();
+    })
+    .catch(() => _loadStateFromLocalStorage());
+}
+
+function _loadStateFromLocalStorage() {
   const s = localStorage.getItem('pollaTitoFuentes2026');
   if (s) {
     try {
