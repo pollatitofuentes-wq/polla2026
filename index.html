@@ -818,6 +818,15 @@ function mergeFirebaseData(data) {
     }
     return;
   }
+  // Check reset timestamp - if Firebase has a newer reset, clear localStorage
+  if (data._resetTimestamp) {
+    const localTs = parseInt(localStorage.getItem('pollaResetTimestamp') || '0');
+    if (data._resetTimestamp > localTs) {
+      localStorage.removeItem('pollaTitoFuentes2026');
+      localStorage.setItem('pollaResetTimestamp', data._resetTimestamp);
+      state._resetTimestamp = data._resetTimestamp;
+    }
+  }
   let changed = false;
   if (data.results !== undefined) { state.results = data.results || {}; changed = true; }
   if (data.revealedStages !== undefined) { state.revealedStages = data.revealedStages || {}; changed = true; }
@@ -862,6 +871,8 @@ function mergeFirebaseData(data) {
 
 // ── loadState: primero local (rápido), luego suscribe a Firebase ──
 function loadState() {
+  // Check if Firebase has a newer reset than our local cache
+  // We'll verify this after Firebase connects, but first load local cache
   const s = localStorage.getItem('pollaTitoFuentes2026');
   if (s) {
     try {
@@ -932,6 +943,7 @@ async function pushToFirebase() {
     revealedStages: state.revealedStages,
     confirmed: state.confirmed || {},
     comiteMsg: state.comiteMsg || '',
+    _resetTimestamp: state._resetTimestamp || 0,
   };
   const ok = await fbSet('polla', toSave);
   showSyncIndicator(ok ? 'ok' : 'error');
@@ -2264,6 +2276,9 @@ function confirmReset() {
   localStorage.removeItem('pollaTitoFuentes2026');
   localStorage.removeItem('pollaSession');
 
+  // Save reset timestamp so all clients clear their cache on next load
+  state._resetTimestamp = Date.now();
+  localStorage.setItem('pollaResetTimestamp', state._resetTimestamp);
   // Clear Firebase - push empty state so all users get reset
   pushToFirebase();
 
