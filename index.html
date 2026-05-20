@@ -859,7 +859,7 @@ function mergeFirebaseData(data) {
 }
 
 
-// ── loadState: primero local (rápido), luego suscribe a Firebase ──
+// ── loadState: chequea reset timestamp en Firebase antes de cargar localStorage ──
 function loadState() {
   const urlIdx = new URLSearchParams(window.location.search).get('p');
   fetch(FIREBASE_URL + '/polla/_resetTimestamp.json')
