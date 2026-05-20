@@ -861,6 +861,22 @@ function mergeFirebaseData(data) {
 
 // ── loadState: primero local (rápido), luego suscribe a Firebase ──
 function loadState() {
+  const urlIdx = new URLSearchParams(window.location.search).get('p');
+  fetch(FIREBASE_URL + '/polla/_resetTimestamp.json')
+    .then(r => r.json())
+    .then(fbTs => {
+      const localTs = parseInt(localStorage.getItem('pollaResetTimestamp') || '0');
+      if (fbTs && fbTs > localTs) {
+        localStorage.removeItem('pollaTitoFuentes2026');
+        localStorage.removeItem('pollaSession');
+        localStorage.setItem('pollaResetTimestamp', fbTs);
+      }
+      _initApp(urlIdx);
+    })
+    .catch(() => _initApp(urlIdx));
+}
+
+function _initApp(urlIdx) {
   const s = localStorage.getItem('pollaTitoFuentes2026');
   if (s) {
     try {
@@ -871,14 +887,29 @@ function loadState() {
   if (!state.participants || state.participants.length === 0) {
     state.participants = BASE_PARTICIPANTS.map(p => ({...p}));
   }
+  // Handle direct URL link (?p=N)
+  if (urlIdx !== null) {
+    const idx = parseInt(urlIdx);
+    if (!isNaN(idx) && idx >= 0 && idx < PARTICIPANTS().length) {
+      state.currentUser = idx;
+      state.isAdmin = false;
+      document.getElementById('accessScreen').style.display = 'none';
+      document.getElementById('mainApp').style.display = 'block';
+      document.getElementById('mainHeader').style.display = 'block';
+      document.getElementById('mainNav').style.display = 'flex';
+      fbSubscribe();
+      buildAll();
+      showParticipantView(idx, '1RUEDA');
+      return;
+    }
+  }
   fbSubscribe();
-  // Pre-fill the access input with last used name (suggest but don't auto-login)
+  // Pre-fill access input with last used name
   const session = localStorage.getItem('pollaSession');
   if (session) {
     try {
       const sess = JSON.parse(session);
-      const urlIdx = new URLSearchParams(window.location.search).get('p');
-      if (urlIdx === null && sess.currentUser !== null && sess.currentUser !== 'admin') {
+      if (sess.currentUser !== null && sess.currentUser !== 'admin') {
         const p = BASE_PARTICIPANTS[sess.currentUser];
         if (p) {
           setTimeout(() => {
@@ -931,6 +962,7 @@ async function pushToFirebase() {
     revealedStages: state.revealedStages,
     confirmed: state.confirmed || {},
     comiteMsg: state.comiteMsg || '',
+    _resetTimestamp: state._resetTimestamp || 0,
   };
   const ok = await fbSet('polla', toSave);
   showSyncIndicator(ok ? 'ok' : 'error');
@@ -1029,20 +1061,6 @@ function enterApp() {
 // Check URL param on load
 window.addEventListener('load', () => {
   loadState();
-  const urlIdx = new URLSearchParams(window.location.search).get('p');
-  if (urlIdx !== null) {
-    const idx = parseInt(urlIdx);
-    if (!isNaN(idx) && idx >= 0 && idx < PARTICIPANTS().length) {
-      state.currentUser = idx;
-      state.isAdmin = false;
-      document.getElementById('accessScreen').style.display = 'none';
-      document.getElementById('mainApp').style.display = 'block';
-      document.getElementById('mainHeader').style.display = 'block';
-      document.getElementById('mainNav').style.display = 'flex';
-      buildAll();
-      showParticipantView(idx, '1RUEDA');
-    }
-  }
 });
 
 // ══════════════════════════════════════════════════
