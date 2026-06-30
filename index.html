@@ -1395,6 +1395,7 @@ function buildAdminResultsTable(stageKey) {
         <div style="display:flex;align-items:center;gap:6px;">
           ${real
             ? `<span style="font-family:'Bebas Neue',sans-serif;font-size:24px;color:var(--verde);">${real.a} - ${real.b}</span>
+               ${(real.a===real.b&&m.etapa!=='1RUEDA')?`<div style="display:flex;gap:4px;align-items:center;flex-wrap:wrap;"><span style="font-size:10px;color:var(--text-muted);">avanza:</span><button class="btn btn-sm ${real.winner==='local'?'btn-green':'btn-ghost'}" style="padding:3px 7px;font-size:11px;" onclick="setWinner(${m.id},'local')">${resolveTeam(m.local)}</button><button class="btn btn-sm ${real.winner==='visita'?'btn-green':'btn-ghost'}" style="padding:3px 7px;font-size:11px;" onclick="setWinner(${m.id},'visita')">${resolveTeam(m.visita)}</button></div>`:''}
                <button class="btn btn-ghost btn-sm" onclick="editResult(${m.id})" title="Editar">✏️</button>
                <button class="btn btn-ghost btn-sm" onclick="deleteResult(${m.id})" title="Borrar" style="color:var(--rojo);">✕</button>`
             : `<input type="number" id="ra_${m.id}_a" min="0" max="20" placeholder="0"
@@ -1424,23 +1425,11 @@ function adminSaveInline(matchId) {
   const a = parseInt(aEl.value);
   const b = parseInt(bEl.value);
   if (isNaN(a) || isNaN(b)) { showAlert('error','Ingresá ambos goles.'); aEl.focus(); return; }
-  const m = MATCHES.find(x => x.id === matchId);
-  let winner = null, winnerMsg = '';
-  if (m && m.etapa !== '1RUEDA' && a === b) {
-    const ln = resolveTeam(m.local), vn = resolveTeam(m.visita);
-    let ans = prompt(`Empate ${a}-${b} al final del suplementario.\n¿Quién avanza al siguiente cruce? (solo para armar el cuadro, no afecta el puntaje)\n\n1) ${ln}\n2) ${vn}`);
-    while (ans !== '1' && ans !== '2') {
-      if (ans === null) { showAlert('error','No se guardó: con empate en eliminación hay que indicar quién avanza para armar el cuadro.'); return; }
-      ans = prompt('Ingresá 1 o 2:');
-    }
-    winner = ans === '1' ? 'local' : 'visita';
-    winnerMsg = ' (avanza ' + (winner === 'local' ? ln : vn) + ')';
-  }
-  state.results[matchId] = winner ? {a, b, winner} : {a, b};
+  state.results[matchId] = {a, b};
   saveState();
   buildAdminResultsTable(state._adminStage || '1RUEDA');
   buildRanking(); buildStats();
-  showAlert('success', `Partido #${matchId}: ${a} - ${b}${winnerMsg} ✓`);
+  showAlert('success', `Partido #${matchId}: ${a} - ${b} ✓`);
   const pending = MATCHES.filter(mm => mm.etapa === (state._adminStage||'1RUEDA') && !state.results[mm.id]);
   if (pending.length > 0) {
     setTimeout(() => {
@@ -1448,6 +1437,12 @@ function adminSaveInline(matchId) {
       if (next) next.focus();
     }, 150);
   }
+}
+function setWinner(matchId, side) {
+  if (!state.results[matchId]) return;
+  state.results[matchId].winner = side;
+  saveState();
+  buildAdminResultsTable(state._adminStage || '1RUEDA');
 }
 
 function editResult(matchId) {
