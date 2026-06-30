@@ -720,9 +720,9 @@ function resolveTeam(code){
     if(!real)return `🏆 Ganador P${match.id}`;
     if(real.a>real.b)return resolveTeam(match.local);
     if(real.b>real.a)return resolveTeam(match.visita);
-    if(real.pen==='local')return resolveTeam(match.local);
-    if(real.pen==='visita')return resolveTeam(match.visita);
-    return `🏆 Ganador P${match.id} (definir penales)`;
+    if(real.winner==='local')return resolveTeam(match.local);
+    if(real.winner==='visita')return resolveTeam(match.visita);
+    return `🏆 Ganador P${match.id} (definir quién avanza)`;
   }
   mt=code.match(/^RU(\d+)$/);
   if(mt){
@@ -732,9 +732,9 @@ function resolveTeam(code){
     if(!real)return `Perdedor P${match.id}`;
     if(real.a>real.b)return resolveTeam(match.visita);
     if(real.b>real.a)return resolveTeam(match.local);
-    if(real.pen==='local')return resolveTeam(match.visita);
-    if(real.pen==='visita')return resolveTeam(match.local);
-    return `Perdedor P${match.id} (definir penales)`;
+    if(real.winner==='local')return resolveTeam(match.visita);
+    if(real.winner==='visita')return resolveTeam(match.local);
+    return `Perdedor P${match.id} (definir quién avanza)`;
   }
   return code;
 }
@@ -1394,7 +1394,7 @@ function buildAdminResultsTable(stageKey) {
         </div>
         <div style="display:flex;align-items:center;gap:6px;">
           ${real
-            ? `<span style="font-family:'Bebas Neue',sans-serif;font-size:24px;color:var(--verde);">${real.a} - ${real.b}${real.pen?' <small style="font-size:11px;color:var(--text-muted);">(pen)</small>':''}</span>
+            ? `<span style="font-family:'Bebas Neue',sans-serif;font-size:24px;color:var(--verde);">${real.a} - ${real.b}</span>
                <button class="btn btn-ghost btn-sm" onclick="editResult(${m.id})" title="Editar">✏️</button>
                <button class="btn btn-ghost btn-sm" onclick="deleteResult(${m.id})" title="Borrar" style="color:var(--rojo);">✕</button>`
             : `<input type="number" id="ra_${m.id}_a" min="0" max="20" placeholder="0"
@@ -1425,23 +1425,22 @@ function adminSaveInline(matchId) {
   const b = parseInt(bEl.value);
   if (isNaN(a) || isNaN(b)) { showAlert('error','Ingresá ambos goles.'); aEl.focus(); return; }
   const m = MATCHES.find(x => x.id === matchId);
-  let pen = null, penMsg = '';
+  let winner = null, winnerMsg = '';
   if (m && m.etapa !== '1RUEDA' && a === b) {
     const ln = resolveTeam(m.local), vn = resolveTeam(m.visita);
-    let ans = prompt(`Empate ${a}-${b} en tiempo reglamentario.\n¿Quién avanza por penales?\n\n1) ${ln}\n2) ${vn}`);
+    let ans = prompt(`Empate ${a}-${b} al final del suplementario.\n¿Quién avanza al siguiente cruce? (solo para armar el cuadro, no afecta el puntaje)\n\n1) ${ln}\n2) ${vn}`);
     while (ans !== '1' && ans !== '2') {
-      if (ans === null) { showAlert('error','No se guardó: en partidos de eliminación con empate hace falta indicar quién pasa por penales.'); return; }
+      if (ans === null) { showAlert('error','No se guardó: con empate en eliminación hay que indicar quién avanza para armar el cuadro.'); return; }
       ans = prompt('Ingresá 1 o 2:');
     }
-    pen = ans === '1' ? 'local' : 'visita';
-    penMsg = ' (pasa ' + (pen === 'local' ? ln : vn) + ' por penales)';
+    winner = ans === '1' ? 'local' : 'visita';
+    winnerMsg = ' (avanza ' + (winner === 'local' ? ln : vn) + ')';
   }
-  state.results[matchId] = pen ? {a, b, pen} : {a, b};
+  state.results[matchId] = winner ? {a, b, winner} : {a, b};
   saveState();
   buildAdminResultsTable(state._adminStage || '1RUEDA');
   buildRanking(); buildStats();
-  showAlert('success', `Partido #${matchId}: ${a} - ${b}${penMsg} ✓`);
-  // Move focus to next pending match
+  showAlert('success', `Partido #${matchId}: ${a} - ${b}${winnerMsg} ✓`);
   const pending = MATCHES.filter(mm => mm.etapa === (state._adminStage||'1RUEDA') && !state.results[mm.id]);
   if (pending.length > 0) {
     setTimeout(() => {
@@ -1610,7 +1609,7 @@ function showParticipantView(idx, activeStageKey) {
              ${fc?.a !== undefined ? `${fc.a} - ${fc.b}` : '—'}
            </div>`;
 
-      const realRow = real ? `<div class="mp-real">Real: <strong style="color:var(--verde);">${real.a}-${real.b}</strong>${real.pen?' <small style="color:var(--text-muted);">(pen)</small>':''}</div>` : '';
+      const realRow = real ? `<div class="mp-real">Real: <strong style="color:var(--verde);">${real.a}-${real.b}</strong></div>` : '';
 
       html += `<div class="match-pronostico" style="${real ? 'border-color:rgba(255,255,255,0.15);' : ''}">
         <div class="mp-header">
@@ -2086,7 +2085,7 @@ function showFullStageTable(stageKey) {
         <span style="font-weight:600;">#${m.id}</span> ${resolveTeam(m.local)} vs ${resolveTeam(m.visita)}
       </td>
       <td style="padding:8px 12px;text-align:center;background:var(--bg2);position:sticky;left:${COL_PARTIDO}px;z-index:1;width:${COL_REAL}px;border-left:2px solid var(--oro);">
-        ${real ? `<span style="font-family:'Bebas Neue',sans-serif;font-size:18px;color:var(--oro);">${real.a}-${real.b}${real.pen?'<br><small style="font-size:9px;color:var(--text-muted);">(pen)</small>':''}</span>` : '<span style="color:var(--text-muted);">—</span>'}
+        ${real ? `<span style="font-family:'Bebas Neue',sans-serif;font-size:18px;color:var(--oro);">${real.a}-${real.b}</span>` : '<span style="color:var(--text-muted);">—</span>'}
       </td>`;
     
     participants.forEach((p, idx) => {
