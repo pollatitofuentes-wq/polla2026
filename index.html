@@ -474,6 +474,7 @@ button, .nav-btn, .stage-tab, .logo, .badge, header, nav {
         Carga todos los pronósticos del Excel, elimina participantes sin datos y aplica correcciones. <strong style="color:var(--oro);">Usar una sola vez.</strong>
       </div>
       <button class="btn btn-oro" onclick="runSetupInicial()">▶ EJECUTAR IMPORTACIÓN</button>
+      <button class="btn btn-ghost btn-sm" onclick="runCorreccionesPuntuales()" style="margin-top:8px;">🔧 Corregir Berni P29/P31 y Carol P50</button>
       <div id="setupLog" style="margin-top:12px;font-family:monospace;font-size:12px;line-height:1.8;"></div>
     </div>
 
@@ -2516,6 +2517,46 @@ function exportGeneralCSV() {
   showAlert('success', 'Planilla general exportada. Abrila con Excel.');
 }
 
+
+
+function runCorreccionesPuntuales() {
+  const logEl = document.getElementById('setupLog');
+  logEl.innerHTML = '<div style="color:var(--oro);">Aplicando correcciones puntuales...</div>';
+  
+  // Fuerza la escritura, ignora lo que había antes
+  const fixes = {
+    forecasts: {
+      '5': { '29': {a:1,b:0}, '31': {a:3,b:0} },  // Berni y Yami
+      '11': { '50': {a:2,b:0} }                      // Carol y Eneas
+    }
+  };
+  
+  // Leer forecasts actuales y mergear con las correcciones (pisando lo existente)
+  fetch(FIREBASE_URL + '/polla/forecasts.json')
+    .then(r => r.json())
+    .then(fcs => {
+      fcs = fcs || {};
+      if (!fcs['5']) fcs['5'] = {};
+      if (!fcs['11']) fcs['11'] = {};
+      fcs['5']['29'] = {a:1, b:0};
+      fcs['5']['31'] = {a:3, b:0};
+      fcs['11']['50'] = {a:2, b:0};
+      return fetch(FIREBASE_URL + '/polla/forecasts.json', {
+        method: 'PUT',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify(fcs)
+      });
+    })
+    .then(r => {
+      if (r.ok) {
+        logEl.innerHTML += '<div style="color:var(--verde);">✅ Correcciones aplicadas. Recargá la app.</div>';
+        saveState(); buildRanking(); buildStats();
+      } else {
+        logEl.innerHTML += '<div style="color:var(--rojo);">❌ Error: ' + r.status + '</div>';
+      }
+    })
+    .catch(e => { logEl.innerHTML += '<div style="color:var(--rojo);">❌ ' + e.message + '</div>'; });
+}
 
 function runSetupInicial() {
   const logEl = document.getElementById('setupLog');
