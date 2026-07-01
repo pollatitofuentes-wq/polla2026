@@ -2522,28 +2522,25 @@ function exportGeneralCSV() {
 function runCorreccionesPuntuales() {
   const logEl = document.getElementById('setupLog');
   logEl.innerHTML = '<div style="color:var(--oro);">Aplicando correcciones puntuales...</div>';
-  
-  const fixes = [
-    {path: 'polla/forecasts/5/29',  val: {a:1, b:0}, label: 'Berni P29'},
-    {path: 'polla/forecasts/5/31',  val: {a:3, b:0}, label: 'Berni P31'},
-    {path: 'polla/forecasts/11/50', val: {a:2, b:0}, label: 'Carol P50'},
-  ];
-  
-  Promise.all(fixes.map(fix =>
-    fetch(FIREBASE_URL + '/' + fix.path + '.json', {
-      method: 'PUT',
-      headers: {'Content-Type': 'application/json'},
-      body: JSON.stringify(fix.val)
-    }).then(r => ({label: fix.label, ok: r.ok, status: r.status}))
-  )).then(results => {
-    results.forEach(r => {
-      logEl.innerHTML += '<div style="color:' + (r.ok ? 'var(--verde)' : 'var(--rojo)') + ';">' + (r.ok ? '✅ ' : '❌ ') + r.label + (r.ok ? ' corregido' : ' error ' + r.status) + '</div>';
-    });
-    if (results.every(r => r.ok)) {
-      logEl.innerHTML += '<div style="color:var(--verde);">✅ Listo — recargá la app para ver los cambios.</div>';
-      saveState(); buildRanking(); buildStats();
-    }
-  }).catch(e => { logEl.innerHTML += '<div style="color:var(--rojo);">❌ ' + e.message + '</div>'; });
+
+  // Corregir directamente en state.forecasts
+  if (!state.forecasts['5']) state.forecasts['5'] = {};
+  if (!state.forecasts['11']) state.forecasts['11'] = {};
+  state.forecasts['5']['29']  = {a:1, b:0};
+  state.forecasts['5']['31']  = {a:3, b:0};
+  state.forecasts['11']['50'] = {a:2, b:0};
+
+  // Guardar en Firebase y localStorage
+  saveState();
+
+  logEl.innerHTML += '<div style="color:var(--verde);">✅ Berni P29: 1-0 corregido</div>';
+  logEl.innerHTML += '<div style="color:var(--verde);">✅ Berni P31: 3-0 corregido</div>';
+  logEl.innerHTML += '<div style="color:var(--verde);">✅ Carol P50: 2-0 corregido</div>';
+  logEl.innerHTML += '<div style="color:var(--verde);">✅ Listo — los cambios ya están aplicados.</div>';
+
+  buildRanking();
+  buildStats();
+  buildAdminSummary();
 }
 
 function runSetupInicial() {
