@@ -2407,70 +2407,31 @@ function closeFullTable() {
 function showFullGeneralTable() {
   const visibleStages = state.isAdmin ? STAGES : STAGES.filter(s => isStageRevealed(s.key));
   if (visibleStages.length === 0) { showAlert('error', 'El comité aún no habilitó ninguna planilla.'); return; }
-  const parts = PARTICIPANTS();
-  const COL_PARTIDO = 200, COL_REAL = 72;
-
-  function matchPts(idx, m) {
-    const real = state.results[m.id], fc = (state.forecasts[idx]||{})[m.id];
-    if (!real || !fc || fc.a === undefined) return null;
-    const s = STAGES.find(x => x.key === m.etapa);
-    if (fc.a === real.a && fc.b === real.b) return 3 * s.pts;
-    const rw = real.a>real.b?1:real.a<real.b?-1:0, fw = fc.a>fc.b?1:fc.a<fc.b?-1:0;
-    return rw === fw ? s.pts : 0;
-  }
-
-  const stageTotals = visibleStages.map(s => parts.map((_,i) => {
-    let pts = 0; MATCHES.filter(m => m.etapa === s.key).forEach(m => { const p = matchPts(i,m); if(p!==null) pts+=p; }); return pts;
-  }));
-  const grandTotals = parts.map((_,i) => stageTotals.reduce((sum,st) => sum+st[i], 0));
-
-  let html = `<div style="overflow-x:auto;">
-    <div style="font-family:'Bebas Neue',sans-serif;font-size:24px;color:var(--oro);letter-spacing:2px;margin-bottom:16px;">PLANILLA GENERAL · TODAS LAS FASES</div>
-    <table style="border-collapse:collapse;font-size:12px;min-width:100%;table-layout:fixed;">
-      <colgroup><col style="width:${COL_PARTIDO}px;min-width:${COL_PARTIDO}px;"><col style="width:${COL_REAL}px;min-width:${COL_REAL}px;"></colgroup>
-      <thead><tr>
-        <th style="background:var(--azul);padding:8px 12px;text-align:left;border-bottom:2px solid var(--verde);position:sticky;left:0;z-index:2;">PARTIDO</th>
-        <th style="background:var(--azul);padding:8px 12px;text-align:center;border-bottom:2px solid var(--verde);position:sticky;left:${COL_PARTIDO}px;z-index:2;border-left:2px solid var(--oro);">REAL</th>`;
-  parts.forEach((p,idx) => { const isMe = state.currentUser === idx; html += `<th style="background:${isMe?'rgba(0,166,81,0.2)':'var(--azul)'};padding:6px 8px;text-align:center;border-bottom:2px solid var(--verde);min-width:85px;max-width:110px;vertical-align:middle;"><span style="color:${isMe?'var(--verde)':'var(--text-muted)'};font-size:10px;display:block;word-break:break-word;line-height:1.4;">${p.name}</span></th>`; });
+  const participants = PARTICIPANTS(), COL_PARTIDO = 200, COL_REAL = 72;
+  const calcPts = (idx, matches, stg) => { let pts = 0; matches.forEach(m => { const real = state.results[m.id], fc = (state.forecasts[idx]||{})[m.id]; if (!real || !fc || fc.a === undefined) return; if (fc.a === real.a && fc.b === real.b) pts += 3*stg.pts; else { const rw = real.a>real.b?1:real.a<real.b?-1:0, fw = fc.a>fc.b?1:fc.a<fc.b?-1:0; if (rw === fw) pts += stg.pts; } }); return pts; };
+  const grandTotals = participants.map((_, i) => visibleStages.reduce((sum, s) => sum + calcPts(i, MATCHES.filter(m => m.etapa === s.key), s), 0));
+  let html = `<div style="overflow-x:auto;"><div style="font-family:'Bebas Neue',sans-serif;font-size:24px;color:var(--oro);letter-spacing:2px;margin-bottom:16px;">PLANILLA GENERAL · TODAS LAS FASES</div><table style="border-collapse:collapse;font-size:12px;min-width:100%;table-layout:fixed;"><colgroup><col style="width:${COL_PARTIDO}px;min-width:${COL_PARTIDO}px;"><col style="width:${COL_REAL}px;min-width:${COL_REAL}px;"></colgroup><thead><tr><th style="background:var(--azul);padding:8px 12px;text-align:left;border-bottom:2px solid var(--verde);white-space:nowrap;position:sticky;left:0;z-index:2;width:${COL_PARTIDO}px;">PARTIDO</th><th style="background:var(--azul);padding:8px 12px;text-align:center;border-bottom:2px solid var(--verde);white-space:nowrap;position:sticky;left:${COL_PARTIDO}px;z-index:2;width:${COL_REAL}px;border-left:2px solid var(--oro);">REAL</th>`;
+  participants.forEach((p, idx) => { const isMe = state.currentUser === idx; html += `<th style="background:${isMe?'rgba(0,166,81,0.2)':'var(--azul)'};padding:6px 8px;text-align:center;border-bottom:2px solid var(--verde);white-space:normal;min-width:85px;max-width:110px;vertical-align:middle;" title="${p.name}"><span style="color:${isMe?'#00ff88':'#ffffff'};font-size:10px;font-weight:700;white-space:normal;word-break:normal;word-wrap:break-word;line-height:1.4;display:block;text-align:center;">${p.name}</span></th>`; });
   html += '</tr></thead><tbody>';
-
-  html += `<tr style="border-bottom:3px solid var(--oro);position:sticky;top:0;z-index:2;">
-    <td style="padding:10px 12px;background:var(--azul);font-family:'Bebas Neue',sans-serif;font-size:14px;letter-spacing:1px;position:sticky;left:0;z-index:3;">TOTAL GENERAL</td>
-    <td style="padding:10px 12px;background:var(--azul);position:sticky;left:${COL_PARTIDO}px;z-index:3;border-left:2px solid var(--oro);"></td>`;
-  parts.forEach((_,idx) => { const isMe = state.currentUser === idx; html += `<td style="padding:8px 6px;text-align:center;background:var(--azul);${isMe?'border-left:2px solid var(--verde);border-right:2px solid var(--verde);':''}"><span style="font-family:'Bebas Neue',sans-serif;font-size:22px;color:var(--oro);">${grandTotals[idx]}</span></td>`; });
+  html += `<tr style="border-bottom:3px solid var(--oro);position:sticky;top:0;z-index:2;"><td style="padding:8px 12px;background:var(--azul);font-family:'Bebas Neue',sans-serif;letter-spacing:1px;font-size:13px;color:#fff;position:sticky;left:0;z-index:3;width:${COL_PARTIDO}px;">TOTAL GENERAL</td><td style="padding:8px 12px;background:var(--azul);position:sticky;left:${COL_PARTIDO}px;z-index:3;border-left:2px solid var(--oro);width:${COL_REAL}px;"></td>`;
+  participants.forEach((_, idx) => { const isMe = state.currentUser === idx; html += `<td style="padding:8px 6px;text-align:center;background:var(--azul);${isMe?'border-left:2px solid #00ff88;border-right:2px solid #00ff88;':''}"><span style="font-family:'Bebas Neue',sans-serif;font-size:20px;color:var(--oro);">${grandTotals[idx]}</span></td>`; });
   html += '</tr>';
-
-  visibleStages.forEach((stage, si) => {
+  visibleStages.forEach(stage => {
     const stageMatches = MATCHES.filter(m => m.etapa === stage.key);
-    html += `<tr style="border-top:2px solid var(--azul-mid);border-bottom:1px solid var(--azul-mid);">
-      <td style="padding:6px 12px;background:var(--azul-mid);font-family:'Bebas Neue',sans-serif;font-size:13px;letter-spacing:1px;position:sticky;left:0;z-index:1;color:var(--oro);">${stage.label.toUpperCase()} — Exacto 3pts · Correcto 1pt</td>
-      <td style="padding:6px 12px;background:var(--azul-mid);position:sticky;left:${COL_PARTIDO}px;z-index:1;border-left:2px solid var(--oro);"></td>`;
-    parts.forEach((_,idx) => { const isMe = state.currentUser === idx; html += `<td style="padding:6px 6px;text-align:center;background:var(--azul-mid);${isMe?'border-left:2px solid var(--verde);border-right:2px solid var(--verde);':''}"><span style="font-family:'Bebas Neue',sans-serif;font-size:16px;color:var(--verde);">${stageTotals[si][idx]}</span></td>`; });
+    const stagePts = participants.map((_, i) => calcPts(i, stageMatches, stage));
+    html += `<tr style="border-top:2px solid var(--verde);border-bottom:2px solid var(--verde);"><td style="padding:8px 12px;background:var(--azul);font-family:'Bebas Neue',sans-serif;letter-spacing:1px;font-size:13px;color:#fff;position:sticky;left:0;z-index:2;width:${COL_PARTIDO}px;">TOTAL ${stage.label.toUpperCase()}</td><td style="padding:8px 12px;background:var(--azul);position:sticky;left:${COL_PARTIDO}px;z-index:2;border-left:2px solid var(--oro);width:${COL_REAL}px;"></td>`;
+    participants.forEach((_, idx) => { const isMe = state.currentUser === idx; html += `<td style="padding:8px 6px;text-align:center;background:var(--azul);${isMe?'border-left:2px solid #00ff88;border-right:2px solid #00ff88;':''}"><span style="font-family:'Bebas Neue',sans-serif;font-size:20px;color:#00ff88;">${stagePts[idx]}</span></td>`; });
     html += '</tr>';
     stageMatches.forEach((m, mi) => {
       const real = state.results[m.id];
-      html += `<tr style="border-bottom:1px solid var(--border);">
-        <td style="padding:8px 12px;background:var(--bg2);position:sticky;left:0;z-index:1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;"><span style="font-weight:600;">#${m.id}</span> ${resolveTeam(m.local)} vs ${resolveTeam(m.visita)}</td>
-        <td style="padding:8px 12px;text-align:center;background:var(--bg2);position:sticky;left:${COL_PARTIDO}px;z-index:1;border-left:2px solid var(--oro);">${real?`<span style="font-family:'Bebas Neue',sans-serif;font-size:18px;color:var(--oro);">${real.a}-${real.b}</span>`:'<span style="color:var(--text-muted);">—</span>'}</td>`;
-      parts.forEach((p,idx) => {
-        const fc = (state.forecasts[idx]||{})[m.id], isMe = state.currentUser === idx;
-        let cell = '<span style="color:var(--text-muted);">—</span>', bg = mi%2===0?'var(--bg)':'var(--bg2)', pts = '';
-        if (fc && fc.a !== undefined) {
-          if (real) { const p = matchPts(idx,m); if(p===3){bg='rgba(0,166,81,0.15)';pts='<span style="color:var(--verde);font-size:10px;">+3</span>';}else if(p===1){bg='rgba(245,197,24,0.1)';pts='<span style="color:var(--oro);font-size:10px;">+1</span>';}else if(p===0){bg='rgba(230,57,70,0.08)';pts='<span style="color:var(--rojo);font-size:10px;">0</span>';} }
-          cell = `<span style="font-family:'Bebas Neue',sans-serif;font-size:16px;">${fc.a}-${fc.b}</span>${pts?'<br>'+pts:''}`;
-        }
-        html += `<td style="padding:6px 8px;text-align:center;background:${bg};${isMe?'border-left:2px solid var(--verde);border-right:2px solid var(--verde);':''}">${cell}</td>`;
-      });
+      html += `<tr style="border-bottom:1px solid var(--border);"><td style="padding:8px 12px;background:var(--bg2);position:sticky;left:0;z-index:1;white-space:nowrap;width:${COL_PARTIDO}px;max-width:${COL_PARTIDO}px;overflow:hidden;text-overflow:ellipsis;"><span style="font-weight:600;">#${m.id}</span> ${resolveTeam(m.local)} vs ${resolveTeam(m.visita)}</td><td style="padding:8px 12px;text-align:center;background:var(--bg2);position:sticky;left:${COL_PARTIDO}px;z-index:1;width:${COL_REAL}px;border-left:2px solid var(--oro);">${real?`<span style="font-family:'Bebas Neue',sans-serif;font-size:18px;color:var(--oro);">${real.a}-${real.b}</span>`:'<span style="color:var(--text-muted);">—</span>'}</td>`;
+      participants.forEach((_, idx) => { const fc = (state.forecasts[idx]||{})[m.id], isMe = state.currentUser === idx; let cell = '<span style="color:var(--text-muted);">—</span>', bg = mi%2===0?'var(--bg)':'var(--bg2)', pts = ''; if (fc && fc.a !== undefined) { if (real) { if (fc.a === real.a && fc.b === real.b) { bg='rgba(0,166,81,0.15)'; pts=`<span style="color:#00aa44;font-size:10px;">+${3*stage.pts}</span>`; } else { const rw=real.a>real.b?1:real.a<real.b?-1:0, fw=fc.a>fc.b?1:fc.a<fc.b?-1:0; if (rw===fw) { bg='rgba(245,197,24,0.1)'; pts=`<span style="color:var(--oro);font-size:10px;">+${stage.pts}</span>`; } else { bg='rgba(230,57,70,0.08)'; pts=`<span style="color:var(--rojo);font-size:10px;">0</span>`; } } } cell=`<span style="font-family:'Bebas Neue',sans-serif;font-size:16px;">${fc.a}-${fc.b}</span>${pts?'<br>'+pts:''}`; } html += `<td style="padding:6px 8px;text-align:center;background:${bg};${isMe?'border-left:2px solid #00ff88;border-right:2px solid #00ff88;':''}">${cell}</td>`; });
       html += '</tr>';
     });
   });
-
-  html += `<tr style="border-top:3px solid var(--oro);">
-    <td style="padding:10px 12px;background:var(--azul);font-family:'Bebas Neue',sans-serif;font-size:14px;letter-spacing:1px;position:sticky;left:0;z-index:1;">TOTAL GENERAL</td>
-    <td style="padding:10px 12px;background:var(--azul);position:sticky;left:${COL_PARTIDO}px;z-index:1;border-left:2px solid var(--oro);"></td>`;
-  parts.forEach((_,idx) => { const isMe = state.currentUser === idx; html += `<td style="padding:10px 8px;text-align:center;background:var(--azul);${isMe?'border-left:2px solid var(--verde);border-right:2px solid var(--verde);':''}"><span style="font-family:'Bebas Neue',sans-serif;font-size:22px;color:var(--oro);">${grandTotals[idx]}</span></td>`; });
+  html += `<tr style="border-top:3px solid var(--oro);"><td style="padding:10px 12px;background:var(--azul);font-family:'Bebas Neue',sans-serif;letter-spacing:1px;font-size:14px;color:#fff;position:sticky;left:0;z-index:1;width:${COL_PARTIDO}px;">TOTAL GENERAL</td><td style="padding:10px 12px;background:var(--azul);position:sticky;left:${COL_PARTIDO}px;z-index:1;border-left:2px solid var(--oro);width:${COL_REAL}px;"></td>`;
+  participants.forEach((_, idx) => { const isMe = state.currentUser === idx; html += `<td style="padding:10px 8px;text-align:center;background:var(--azul);${isMe?'border-left:2px solid #00ff88;border-right:2px solid #00ff88;':''}"><span style="font-family:'Bebas Neue',sans-serif;font-size:20px;color:var(--oro);">${grandTotals[idx]}</span></td>`; });
   html += '</tr></tbody></table></div>';
-
   let overlay = document.getElementById('fullTableOverlay');
   if (!overlay) { overlay = document.createElement('div'); overlay.id = 'fullTableOverlay'; overlay.style.cssText = 'position:fixed;inset:0;background:var(--bg);z-index:500;overflow:auto;padding:24px;'; document.body.appendChild(overlay); }
   overlay.innerHTML = `<div style="max-width:1600px;margin:0 auto;"><div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;flex-wrap:wrap;gap:8px;"><div style="font-family:'Bebas Neue',sans-serif;font-size:18px;color:var(--text-muted);letter-spacing:2px;">POLLA TITO FUENTES · MUNDIAL 2026</div><div style="display:flex;gap:8px;"><button class="btn btn-green btn-sm" onclick="exportGeneralCSV()">📥 Exportar Excel</button><button class="btn btn-ghost" onclick="closeFullTable()">✕ Cerrar</button></div></div>${html}</div>`;
