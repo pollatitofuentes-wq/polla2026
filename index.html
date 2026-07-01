@@ -2521,26 +2521,32 @@ function exportGeneralCSV() {
 
 function runCorreccionesPuntuales() {
   const logEl = document.getElementById('setupLog');
-  logEl.innerHTML = '<div style="color:var(--oro);">Aplicando correcciones puntuales...</div>';
+  logEl.innerHTML = '<div style="color:var(--oro);">Aplicando correcciones puntuales directamente en Firebase...</div>';
 
-  // Corregir directamente en state.forecasts
+  // Primero actualizar state en memoria
   if (!state.forecasts['5']) state.forecasts['5'] = {};
   if (!state.forecasts['11']) state.forecasts['11'] = {};
   state.forecasts['5']['29']  = {a:1, b:0};
   state.forecasts['5']['31']  = {a:3, b:0};
   state.forecasts['11']['50'] = {a:2, b:0};
+  saveLocal(); // solo localStorage, NO pushToFirebase (evita pisar datos con estado viejo)
 
-  // Guardar en Firebase y localStorage
-  saveState();
-
-  logEl.innerHTML += '<div style="color:var(--verde);">✅ Berni P29: 1-0 corregido</div>';
-  logEl.innerHTML += '<div style="color:var(--verde);">✅ Berni P31: 3-0 corregido</div>';
-  logEl.innerHTML += '<div style="color:var(--verde);">✅ Carol P50: 2-0 corregido</div>';
-  logEl.innerHTML += '<div style="color:var(--verde);">✅ Listo — los cambios ya están aplicados.</div>';
-
-  buildRanking();
-  buildStats();
-  buildAdminSummary();
+  // Escribir SOLO los 3 nodos específicos en Firebase (PUT directo, no toca nada más)
+  Promise.all([
+    fbSet('polla/forecasts/5/29',  {a:1, b:0}),
+    fbSet('polla/forecasts/5/31',  {a:3, b:0}),
+    fbSet('polla/forecasts/11/50', {a:2, b:0}),
+  ]).then(results => {
+    if (results.every(r => r)) {
+      logEl.innerHTML += '<div style="color:var(--verde);">✅ Berni P29: 1-0 corregido en Firebase</div>';
+      logEl.innerHTML += '<div style="color:var(--verde);">✅ Berni P31: 3-0 corregido en Firebase</div>';
+      logEl.innerHTML += '<div style="color:var(--verde);">✅ Carol P50: 2-0 corregido en Firebase</div>';
+      logEl.innerHTML += '<div style="color:var(--verde);font-weight:bold;">✅ LISTO — sin necesidad de recargar.</div>';
+      buildRanking(); buildStats(); buildAdminSummary();
+    } else {
+      logEl.innerHTML += '<div style="color:var(--rojo);">❌ Error al escribir en Firebase. Intentá de nuevo.</div>';
+    }
+  }).catch(e => { logEl.innerHTML += '<div style="color:var(--rojo);">❌ ' + e.message + '</div>'; });
 }
 
 function runSetupInicial() {
@@ -2597,8 +2603,16 @@ function runSetupInicial() {
     })
     .then(r=>{
       if(r.ok){
-        log('✅ IMPORTACIÓN COMPLETA — Recargá la app para ver los cambios.','var(--verde)');
+        // CRÍTICO: actualizar state en memoria para que futuras llamadas a saveState() no pisen lo que acabamos de guardar
+        state.participants = parts;
+        state.forecasts = fcs;
+        state.champion = champ;
+        state.confirmed = conf;
+        saveLocal();
+        log('✅ IMPORTACIÓN COMPLETA.','var(--verde)');
+        log('Participantes activos: '+parts.length,'var(--verde)');
         document.getElementById('setupInicialDiv').style.background='rgba(0,166,81,0.1)';
+        buildAll();
       } else {
         log('❌ Error al guardar: '+r.status,'var(--rojo)');
       }
