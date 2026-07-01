@@ -1238,6 +1238,7 @@ function buildRevealedStageButtons() {
   revealed.forEach(s => {
     html += `<button class="btn btn-oro btn-sm" onclick="showFullStageTable('${s.key}')">📋 Ver planilla ${s.label}</button>`;
   });
+  html += `<button class="btn btn-green btn-sm" onclick="showFullGeneralTable()">📋 Ver planilla GENERAL</button>`;
   html += '</div>';
   el.innerHTML = html;
 }
@@ -1992,6 +1993,16 @@ function buildStageRevealControls() {
       </div>
     </div>`;
   });
+  html += `<div style="background:var(--bg3);border:2px solid var(--verde);border-radius:8px;padding:14px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px;">
+      <div>
+        <div style="font-weight:600;font-size:15px;">📋 Planilla GENERAL</div>
+        <div style="font-size:12px;color:var(--text-muted);margin-top:2px;">Todas las etapas combinadas · Admin ve todo · Participantes solo ven etapas reveladas</div>
+      </div>
+      <div style="display:flex;gap:8px;">
+        <button class="btn btn-green btn-sm" onclick="showFullGeneralTable()">👁 Ver planilla general</button>
+        <button class="btn btn-green btn-sm" onclick="exportGeneralCSV()">📥 Exportar Excel</button>
+      </div>
+    </div>`;
   html += '</div>';
   el.innerHTML = html;
 }
@@ -2391,6 +2402,147 @@ function exportPositionsToCSV() {
 function closeFullTable() {
   const el = document.getElementById('fullTableOverlay');
   if (el) el.remove();
+}
+
+function showFullGeneralTable() {
+  const visibleStages = state.isAdmin ? STAGES : STAGES.filter(s => isStageRevealed(s.key));
+  if (visibleStages.length === 0) { showAlert('error', 'El comité aún no habilitó ninguna planilla.'); return; }
+  const parts = PARTICIPANTS();
+  const COL_PARTIDO = 200, COL_REAL = 72;
+
+  function matchPts(idx, m) {
+    const real = state.results[m.id], fc = (state.forecasts[idx]||{})[m.id];
+    if (!real || !fc || fc.a === undefined) return null;
+    const s = STAGES.find(x => x.key === m.etapa);
+    if (fc.a === real.a && fc.b === real.b) return 3 * s.pts;
+    const rw = real.a>real.b?1:real.a<real.b?-1:0, fw = fc.a>fc.b?1:fc.a<fc.b?-1:0;
+    return rw === fw ? s.pts : 0;
+  }
+
+  const stageTotals = visibleStages.map(s => parts.map((_,i) => {
+    let pts = 0; MATCHES.filter(m => m.etapa === s.key).forEach(m => { const p = matchPts(i,m); if(p!==null) pts+=p; }); return pts;
+  }));
+  const grandTotals = parts.map((_,i) => stageTotals.reduce((sum,st) => sum+st[i], 0));
+
+  let html = `<div style="overflow-x:auto;">
+    <div style="font-family:'Bebas Neue',sans-serif;font-size:24px;color:var(--oro);letter-spacing:2px;margin-bottom:16px;">PLANILLA GENERAL · TODAS LAS FASES</div>
+    <table style="border-collapse:collapse;font-size:12px;min-width:100%;table-layout:fixed;">
+      <colgroup><col style="width:${COL_PARTIDO}px;min-width:${COL_PARTIDO}px;"><col style="width:${COL_REAL}px;min-width:${COL_REAL}px;"></colgroup>
+      <thead><tr>
+        <th style="background:var(--azul);padding:8px 12px;text-align:left;border-bottom:2px solid var(--verde);position:sticky;left:0;z-index:2;">PARTIDO</th>
+        <th style="background:var(--azul);padding:8px 12px;text-align:center;border-bottom:2px solid var(--verde);position:sticky;left:${COL_PARTIDO}px;z-index:2;border-left:2px solid var(--oro);">REAL</th>`;
+  parts.forEach((p,idx) => { const isMe = state.currentUser === idx; html += `<th style="background:${isMe?'rgba(0,166,81,0.2)':'var(--azul)'};padding:6px 8px;text-align:center;border-bottom:2px solid var(--verde);min-width:85px;max-width:110px;vertical-align:middle;"><span style="color:${isMe?'var(--verde)':'var(--text-muted)'};font-size:10px;display:block;word-break:break-word;line-height:1.4;">${p.name}</span></th>`; });
+  html += '</tr></thead><tbody>';
+
+  html += `<tr style="border-bottom:3px solid var(--oro);position:sticky;top:0;z-index:2;">
+    <td style="padding:10px 12px;background:var(--azul);font-family:'Bebas Neue',sans-serif;font-size:14px;letter-spacing:1px;position:sticky;left:0;z-index:3;">TOTAL GENERAL</td>
+    <td style="padding:10px 12px;background:var(--azul);position:sticky;left:${COL_PARTIDO}px;z-index:3;border-left:2px solid var(--oro);"></td>`;
+  parts.forEach((_,idx) => { const isMe = state.currentUser === idx; html += `<td style="padding:8px 6px;text-align:center;background:var(--azul);${isMe?'border-left:2px solid var(--verde);border-right:2px solid var(--verde);':''}"><span style="font-family:'Bebas Neue',sans-serif;font-size:22px;color:var(--oro);">${grandTotals[idx]}</span></td>`; });
+  html += '</tr>';
+
+  visibleStages.forEach((stage, si) => {
+    const stageMatches = MATCHES.filter(m => m.etapa === stage.key);
+    html += `<tr style="border-top:2px solid var(--azul-mid);border-bottom:1px solid var(--azul-mid);">
+      <td style="padding:6px 12px;background:var(--azul-mid);font-family:'Bebas Neue',sans-serif;font-size:13px;letter-spacing:1px;position:sticky;left:0;z-index:1;color:var(--oro);">${stage.label.toUpperCase()} — Exacto 3pts · Correcto 1pt</td>
+      <td style="padding:6px 12px;background:var(--azul-mid);position:sticky;left:${COL_PARTIDO}px;z-index:1;border-left:2px solid var(--oro);"></td>`;
+    parts.forEach((_,idx) => { const isMe = state.currentUser === idx; html += `<td style="padding:6px 6px;text-align:center;background:var(--azul-mid);${isMe?'border-left:2px solid var(--verde);border-right:2px solid var(--verde);':''}"><span style="font-family:'Bebas Neue',sans-serif;font-size:16px;color:var(--verde);">${stageTotals[si][idx]}</span></td>`; });
+    html += '</tr>';
+    stageMatches.forEach((m, mi) => {
+      const real = state.results[m.id];
+      html += `<tr style="border-bottom:1px solid var(--border);">
+        <td style="padding:8px 12px;background:var(--bg2);position:sticky;left:0;z-index:1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;"><span style="font-weight:600;">#${m.id}</span> ${resolveTeam(m.local)} vs ${resolveTeam(m.visita)}</td>
+        <td style="padding:8px 12px;text-align:center;background:var(--bg2);position:sticky;left:${COL_PARTIDO}px;z-index:1;border-left:2px solid var(--oro);">${real?`<span style="font-family:'Bebas Neue',sans-serif;font-size:18px;color:var(--oro);">${real.a}-${real.b}</span>`:'<span style="color:var(--text-muted);">—</span>'}</td>`;
+      parts.forEach((p,idx) => {
+        const fc = (state.forecasts[idx]||{})[m.id], isMe = state.currentUser === idx;
+        let cell = '<span style="color:var(--text-muted);">—</span>', bg = mi%2===0?'var(--bg)':'var(--bg2)', pts = '';
+        if (fc && fc.a !== undefined) {
+          if (real) { const p = matchPts(idx,m); if(p===3){bg='rgba(0,166,81,0.15)';pts='<span style="color:var(--verde);font-size:10px;">+3</span>';}else if(p===1){bg='rgba(245,197,24,0.1)';pts='<span style="color:var(--oro);font-size:10px;">+1</span>';}else if(p===0){bg='rgba(230,57,70,0.08)';pts='<span style="color:var(--rojo);font-size:10px;">0</span>';} }
+          cell = `<span style="font-family:'Bebas Neue',sans-serif;font-size:16px;">${fc.a}-${fc.b}</span>${pts?'<br>'+pts:''}`;
+        }
+        html += `<td style="padding:6px 8px;text-align:center;background:${bg};${isMe?'border-left:2px solid var(--verde);border-right:2px solid var(--verde);':''}">${cell}</td>`;
+      });
+      html += '</tr>';
+    });
+  });
+
+  html += `<tr style="border-top:3px solid var(--oro);">
+    <td style="padding:10px 12px;background:var(--azul);font-family:'Bebas Neue',sans-serif;font-size:14px;letter-spacing:1px;position:sticky;left:0;z-index:1;">TOTAL GENERAL</td>
+    <td style="padding:10px 12px;background:var(--azul);position:sticky;left:${COL_PARTIDO}px;z-index:1;border-left:2px solid var(--oro);"></td>`;
+  parts.forEach((_,idx) => { const isMe = state.currentUser === idx; html += `<td style="padding:10px 8px;text-align:center;background:var(--azul);${isMe?'border-left:2px solid var(--verde);border-right:2px solid var(--verde);':''}"><span style="font-family:'Bebas Neue',sans-serif;font-size:22px;color:var(--oro);">${grandTotals[idx]}</span></td>`; });
+  html += '</tr></tbody></table></div>';
+
+  let overlay = document.getElementById('fullTableOverlay');
+  if (!overlay) { overlay = document.createElement('div'); overlay.id = 'fullTableOverlay'; overlay.style.cssText = 'position:fixed;inset:0;background:var(--bg);z-index:500;overflow:auto;padding:24px;'; document.body.appendChild(overlay); }
+  overlay.innerHTML = `<div style="max-width:1600px;margin:0 auto;"><div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;flex-wrap:wrap;gap:8px;"><div style="font-family:'Bebas Neue',sans-serif;font-size:18px;color:var(--text-muted);letter-spacing:2px;">POLLA TITO FUENTES · MUNDIAL 2026</div><div style="display:flex;gap:8px;"><button class="btn btn-green btn-sm" onclick="exportGeneralCSV()">📥 Exportar Excel</button><button class="btn btn-ghost" onclick="closeFullTable()">✕ Cerrar</button></div></div>${html}</div>`;
+  overlay.style.display = 'block';
+}
+
+function exportGeneralCSV() {
+  const visibleStages = state.isAdmin ? STAGES : STAGES.filter(s => isStageRevealed(s.key));
+  if (visibleStages.length === 0) { showAlert('error', 'Sin etapas visibles para exportar.'); return; }
+  const parts = PARTICIPANTS(), SEP = ';';
+  const rows = [];
+  rows.push(['POLLA TITO FUENTES - 60 Aniversario · MUNDIAL 2026', 'PLANILLA GENERAL']);
+  rows.push(['PARTIDO', 'FECHA', 'HORA-ESTADIO', 'GRUPO', 'EQUIPO', 'REAL', ...parts.map(p => p.name)]);
+  visibleStages.forEach(stage => {
+    const stageMatches = MATCHES.filter(m => m.etapa === stage.key);
+    rows.push([stage.label.toUpperCase(), '', '', '', '', '']);
+    stageMatches.forEach(m => {
+      const real = state.results[m.id];
+      const localRow = [m.id, m.fecha, m.hora + ' - ' + m.estadio, m.grupo, resolveTeam(m.local), real ? real.a : ''];
+      parts.forEach((p,i) => { const fc = (state.forecasts[i]||{})[m.id]; localRow.push(fc && fc.a !== undefined ? fc.a : ''); });
+      rows.push(localRow);
+      const visitaRow = ['', '', '', '', resolveTeam(m.visita), real ? real.b : ''];
+      parts.forEach((p,i) => { const fc = (state.forecasts[i]||{})[m.id]; visitaRow.push(fc && fc.b !== undefined ? fc.b : ''); });
+      rows.push(visitaRow);
+      const pRow = ['PUNTAJE', '', '', '', '', ''];
+      parts.forEach((p,i) => {
+        if (!real) { pRow.push(''); return; }
+        const fc = (state.forecasts[i]||{})[m.id];
+        if (!fc || fc.a === undefined) { pRow.push(0); return; }
+        const s = STAGES.find(x => x.key === m.etapa);
+        if (fc.a === real.a && fc.b === real.b) { pRow.push(3*s.pts); return; }
+        const rw = real.a>real.b?1:real.a<real.b?-1:0, fw = fc.a>fc.b?1:fc.a<fc.b?-1:0;
+        pRow.push(rw === fw ? s.pts : 0);
+      });
+      rows.push(pRow);
+    });
+    const stRow = ['SUBTOTAL ' + stage.label.toUpperCase(), '', '', '', '', ''];
+    parts.forEach((p,i) => {
+      let pts = 0;
+      stageMatches.forEach(m => {
+        const real = state.results[m.id], fc = (state.forecasts[i]||{})[m.id];
+        if (!real || !fc || fc.a === undefined) return;
+        const s = STAGES.find(x => x.key === m.etapa);
+        if (fc.a === real.a && fc.b === real.b) { pts += 3*s.pts; return; }
+        const rw = real.a>real.b?1:real.a<real.b?-1:0, fw = fc.a>fc.b?1:fc.a<fc.b?-1:0;
+        if (rw === fw) pts += s.pts;
+      });
+      stRow.push(pts);
+    });
+    rows.push(stRow);
+  });
+  const totRow = ['TOTAL GENERAL', '', '', '', '', ''];
+  parts.forEach((p,i) => {
+    let pts = 0;
+    visibleStages.forEach(stage => {
+      MATCHES.filter(m => m.etapa === stage.key).forEach(m => {
+        const real = state.results[m.id], fc = (state.forecasts[i]||{})[m.id];
+        if (!real || !fc || fc.a === undefined) return;
+        const s = STAGES.find(x => x.key === m.etapa);
+        if (fc.a === real.a && fc.b === real.b) { pts += 3*s.pts; return; }
+        const rw = real.a>real.b?1:real.a<real.b?-1:0, fw = fc.a>fc.b?1:fc.a<fc.b?-1:0;
+        if (rw === fw) pts += s.pts;
+      });
+    });
+    totRow.push(pts);
+  });
+  rows.push(totRow);
+  const csv = '\uFEFF' + rows.map(row => row.map(cell => { const s = String(cell===null||cell===undefined?'':cell); return s.includes(SEP)||s.includes('"')?'"'+s.replace(/"/g,'""')+'"':s; }).join(SEP)).join('\n');
+  const blob = new Blob([csv], {type: 'text/csv;charset=utf-8;'}), url = URL.createObjectURL(blob), a = document.createElement('a');
+  a.href = url; a.download = 'Polla_Tito_Fuentes_General.csv';
+  document.body.appendChild(a); a.click(); document.body.removeChild(a); URL.revokeObjectURL(url);
+  showAlert('success', 'Planilla general exportada. Abrila con Excel.');
 }
 
 function logoutUser() {
